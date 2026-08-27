@@ -13,7 +13,7 @@ export default async function ShippingSettingsPage() {
       <div>
         <h1 className="text-2xl font-bold text-stone-900">Shipping Settings</h1>
         <p className="mt-1 text-sm text-stone-500">
-          Manage flat shipping rates and free shipping order thresholds.
+          Manage shipping rates by item quantity, free shipping thresholds, and payment charges.
         </p>
       </div>
 

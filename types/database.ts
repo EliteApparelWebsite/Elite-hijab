@@ -171,6 +171,13 @@ export interface Order {
   payment_method: string | null
   razorpay_order_id: string | null
   razorpay_payment_id: string | null
+  // Shiprocket integration — set once an admin pushes the order to
+  // Shiprocket / once the Shiprocket webhook reports a courier + status.
+  shiprocket_order_id?: string | null
+  shiprocket_shipment_id?: string | null
+  awb_code?: string | null
+  courier_name?: string | null
+  shiprocket_status?: string | null
   created_at: string
   updated_at: string
 }

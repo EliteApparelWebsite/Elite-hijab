@@ -11,6 +11,13 @@ export async function updateProfile(formData: FormData) {
     return { success: false, error: 'Unauthorized' }
   }
 
+  // No real Supabase Auth session exists for this custom-cookie user
+  // (auth.uid() is always null for the anon-key client), so writes to
+  // "customers"/"addresses" below must go through the service-role
+  // client to get past RLS. `user.id` above is already verified.
+  const { createAdminClient } = await import('@/lib/supabase/admin')
+  const admin = createAdminClient()
+
   const fullName = formData.get('full_name')?.toString()
   const phone = formData.get('phone')?.toString()
 
@@ -18,7 +25,7 @@ export async function updateProfile(formData: FormData) {
     return { success: false, error: 'Full Name is required' }
   }
 
-  const { error } = await supabase
+  const { error } = await admin
     .from('customers')
     .update({ 
       full_name: fullName,
@@ -51,8 +58,15 @@ export async function updateCustomerFullProfile(data: {
     return { success: false, error: 'Unauthorized' }
   }
 
+  // No real Supabase Auth session exists for this custom-cookie user
+  // (auth.uid() is always null for the anon-key client), so writes to
+  // "customers"/"addresses" below must go through the service-role
+  // client to get past RLS. `user.id` above is already verified.
+  const { createAdminClient } = await import('@/lib/supabase/admin')
+  const admin = createAdminClient()
+
   // 1. Update customers table
-  const { error: profileError } = await supabase
+  const { error: profileError } = await admin
     .from('customers')
     .update({
       full_name: data.fullName,
@@ -65,7 +79,7 @@ export async function updateCustomerFullProfile(data: {
   }
 
   // 2. Create or update addresses table
-  const { data: existingAddress } = await supabase
+  const { data: existingAddress } = await admin
     .from('addresses')
     .select('id')
     .eq('user_id', user.id)
@@ -74,7 +88,7 @@ export async function updateCustomerFullProfile(data: {
     .maybeSingle()
 
   if (existingAddress) {
-    const { error: addressError } = await supabase
+    const { error: addressError } = await admin
       .from('addresses')
       .update({
         full_name: data.fullName,
@@ -91,7 +105,7 @@ export async function updateCustomerFullProfile(data: {
       return { success: false, error: 'Failed to update address: ' + addressError.message }
     }
   } else {
-    const { error: addressError } = await supabase
+    const { error: addressError } = await admin
       .from('addresses')
       .insert({
         user_id: user.id,

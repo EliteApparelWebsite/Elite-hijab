@@ -9,6 +9,13 @@ export async function addAddress(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { success: false, error: 'Unauthorized' }
 
+  // No real Supabase Auth session exists for this custom-cookie user
+  // (auth.uid() is always null for the anon-key client), so every write
+  // below must go through the service-role client to get past the
+  // "addresses" RLS policies. `user.id` above is already verified.
+  const { createAdminClient } = await import('@/lib/supabase/admin')
+  const admin = createAdminClient()
+
   const fullName = formData.get('full_name')?.toString()
   const phone = formData.get('phone')?.toString()
   const addressLine1 = formData.get('address_line_1')?.toString()
@@ -23,10 +30,10 @@ export async function addAddress(formData: FormData) {
 
   // If this address is set as default, we need to unset any other default first
   if (isDefault) {
-    await supabase.from('addresses').update({ is_default: false }).eq('user_id', user.id)
+    await admin.from('addresses').update({ is_default: false }).eq('user_id', user.id)
   } else {
     // If it's the first address, make it default automatically
-    const { count } = await supabase.from('addresses').select('*', { count: 'exact', head: true }).eq('user_id', user.id)
+    const { count } = await admin.from('addresses').select('*', { count: 'exact', head: true }).eq('user_id', user.id)
     if (count === 0) {
       // It's the first one, make it default regardless of checkbox
     }
@@ -35,7 +42,7 @@ export async function addAddress(formData: FormData) {
   // Double check the count trick
   const finalIsDefault = isDefault ? true : false
 
-  const { error } = await supabase
+  const { error } = await admin
     .from('addresses')
     .insert([{
       user_id: user.id,
@@ -53,9 +60,9 @@ export async function addAddress(formData: FormData) {
   // we could forcefully set it. For simplicity, let's just insert what they asked,
   // but if it's the first one, we'll force it.
   if (!finalIsDefault) {
-    const { count } = await supabase.from('addresses').select('*', { count: 'exact', head: true }).eq('user_id', user.id)
+    const { count } = await admin.from('addresses').select('*', { count: 'exact', head: true }).eq('user_id', user.id)
     if (count === 1) { // It's 1 because we just inserted it
-      await supabase.from('addresses').update({ is_default: true }).eq('user_id', user.id)
+      await admin.from('addresses').update({ is_default: true }).eq('user_id', user.id)
     }
   }
 
@@ -73,6 +80,13 @@ export async function updateAddress(id: string, formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { success: false, error: 'Unauthorized' }
 
+  // No real Supabase Auth session exists for this custom-cookie user
+  // (auth.uid() is always null for the anon-key client), so every write
+  // below must go through the service-role client to get past the
+  // "addresses" RLS policies. `user.id` above is already verified.
+  const { createAdminClient } = await import('@/lib/supabase/admin')
+  const admin = createAdminClient()
+
   const fullName = formData.get('full_name')?.toString()
   const phone = formData.get('phone')?.toString()
   const addressLine1 = formData.get('address_line_1')?.toString()
@@ -86,10 +100,10 @@ export async function updateAddress(id: string, formData: FormData) {
   }
 
   if (isDefault) {
-    await supabase.from('addresses').update({ is_default: false }).eq('user_id', user.id)
+    await admin.from('addresses').update({ is_default: false }).eq('user_id', user.id)
   }
 
-  const { error } = await supabase
+  const { error } = await admin
     .from('addresses')
     .update({
       full_name: fullName,
@@ -117,7 +131,14 @@ export async function deleteAddress(id: string) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { success: false, error: 'Unauthorized' }
 
-  const { error } = await supabase
+  // No real Supabase Auth session exists for this custom-cookie user
+  // (auth.uid() is always null for the anon-key client), so every write
+  // below must go through the service-role client to get past the
+  // "addresses" RLS policies. `user.id` above is already verified.
+  const { createAdminClient } = await import('@/lib/supabase/admin')
+  const admin = createAdminClient()
+
+  const { error } = await admin
     .from('addresses')
     .delete()
     .eq('id', id)
@@ -137,11 +158,18 @@ export async function setDefaultAddress(id: string) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { success: false, error: 'Unauthorized' }
 
+  // No real Supabase Auth session exists for this custom-cookie user
+  // (auth.uid() is always null for the anon-key client), so every write
+  // below must go through the service-role client to get past the
+  // "addresses" RLS policies. `user.id` above is already verified.
+  const { createAdminClient } = await import('@/lib/supabase/admin')
+  const admin = createAdminClient()
+
   // Unset all others
-  await supabase.from('addresses').update({ is_default: false }).eq('user_id', user.id)
+  await admin.from('addresses').update({ is_default: false }).eq('user_id', user.id)
 
   // Set the target
-  const { error } = await supabase
+  const { error } = await admin
     .from('addresses')
     .update({ is_default: true })
     .eq('id', id)

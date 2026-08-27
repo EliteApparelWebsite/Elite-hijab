@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowLeft, User, MapPin, Package, CreditCard } from 'lucide-react'
 import { OrderStatusManager } from '../_components/OrderStatusManager'
+import { ShiprocketPanel } from '../_components/ShiprocketPanel'
 import { DeleteOrderButton } from '../_components/DeleteOrderButton'
 import { CopyIdButton } from '../_components/CopyIdButton'
 
@@ -226,6 +227,14 @@ export default async function AdminOrderDetailsPage({
             orderId={order.id} 
             initialOrderStatus={order.order_status}
             initialPaymentStatus={order.payment_status}
+          />
+
+          <ShiprocketPanel
+            orderId={order.id}
+            initialShiprocketOrderId={order.shiprocket_order_id || null}
+            initialAwbCode={order.awb_code || null}
+            initialCourierName={order.courier_name || null}
+            initialShiprocketStatus={order.shiprocket_status || null}
           />
 
           <div className="bg-white rounded-2xl shadow-sm border border-stone-200/60 p-6">

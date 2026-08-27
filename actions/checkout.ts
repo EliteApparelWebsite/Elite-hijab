@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import Razorpay from 'razorpay'
 import crypto from 'crypto'
+import { calculateShippingCharge } from '@/lib/shipping'
 
 
 // Initialize Razorpay
@@ -27,8 +28,16 @@ export async function createOrder(addressId: string, paymentMethod: string, cart
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { success: false, error: 'Unauthorized' }
 
+  // This custom-cookie auth flow never establishes a real Supabase Auth
+  // session (auth.uid() is always null for the anon-key client here), so
+  // every RLS-protected table below (addresses/orders/order_items/
+  // cart_items/product_variants) must be accessed via the service-role
+  // client. We've already verified `user` above via the custom cookie.
+  const { createAdminClient } = await import('@/lib/supabase/admin')
+  const admin = createAdminClient()
+
   // 2. Validate Address
-  const { data: address } = await supabase
+  const { data: address } = await admin
     .from('addresses')
     .select('id')
     .eq('id', addressId)
@@ -77,12 +86,12 @@ export async function createOrder(addressId: string, paymentMethod: string, cart
     flat_rate: 99,
     free_threshold: 1999,
     cod_charge: 50,
-    online_discount: 0
+    online_discount: 0,
+    tiers: []
   }
 
-  const flatRate = Number(shippingSettings.flat_rate ?? 99)
-  const freeThreshold = Number(shippingSettings.free_threshold ?? 1999)
-  const shipping_cost = subtotal >= freeThreshold ? 0 : flatRate
+  const totalQuantity = orderItems.reduce((sum, item) => sum + Number(item.quantity || 0), 0)
+  const shipping_cost = calculateShippingCharge(subtotal, totalQuantity, shippingSettings)
 
   const onlineDiscountPercent = Number(shippingSettings.online_discount ?? 0)
 
@@ -98,7 +107,7 @@ export async function createOrder(addressId: string, paymentMethod: string, cart
   const actualPaymentMethod = 'Online Payment (Razorpay)'
 
   // 5. Insert Order
-  const { data: order, error: orderError } = await supabase
+  const { data: order, error: orderError } = await admin
     .from('orders')
     .insert([{
       id: globalThis.crypto.randomUUID(),
@@ -125,7 +134,7 @@ export async function createOrder(addressId: string, paymentMethod: string, cart
     order_id: order.id
   }))
 
-  const { error: itemsError } = await supabase
+  const { error: itemsError } = await admin
     .from('order_items')
     .insert(itemsToInsert)
 
@@ -167,7 +176,7 @@ export async function createOrder(addressId: string, paymentMethod: string, cart
   }
 
   // If COD, clear cart, decrement stock, and finish
-  await supabase
+  await admin
     .from('cart_items')
     .delete()
     .eq('user_id', user.id)
@@ -175,9 +184,9 @@ export async function createOrder(addressId: string, paymentMethod: string, cart
   for (const item of orderItems) {
     // Wrap in try-catch because mock IDs (e.g. 'p1') will fail UUID cast in Postgres
     try {
-      const { data: variant } = await supabase.from('product_variants').select('stock_quantity').eq('id', item.variant_id).single()
+      const { data: variant } = await admin.from('product_variants').select('stock_quantity').eq('id', item.variant_id).single()
       if (variant) {
-        await supabase.from('product_variants').update({
+        await admin.from('product_variants').update({
           stock_quantity: Math.max(0, variant.stock_quantity - item.quantity)
         }).eq('id', item.variant_id)
       }
@@ -278,9 +287,15 @@ export async function processCheckout(
 
   if (!user) return { success: false, error: 'You must be logged in to checkout.' }
 
+  // Same reasoning as createOrder(): no real Supabase Auth session exists
+  // for this custom-cookie user, so addresses/cart_items must go through
+  // the service-role client to get past RLS.
+  const { createAdminClient } = await import('@/lib/supabase/admin')
+  const admin = createAdminClient()
+
   // 1. Create or get address
   let addressId = ''
-  const { data: existingAddress } = await supabase
+  const { data: existingAddress } = await admin
     .from('addresses')
     .select('id')
     .eq('user_id', user.id)
@@ -290,7 +305,7 @@ export async function processCheckout(
 
   if (existingAddress) {
     // Update existing address
-    await supabase.from('addresses').update({
+    await admin.from('addresses').update({
       full_name: profile.fullName,
       phone: profile.phone,
       alternate_phone: profile.alternatePhone || null,
@@ -302,7 +317,7 @@ export async function processCheckout(
     }).eq('id', existingAddress.id)
     addressId = existingAddress.id
   } else {
-    const { data: newAddress, error: addressError } = await supabase.from('addresses').insert({
+    const { data: newAddress, error: addressError } = await admin.from('addresses').insert({
       id: crypto.randomUUID(),
       user_id: user.id,
       full_name: profile.fullName,
@@ -325,7 +340,7 @@ export async function processCheckout(
 
   // 2. Sync cart items to DB
   // Clear existing cart
-  await supabase.from('cart_items').delete().eq('user_id', user.id)
+  await admin.from('cart_items').delete().eq('user_id', user.id)
   
   // Insert new cart items
   const cartInserts = items.map(item => ({
@@ -335,7 +350,7 @@ export async function processCheckout(
     quantity: item.quantity
   }))
   
-  const { error: cartError } = await supabase.from('cart_items').insert(cartInserts)
+  const { error: cartError } = await admin.from('cart_items').insert(cartInserts)
   if (cartError) {
     console.error('CART SYNC ERROR:', cartError)
     return { success: false, error: cartError.message || 'Failed to sync cart.' }

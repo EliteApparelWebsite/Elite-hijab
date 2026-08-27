@@ -91,7 +91,13 @@ CREATE TABLE IF NOT EXISTS orders (
   shipped_at TIMESTAMP WITH TIME ZONE,
   delivered_at TIMESTAMP WITH TIME ZONE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
-  cancelled_at TIMESTAMP WITH TIME ZONE
+  cancelled_at TIMESTAMP WITH TIME ZONE,
+  -- Shiprocket integration (see database/shiprocket_migration.sql)
+  shiprocket_order_id TEXT,
+  shiprocket_shipment_id TEXT,
+  awb_code TEXT,
+  courier_name TEXT,
+  shiprocket_status TEXT
 );
 
 -- 6. Reviews Table

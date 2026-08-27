@@ -12,13 +12,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Script from 'next/script'
 import { createClient } from '@/lib/supabase/client'
-
-type ShippingSettings = {
-  flat_rate: number
-  free_threshold: number
-  cod_charge?: number
-  online_discount?: number
-}
+import { calculateShippingCharge, type ShippingSettings } from '@/lib/shipping'
 
 export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: ShippingSettings, isLoggedIn: boolean }) {
   const { cart, cartTotal, clearCart, updateQuantity, removeFromCart } = useCart()
@@ -159,9 +153,7 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
   const subtotal = cartTotal
   const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0)
   
-  const flatRate = Number(shipping.flat_rate ?? 99)
-  const freeThreshold = Number(shipping.free_threshold ?? 1999)
-  const shippingFee = subtotal >= freeThreshold ? 0 : flatRate
+  const shippingFee = calculateShippingCharge(subtotal, totalQuantity, shipping)
   
   const codFee = 0
   

@@ -115,7 +115,12 @@ export async function sendEmailOtp(
   }
 
   if (mode === 'LOGIN') {
-    const { data: profile } = await supabase
+    // Use the service-role client: at this point there is no real Supabase
+    // Auth session for the visitor, so the anon-key client would be blocked
+    // by the "customers" RLS SELECT policy (auth.uid() = id) and would always
+    // report "does not exist", even for real accounts.
+    const { createAdminClient } = await import('@/lib/supabase/admin')
+    const { data: profile } = await createAdminClient()
       .from('customers')
       .select('id')
       .eq('email', email)
@@ -275,11 +280,16 @@ export async function verifyEmailOtp(
 
   // Real Supabase Auth Flow
   const { createAdminClient } = await import('@/lib/supabase/admin')
-  const adminAuth = createAdminClient().auth.admin
+  const adminClient = createAdminClient()
+  const adminAuth = adminClient.auth.admin
 
-  // Check customers table first
+  // Check customers table first. Use the service-role client here (and for
+  // every customers read/write below): this OTP flow never creates a real
+  // Supabase Auth session (we only set our own "hijabistaa-user-session"
+  // cookie at the end), so the anon-key client always has auth.uid() = null
+  // and gets blocked by the "customers" RLS SELECT policy.
   let userExists = false
-  const { data: existingProfile } = await supabase
+  const { data: existingProfile } = await adminClient
     .from('customers')
     .select('id')
     .eq('email', email)
@@ -321,7 +331,7 @@ export async function verifyEmailOtp(
     } else {
       try {
         if (newUser?.user) {
-          await supabase.from('customers').insert({
+          await adminClient.from('customers').insert({
             id: newUser.user.id,
             email,
             full_name: nameToUse,
@@ -335,7 +345,7 @@ export async function verifyEmailOtp(
   }
 
   // Custom Cookie Auth Session
-  const { data: profile } = await supabase
+  const { data: profile } = await adminClient
     .from('customers')
     .select('*')
     .eq('email', email)
@@ -348,7 +358,7 @@ export async function verifyEmailOtp(
       const userData = (userList?.users as any[])?.find(u => u.email?.toLowerCase() === email.toLowerCase())
       if (userData) {
         const nameToUse = fullName || record.full_name || 'Customer'
-        const { data: insertedProfile } = await supabase.from('customers').insert({
+        const { data: insertedProfile } = await adminClient.from('customers').insert({
           id: userData.id,
           email,
           full_name: nameToUse,
