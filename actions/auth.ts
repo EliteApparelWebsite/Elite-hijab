@@ -331,6 +331,29 @@ export async function verifyEmailOtp(
     } else {
       try {
         if (newUser?.user) {
+          if (email) {
+            const { data: conflictingCustomer } = await adminClient
+              .from('customers')
+              .select('id')
+              .eq('email', email)
+              .maybeSingle()
+
+            if (conflictingCustomer && conflictingCustomer.id !== newUser.user.id) {
+              const { error: updateError } = await adminClient
+                .from('customers')
+                .update({ id: newUser.user.id })
+                .eq('id', conflictingCustomer.id)
+              
+              if (updateError) {
+                console.warn('Failed to update customer ID for conflict, deleting:', updateError.message)
+                await adminClient
+                  .from('customers')
+                  .delete()
+                  .eq('id', conflictingCustomer.id)
+              }
+            }
+          }
+
           await adminClient.from('customers').insert({
             id: newUser.user.id,
             email,

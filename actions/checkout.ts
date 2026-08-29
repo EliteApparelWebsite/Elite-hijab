@@ -301,11 +301,36 @@ export async function processCheckout(
     .maybeSingle()
 
   if (!customerExists) {
+    const emailToUse = user.email || profile.email
+    if (emailToUse) {
+      const { data: conflictingCustomer } = await admin
+        .from('customers')
+        .select('id')
+        .eq('email', emailToUse)
+        .maybeSingle()
+
+      if (conflictingCustomer && conflictingCustomer.id !== user.id) {
+        // Attempt to update the existing record's id, or delete if constrained
+        const { error: updateError } = await admin
+          .from('customers')
+          .update({ id: user.id })
+          .eq('id', conflictingCustomer.id)
+        
+        if (updateError) {
+          console.warn('Failed to update existing customer ID, deleting conflicting record:', updateError.message)
+          await admin
+            .from('customers')
+            .delete()
+            .eq('id', conflictingCustomer.id)
+        }
+      }
+    }
+
     const { error: customerError } = await admin
       .from('customers')
       .insert({
         id: user.id,
-        email: user.email || profile.email,
+        email: emailToUse,
         full_name: profile.fullName || 'Customer',
         phone: profile.phone || null
       })
