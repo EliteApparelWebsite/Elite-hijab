@@ -21,13 +21,6 @@ import InstagramGallery from "@/components/InstagramGallery";
 const PromoPopup = dynamic(() => import('@/components/PromoPopup'));
 
 
-// In-memory cache for ultra-fast page rendering during local dev & production
-let homeCache: {
-  timestamp: number;
-  data: any;
-} | null = null;
-const CACHE_TTL_MS = 1000 * 60 * 5; // Set to 5 minutes for ultra-fast page rendering
-
 async function safeQuery(promise: Promise<any>, fallback: any, timeoutMs = 2500) {
   try {
     const res = await Promise.race([
@@ -43,11 +36,6 @@ async function safeQuery(promise: Promise<any>, fallback: any, timeoutMs = 2500)
 }
 
 export default async function Home() {
-  // Return cached data immediately if within TTL to prevent network bottleneck
-  if (homeCache && Date.now() - homeCache.timestamp < CACHE_TTL_MS) {
-    return renderHomePage(homeCache.data);
-  }
-
   const supabase = await createClient();
 
   // Parallelize independent queries with safe timeout limits
@@ -157,12 +145,6 @@ export default async function Home() {
     testimonials: staticTestimonials,
     promoPopupSettings
   };
-
-  homeCache = {
-    timestamp: Date.now(),
-    data
-  };
-
   return renderHomePage(data);
 }
 

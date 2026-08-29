@@ -70,9 +70,10 @@ export async function updateSession(request: NextRequest) {
   }
 
   // Admin routes: redirect to admin login if not admin
-  if (request.nextUrl.pathname.startsWith('/admin')) {
+  const cleanPathname = request.nextUrl.pathname.replace(/\/$/, '')
+  if (cleanPathname.startsWith('/admin')) {
     // Allow access to admin login page
-    if (request.nextUrl.pathname === '/admin/login') {
+    if (cleanPathname === '/admin/login') {
       return supabaseResponse
     }
 

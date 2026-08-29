@@ -1,11 +1,12 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { getGlobalFaqs } from "@/actions/global_faqs";
 
 export const metadata = {
   title: 'Frequently Asked Questions | HIJABISTA',
 }
 
-const faqs = [
+const fallbackFaqs = [
   {
     question: "How long does shipping take?",
     answer: "All standard orders are processed within 2-3 business days. Delivery within Mumbai takes 1-2 business days, Metro Cities take 3-4 business days, and the Rest of India takes 5-7 business days after dispatch."
@@ -32,7 +33,10 @@ const faqs = [
   }
 ]
 
-export default function FAQPage() {
+export default async function FAQPage() {
+  const { data: dbFaqs, success } = await getGlobalFaqs();
+  const displayFaqs = success && dbFaqs && dbFaqs.length > 0 ? dbFaqs : fallbackFaqs;
+
   return (
     <main className="overflow-x-hidden pt-28 md:pt-[130px] bg-cream min-h-screen flex flex-col">
       <Header />
@@ -41,7 +45,7 @@ export default function FAQPage() {
         <h1 className="font-display font-semibold text-3xl md:text-4xl text-ink mb-8 text-center">Frequently Asked Questions</h1>
         
         <div className="space-y-6 mt-12">
-          {faqs.map((faq, idx) => (
+          {displayFaqs.map((faq: any, idx: number) => (
             <div key={idx} className="bg-white p-6 rounded-lg shadow-sm border border-gold/20">
               <h3 className="font-display font-semibold text-xl text-ink mb-3">{faq.question}</h3>
               <p className="text-ink/80 text-sm md:text-base leading-relaxed">{faq.answer}</p>
@@ -54,3 +58,4 @@ export default function FAQPage() {
     </main>
   );
 }
+

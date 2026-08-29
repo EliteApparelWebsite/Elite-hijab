@@ -293,6 +293,27 @@ export async function processCheckout(
   const { createAdminClient } = await import('@/lib/supabase/admin')
   const admin = createAdminClient()
 
+  // Ensure customer profile exists in the customers table to satisfy foreign keys
+  const { data: customerExists } = await admin
+    .from('customers')
+    .select('id')
+    .eq('id', user.id)
+    .maybeSingle()
+
+  if (!customerExists) {
+    const { error: customerError } = await admin
+      .from('customers')
+      .insert({
+        id: user.id,
+        email: user.email || profile.email,
+        full_name: profile.fullName || 'Customer',
+        phone: profile.phone || null
+      })
+    if (customerError) {
+      console.error('Failed to create customer row during checkout:', customerError)
+    }
+  }
+
   // 1. Create or get address
   let addressId = ''
   const { data: existingAddress } = await admin
