@@ -196,7 +196,7 @@ export default function PromoPopup({
                   ELITE HIJAB
                 </span>
                 <span className="font-sans text-[7px] sm:text-[8px] tracking-[0.25em] text-[#AA8034] block uppercase leading-none mt-0.5 font-bold">
-                  HIJAB &amp; SCARF
+                  HIJAB &amp; ACCESSORIES
                 </span>
               </div>
             </div>

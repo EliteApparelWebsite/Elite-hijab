@@ -232,9 +232,9 @@ export interface HeroTextConfig {
 }
 
 const DEFAULT_HERO_TEXT: HeroTextConfig = {
-  heading_line1: 'Modesty.',
-  heading_line2: 'Elegance.',
-  heading_line3: 'You.',
+  heading_line1: 'A complete',
+  heading_line2: 'modesty elegance',
+  heading_line3: 'style',
   description: 'Premium Hijabs, Scarves & Modest Essentials crafted with luxurious fabric and effortless style.'
 }
 

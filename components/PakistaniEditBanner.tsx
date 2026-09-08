@@ -17,18 +17,18 @@ export default function PakistaniEditBanner() {
           <div className="grid grid-cols-2 gap-3 md:gap-4 lg:gap-5 order-2 lg:order-1 w-full h-[450px] md:h-[550px] lg:h-[600px]">
             <div className="flex flex-col gap-3 md:gap-4 lg:gap-5 h-full">
               <div className="relative w-full flex-grow rounded-[20px] md:rounded-[28px] overflow-hidden shadow-[0_12px_35px_rgba(0,0,0,0.08)] border-2 border-[#D4AF37]/40 group bg-white">
-                <Image src="/assets/images/img_04.webp" alt="The Luxury Hijab & Scarf Edit 1" fill sizes="(max-width: 1024px) 50vw, 300px" className="object-cover object-top transition-all duration-700 group-hover:scale-[1.05]" />
+                <Image src="/assets/images/img_04.webp" alt="The Luxury Hijab & Accessories Edit 1" fill sizes="(max-width: 1024px) 50vw, 300px" className="object-cover object-top transition-all duration-700 group-hover:scale-[1.05]" />
               </div>
               <div className="relative w-full h-[35%] rounded-[20px] md:rounded-[28px] overflow-hidden shadow-[0_12px_35px_rgba(0,0,0,0.08)] border-2 border-[#D4AF37]/40 group bg-white">
-                <Image src="/assets/images/img_03.jpg" alt="The Luxury Hijab & Scarf Edit 2" fill sizes="(max-width: 1024px) 50vw, 300px" className="object-cover object-center transition-all duration-700 group-hover:scale-[1.05]" />
+                <Image src="/assets/images/img_03.jpg" alt="The Luxury Hijab & Accessories Edit 2" fill sizes="(max-width: 1024px) 50vw, 300px" className="object-cover object-center transition-all duration-700 group-hover:scale-[1.05]" />
               </div>
             </div>
             <div className="flex flex-col gap-3 md:gap-4 lg:gap-5 h-full pt-8 md:pt-12">
               <div className="relative w-full h-[40%] rounded-[20px] md:rounded-[28px] overflow-hidden shadow-[0_12px_35px_rgba(0,0,0,0.08)] border-2 border-[#D4AF37]/40 group bg-white">
-                <Image src="/assets/images/img_05.webp" alt="The Luxury Hijab & Scarf Edit 3" fill sizes="(max-width: 1024px) 50vw, 300px" className="object-cover object-center transition-all duration-700 group-hover:scale-[1.05]" />
+                <Image src="/assets/images/img_05.webp" alt="The Luxury Hijab & Accessories Edit 3" fill sizes="(max-width: 1024px) 50vw, 300px" className="object-cover object-center transition-all duration-700 group-hover:scale-[1.05]" />
               </div>
               <div className="relative w-full flex-grow rounded-[20px] md:rounded-[28px] overflow-hidden shadow-[0_12px_35px_rgba(0,0,0,0.08)] border-2 border-[#D4AF37]/40 group bg-white">
-                <Image src="/assets/images/img_02.webp" alt="The Luxury Hijab & Scarf Edit 4" fill sizes="(max-width: 1024px) 50vw, 300px" className="object-cover object-top transition-all duration-700 group-hover:scale-[1.05]" />
+                <Image src="/assets/images/img_02.webp" alt="The Luxury Hijab & Accessories Edit 4" fill sizes="(max-width: 1024px) 50vw, 300px" className="object-cover object-top transition-all duration-700 group-hover:scale-[1.05]" />
               </div>
             </div>
           </div>

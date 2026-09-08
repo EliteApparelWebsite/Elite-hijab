@@ -9,7 +9,7 @@ export const SITE = {
   whatsappMessage: "Hi Elite Hijab! I'd like to know more about your collection.",
   city: "Hojai Town, Assam",
   address: "Mother Store: Munshi Market, Hojai Town, Assam - 782435",
-  hours: "Mon to Sat: 11:30 am to 8:30 pm (Sunday closed)",
+  hours: "10:00 am to 9:00 pm (All Days Open)",
   instagram: "elite_apparel02",
 };
 

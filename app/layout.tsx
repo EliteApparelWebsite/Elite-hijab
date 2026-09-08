@@ -21,14 +21,14 @@ const bricolage = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
-  title: "Elite Hijab | Hijab & Scarf — Modest Fashion Elevated",
+  title: "Elite Hijab | Hijab & Accessories — Modest Fashion Elevated",
   description:
-    "Elite Hijab crafts premium hijabs, scarves and modest essentials with sophisticated detailing, luxurious fabric and timeless silhouettes.",
+    "Elite Hijab crafts premium hijabs, accessories and modest essentials with sophisticated detailing, luxurious fabric and timeless silhouettes.",
   keywords: [
     "Elite Hijab",
     "modest fashion",
     "hijab",
-    "scarf",
+    "accessories",
     "modest wear",
   ],
   icons: {
@@ -36,9 +36,9 @@ export const metadata: Metadata = {
     apple: '/Elitehijab-logo.jpeg',
   },
   openGraph: {
-    title: "Elite Hijab | Hijab & Scarf — Modest Fashion Elevated",
+    title: "Elite Hijab | Hijab & Accessories — Modest Fashion Elevated",
     description:
-      "Premium hijabs, scarves and modest essentials crafted with sophisticated detailing and luxurious fabric.",
+      "Premium hijabs, accessories and modest essentials crafted with sophisticated detailing and luxurious fabric.",
     type: "website",
   },
 };

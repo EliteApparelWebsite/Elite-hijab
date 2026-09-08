@@ -28,9 +28,9 @@ export default function Hero({
     description?: string; 
   } 
 }) {
-  const line1 = heroText?.heading_line1 || "Modesty.";
-  const line2 = heroText?.heading_line2 || "Elegance.";
-  const line3 = heroText?.heading_line3 || "You.";
+  const line1 = heroText?.heading_line1 || "A complete";
+  const line2 = heroText?.heading_line2 || "modesty elegance";
+  const line3 = heroText?.heading_line3 || "style";
   const desc = heroText?.description || "Premium Hijabs, Scarves & Modest Essentials crafted with luxurious fabric and effortless style.";
 
   // Load active hero slides from props
@@ -113,7 +113,7 @@ export default function Hero({
             <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white border border-[#D4AF37]/50 shadow-[0_2px_12px_rgba(212,175,55,0.15)] mb-3 sm:mb-4">
               <span className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse" />
               <span className="font-display font-bold text-xs sm:text-[13px] tracking-[0.25em] text-[#AA8034] uppercase">
-                ELITE HIJAB &ndash; HIJAB &amp; SCARF
+                ELITE HIJAB &ndash; HIJAB &amp; ACCESSORIES
               </span>
             </div>
 
@@ -125,10 +125,10 @@ export default function Hero({
             </h1>
 
             {/* Desktop Main Heading */}
-            <h1 className="hidden lg:block font-display font-bold lg:text-[3.5rem] xl:text-[4.1rem] leading-[1.05] tracking-tight text-[#0A0A0A] heros-txt">
+            <h1 className="hidden lg:block font-display font-bold lg:text-[3.2rem] xl:text-[3.8rem] leading-[1.08] tracking-tight text-[#0A0A0A] heros-txt">
               {line1} <br />
-              <span className="bg-gradient-to-r from-[#B38728] via-[#D4AF37] to-[#AA771C] bg-clip-text text-transparent italic font-serif ml-16">{line2}</span> <br />
-              <span className="heros-you ml-[275px] text-[#0A0A0A]">{line3}</span>
+              <span className="bg-gradient-to-r from-[#B38728] via-[#D4AF37] to-[#AA771C] bg-clip-text text-transparent italic font-serif ml-12 lg:ml-16">{line2}</span> <br />
+              <span className="heros-you ml-20 lg:ml-28 text-[#0A0A0A] inline-block">{line3}</span>
             </h1>
 
             {/* Decorative Diamond Divider */}

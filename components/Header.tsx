@@ -192,7 +192,7 @@ export default function Header() {
                   priority
                 />
               </div>
-              <span className="font-display font-semibold text-lg md:text-xl tracking-wider text-[#0A0A0A] uppercase group-hover:text-[#AA8034] transition-colors">
+              <span className="font-display font-bold text-xl md:text-2xl lg:text-[25px] tracking-wider bg-gradient-to-r from-[#996515] via-[#D4AF37] to-[#8C6219] bg-clip-text text-transparent uppercase group-hover:brightness-110 transition-all drop-shadow-[0_1px_1px_rgba(212,175,55,0.15)]">
                 Elite Hijab
               </span>
             </a>
