@@ -4,8 +4,8 @@ import Story from "@/components/Story";
 import BotanicalDivider from "@/components/BotanicalDivider";
 
 export const metadata = {
-  title: 'About Us | HIJABISTA',
-  description: 'Learn about the story behind HIJABISTA, rooted in modesty and crafted with elegance.',
+  title: 'About Us | Elite Hijab',
+  description: 'Learn about the story behind Elite Hijab, rooted in modesty and crafted with elegance.',
 }
 
 export default function AboutPage() {
@@ -22,7 +22,7 @@ export default function AboutPage() {
             <span className="h-px w-6 bg-gold" />
           </div>
           <h1 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
-            About Hijabistaa
+            About Elite Hijab
           </h1>
           <p className="mt-4 text-ink/75 max-w-lg mx-auto text-sm md:text-base leading-relaxed">
             A sanctuary of modest luxury, crafted with care and designed for the modern woman.
@@ -30,7 +30,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <BotanicalDivider tone="emerald" />
+      <BotanicalDivider tone="gold" />
 
       <div className="flex-1">
         {/* We reuse the Story component which has the core information */}

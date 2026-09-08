@@ -35,8 +35,8 @@ export default function CartDrawer({ isOpen, onClose, shipping }: CartDrawerProp
         <div className="w-screen max-w-md bg-white flex flex-col shadow-2xl border-l border-cream-line animate-slide-left">
           {/* Header */}
           <div className="h-16 border-b border-cream-line px-5 flex items-center justify-between shrink-0">
-            <div className="flex items-center gap-2 text-emerald">
-              <ShoppingBag className="w-5 h-5" />
+            <div className="flex items-center gap-2 text-ink">
+              <ShoppingBag className="w-5 h-5 text-gold" />
               <span className="font-display font-semibold text-lg">My Cart ({cartCount})</span>
             </div>
             <button
@@ -51,7 +51,7 @@ export default function CartDrawer({ isOpen, onClose, shipping }: CartDrawerProp
           <div className="flex-1 overflow-y-auto py-5 px-5 space-y-4">
             {cart.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center space-y-3">
-                <div className="w-16 h-16 bg-cream rounded-full flex items-center justify-center text-ink/30">
+                <div className="w-16 h-16 bg-cream rounded-full flex items-center justify-center text-gold">
                   <ShoppingBag className="w-7 h-7" />
                 </div>
                 <p className="text-ink font-medium text-[15px]">Your cart is empty</p>
@@ -60,7 +60,7 @@ export default function CartDrawer({ isOpen, onClose, shipping }: CartDrawerProp
                 </p>
                 <button
                   onClick={onClose}
-                  className="mt-2 text-xs font-semibold px-4 py-2 border-2 border-emerald text-emerald hover:bg-emerald hover:text-cream rounded-full transition-colors"
+                  className="mt-2 text-xs font-semibold px-4 py-2 border-2 border-[#0A0A0A] text-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-[#DFBA73] rounded-full transition-colors"
                 >
                   Continue Shopping
                 </button>
@@ -103,21 +103,21 @@ export default function CartDrawer({ isOpen, onClose, shipping }: CartDrawerProp
                       <div className="flex items-center border border-cream-line bg-white rounded-lg">
                         <button
                           onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}
-                          className="p-1 hover:text-emerald transition-colors"
+                          className="p-1 hover:text-gold transition-colors"
                         >
                           <Minus className="w-3.5 h-3.5" />
                         </button>
                         <span className="px-2.5 text-xs font-semibold text-ink">{item.quantity}</span>
                         <button
                           onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}
-                          className="p-1 hover:text-emerald transition-colors"
+                          className="p-1 hover:text-gold transition-colors"
                         >
                           <Plus className="w-3.5 h-3.5" />
                         </button>
                       </div>
 
                       <div className="flex items-center gap-3">
-                        <span className="font-display font-bold text-emerald text-sm">
+                        <span className="font-display font-bold text-[#0D0D0D] text-sm">
                           ₹{(item.price * item.quantity).toLocaleString('en-IN')}
                         </span>
                         <button
@@ -139,7 +139,7 @@ export default function CartDrawer({ isOpen, onClose, shipping }: CartDrawerProp
             <div className="border-t border-cream-line p-5 space-y-4 shrink-0 bg-cream/10">
               <div className="flex justify-between items-baseline">
                 <span className="text-sm text-ink/60 font-medium">Subtotal</span>
-                <span className="font-display font-bold text-xl text-emerald">
+                <span className="font-display font-bold text-xl text-[#0D0D0D]">
                   ₹{cartTotal.toLocaleString('en-IN')}
                 </span>
               </div>
@@ -150,13 +150,13 @@ export default function CartDrawer({ isOpen, onClose, shipping }: CartDrawerProp
                 <Link
                   href="/checkout"
                   onClick={onClose}
-                  className="w-full text-center py-3.5 bg-emerald text-cream font-body font-semibold rounded-full shadow-card hover:bg-emerald-deep transition-colors flex items-center justify-center gap-1.5"
+                  className="w-full text-center py-3.5 bg-[#0A0A0A] text-white border border-gold/40 font-body font-semibold rounded-full shadow-md hover:bg-[#D4AF37] hover:text-black hover:border-transparent transition-all duration-300 flex items-center justify-center gap-1.5"
                 >
                   Proceed to Checkout
                 </Link>
                 <button
                   onClick={onClose}
-                  className="w-full text-center py-2.5 text-xs text-ink/50 hover:text-emerald font-semibold transition-colors"
+                  className="w-full text-center py-2.5 text-xs text-ink/50 hover:text-gold font-semibold transition-colors"
                 >
                   Continue Shopping
                 </button>

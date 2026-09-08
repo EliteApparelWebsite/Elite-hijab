@@ -75,7 +75,7 @@ export function InquiriesList({ initialInquiries }: { initialInquiries: any[] })
                   <div className="flex items-center gap-3">
                     <p className={`text-sm truncate flex items-center gap-1.5 ${isUnread ? 'font-bold text-stone-900' : 'font-medium text-stone-700'}`}>
                       <User className="w-4 h-4 text-stone-400" />
-                      {inquiry.name}
+                      {inquiry.full_name || inquiry.name}
                     </p>
                     {isUnread && (
                       <span className="px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 text-[10px] font-bold uppercase tracking-wider">

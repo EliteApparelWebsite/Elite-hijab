@@ -23,10 +23,10 @@ export default function ShippingPolicy() {
 
           <h3 className="font-display font-semibold text-xl text-ink mt-8 mb-4">2. Shipping Timelines</h3>
           <p>
-            We proudly ship across Pan-India from our studio in Mumbai. 
+            We proudly ship across Pan-India from our store in Hojai Town, Assam. 
           </p>
           <ul className="list-disc pl-5 space-y-2">
-            <li><strong>Mumbai:</strong> 1-2 business days after dispatch.</li>
+            <li><strong>Local / Regional:</strong> 1-2 business days after dispatch.</li>
             <li><strong>Metro Cities:</strong> 3-4 business days after dispatch.</li>
             <li><strong>Rest of India:</strong> 5-7 business days after dispatch.</li>
           </ul>

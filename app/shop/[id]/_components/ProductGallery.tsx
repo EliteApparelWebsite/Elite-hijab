@@ -126,7 +126,7 @@ export default function ProductGallery({
                 onClick={handlePrev}
                 disabled={!canScrollPrev}
                 aria-label="Previous thumbnails"
-                className="hidden md:flex w-full h-8 rounded-xl bg-white border border-stone-200 text-stone-700 hover:text-emerald hover:border-emerald/40 items-center justify-center shadow-2xs transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                className="hidden md:flex w-full h-8 rounded-xl bg-white border border-stone-200 text-stone-700 hover:text-gold hover:border-gold/40 items-center justify-center shadow-2xs transition-all disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <ChevronUp className="w-4 h-4 stroke-[2.5]" />
               </button>
@@ -137,7 +137,7 @@ export default function ProductGallery({
                 onClick={handlePrev}
                 disabled={!canScrollPrev}
                 aria-label="Previous thumbnails"
-                className="flex md:hidden w-7 h-[76px] shrink-0 rounded-lg bg-white border border-stone-200 text-stone-700 hover:text-emerald items-center justify-center shadow-2xs transition-all disabled:opacity-30 disabled:cursor-not-allowed self-center"
+                className="flex md:hidden w-7 h-[76px] shrink-0 rounded-lg bg-white border border-stone-200 text-stone-700 hover:text-gold items-center justify-center shadow-2xs transition-all disabled:opacity-30 disabled:cursor-not-allowed self-center"
               >
                 <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
               </button>
@@ -157,7 +157,7 @@ export default function ProductGallery({
                   onClick={() => handleThumbnailClick(actualIndex)}
                   className={`relative w-[60px] h-[76px] md:w-[90px] md:h-[110px] shrink-0 rounded-xl md:rounded-2xl overflow-hidden border-2 transition-all duration-200 ${
                     isSelected
-                      ? "border-emerald shadow-md scale-[1.02] ring-2 ring-emerald/20 opacity-100"
+                      ? "border-gold shadow-md scale-[1.02] ring-2 ring-gold/30 opacity-100"
                       : "border-transparent opacity-50 hover:opacity-100"
                   }`}
                 >
@@ -182,7 +182,7 @@ export default function ProductGallery({
                 onClick={handleNext}
                 disabled={!canScrollNext}
                 aria-label="Next thumbnails"
-                className="hidden md:flex w-full h-8 rounded-xl bg-white border border-stone-200 text-stone-700 hover:text-emerald hover:border-emerald/40 items-center justify-center shadow-2xs transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                className="hidden md:flex w-full h-8 rounded-xl bg-white border border-stone-200 text-stone-700 hover:text-gold hover:border-gold/40 items-center justify-center shadow-2xs transition-all disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <ChevronDown className="w-4 h-4 stroke-[2.5]" />
               </button>
@@ -193,7 +193,7 @@ export default function ProductGallery({
                 onClick={handleNext}
                 disabled={!canScrollNext}
                 aria-label="Next thumbnails"
-                className="flex md:hidden w-7 h-[76px] shrink-0 rounded-lg bg-white border border-stone-200 text-stone-700 hover:text-emerald items-center justify-center shadow-2xs transition-all disabled:opacity-30 disabled:cursor-not-allowed self-center"
+                className="flex md:hidden w-7 h-[76px] shrink-0 rounded-lg bg-white border border-stone-200 text-stone-700 hover:text-gold items-center justify-center shadow-2xs transition-all disabled:opacity-30 disabled:cursor-not-allowed self-center"
               >
                 <ChevronRight className="w-4 h-4 stroke-[2.5]" />
               </button>
@@ -220,7 +220,7 @@ export default function ProductGallery({
           priority
         />
         {badge && (
-          <span className="absolute top-4 left-4 bg-emerald text-cream text-xs font-semibold tracking-wider uppercase px-3.5 py-1.5 rounded-full shadow-sm pointer-events-none z-10">
+          <span className="absolute top-4 left-4 bg-[#0A0A0A] text-[#DFBA73] border border-[#D4AF37]/30 text-xs font-semibold tracking-wider uppercase px-3.5 py-1.5 rounded-full shadow-md pointer-events-none z-10">
             {badge}
           </span>
         )}

@@ -3,13 +3,13 @@ import Footer from "@/components/Footer";
 import { getGlobalFaqs } from "@/actions/global_faqs";
 
 export const metadata = {
-  title: 'Frequently Asked Questions | HIJABISTA',
+  title: 'Frequently Asked Questions | Elite Hijab',
 }
 
 const fallbackFaqs = [
   {
     question: "How long does shipping take?",
-    answer: "All standard orders are processed within 2-3 business days. Delivery within Mumbai takes 1-2 business days, Metro Cities take 3-4 business days, and the Rest of India takes 5-7 business days after dispatch."
+    answer: "All standard orders are processed within 2-3 business days. Delivery to Metro Cities takes 3-4 business days, and the Rest of India takes 5-7 business days after dispatch."
   },
   {
     question: "What are the shipping charges?",
@@ -29,7 +29,7 @@ const fallbackFaqs = [
   },
   {
     question: "How do I contact support?",
-    answer: "You can reach out to our support team via the WhatsApp button on the bottom right of the screen, or email us at support@hijabistaa.com."
+    answer: "You can reach out to our support team via the WhatsApp button on the bottom right of the screen, or email us at husnezaman@gmail.com."
   }
 ]
 

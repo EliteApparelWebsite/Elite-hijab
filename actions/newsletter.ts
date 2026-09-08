@@ -63,7 +63,8 @@ export async function subscribeNewsletter(email: string) {
 
   // 2. Supabase persistence (graceful fallback)
   try {
-    const supabase = await createClient()
+    const { createAdminClient } = await import('@/lib/supabase/admin')
+    const supabase = createAdminClient()
     const { data: existingSupabase } = await supabase
       .from('subscribers')
       .select('id')
@@ -84,5 +85,5 @@ export async function subscribeNewsletter(email: string) {
     console.warn('Supabase subscribe warning (fallback to local):', err)
   }
 
-  return { success: true, message: 'Thank you for subscribing to Hijabistaa!' }
+  return { success: true, message: 'Thank you for subscribing to Elite Hijab!' }
 }

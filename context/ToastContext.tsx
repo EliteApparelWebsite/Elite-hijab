@@ -20,13 +20,13 @@ const ToastContext = createContext<ToastContextType | undefined>(undefined)
 let nextId = 1
 
 const ICONS: Record<ToastType, React.ReactNode> = {
-  success: <CheckCircle2 className="w-5 h-5 text-emerald shrink-0" />,
+  success: <CheckCircle2 className="w-5 h-5 text-[#D4AF37] shrink-0" />,
   error: <XCircle className="w-5 h-5 text-rose shrink-0" />,
   info: <Info className="w-5 h-5 text-gold shrink-0" />,
 }
 
 const BORDER: Record<ToastType, string> = {
-  success: 'border-emerald/20',
+  success: 'border-[#D4AF37]/40',
   error: 'border-rose/30',
   info: 'border-gold/25',
 }
@@ -75,7 +75,9 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 export function useToast() {
   const context = useContext(ToastContext)
   if (!context) {
-    throw new Error('useToast must be used within a ToastProvider')
+    return {
+      showToast: () => {},
+    }
   }
   return context
 }

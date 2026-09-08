@@ -122,8 +122,8 @@ export default function Story() {
 
             {/* Concise Sub-text Paragraph */}
             <Reveal delay={2}>
-              <p className="text-[#5D4D46] font-body text-sm sm:text-base md:text-[16px] leading-relaxed max-w-lg mx-auto">
-              Hijabistaa is a Mumbai-based modest fashion brand offering premium-quality hijabs for everyday wear and special occasions. Our thoughtfully curated collection combines comfort, elegance, and versatility, with pan-India shipping to bring timeless modest fashion to your doorstep.
+              <p className="text-[#555555] font-body text-sm sm:text-base md:text-[16px] leading-relaxed max-w-lg mx-auto">
+              Elite Hijab is a premier modest fashion brand offering premium-quality hijabs for everyday wear and special occasions. Our thoughtfully curated collection combines comfort, elegance, and versatility, with pan-India shipping to bring timeless modest fashion to your doorstep.
               </p>
             </Reveal>
 

@@ -21,12 +21,7 @@ export default async function AdminOrdersPage() {
     `)
     .order('created_at', { ascending: false })
 
-  const orders = rawOrders?.filter((order: any) => {
-    if (order.payment_method === 'COD' || order.payment_method === 'Cash on Delivery') {
-      return true
-    }
-    return order.payment_status === 'paid'
-  }) || []
+  const orders = rawOrders || []
 
   return (
     <div className="space-y-6">

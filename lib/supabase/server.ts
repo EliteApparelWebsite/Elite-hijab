@@ -187,7 +187,7 @@ export async function createClient() {
       }
       const hasMockCookie = cookieStore.get('mock-admin-logged-in')?.value === 'true'
       if (hasMockCookie) {
-        return { data: { user: { id: 'mock-admin-id', email: 'admin@hijabistaa.com', user_metadata: { role: 'admin' } } }, error: null }
+        return { data: { user: { id: 'mock-admin-id', email: 'husnezaman@gmail.com', user_metadata: { role: 'admin' } } }, error: null }
       }
       if (realAuth) return await realAuth.getUser()
       return { data: { user: null }, error: null }
@@ -198,7 +198,7 @@ export async function createClient() {
       }
       const hasMockCookie = cookieStore.get('mock-admin-logged-in')?.value === 'true'
       if (hasMockCookie) {
-        return { data: { session: { user: { id: 'mock-admin-id', email: 'admin@hijabistaa.com', user_metadata: { role: 'admin' } } } }, error: null }
+        return { data: { session: { user: { id: 'mock-admin-id', email: 'husnezaman@gmail.com', user_metadata: { role: 'admin' } } } }, error: null }
       }
       if (realAuth) return await realAuth.getSession()
       return { data: { session: null }, error: null }

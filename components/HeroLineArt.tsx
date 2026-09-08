@@ -25,7 +25,7 @@ export default function HeroLineArt({ className = "" }: { className?: string }) 
       {/* tulip bloom */}
       <path
         d="M250 60c22 22 30 46 28 70-24 8-48 0-62-18-6 32 4 64 34 80"
-        stroke="#9C5247"
+        stroke="#D4AF37"
         strokeWidth="4"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -38,7 +38,7 @@ export default function HeroLineArt({ className = "" }: { className?: string }) 
       />
       <path
         d="M250 60c-22 22-30 46-28 70 24 8 48 0 62-18"
-        stroke="#9C5247"
+        stroke="#D4AF37"
         strokeWidth="4"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -52,7 +52,7 @@ export default function HeroLineArt({ className = "" }: { className?: string }) 
       {/* stem */}
       <path
         d="M250 130v160"
-        stroke="#9C5247"
+        stroke="#C5A059"
         strokeWidth="4"
         strokeLinecap="round"
         pathLength={1000}
@@ -65,7 +65,7 @@ export default function HeroLineArt({ className = "" }: { className?: string }) 
       {/* sweeping wing / flame swirl, echoing logo */}
       <path
         d="M330 110c40-30 70-55 95-95M345 140c50-26 90-58 120-105M250 300c40 18 80 14 115-14 45-36 95-26 130 8-30-2-60 10-72 36-14 30 10 56 38 50"
-        stroke="#7E3F35"
+        stroke="#D4AF37"
         strokeWidth="4"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -79,7 +79,7 @@ export default function HeroLineArt({ className = "" }: { className?: string }) 
       {/* base swoosh, echoing logo underline */}
       <path
         d="M70 420c70 38 160 46 230 18 60-24 110-20 150 10"
-        stroke="#9C5247"
+        stroke="#C5A059"
         strokeWidth="6"
         strokeLinecap="round"
         pathLength={1000}
@@ -93,7 +93,7 @@ export default function HeroLineArt({ className = "" }: { className?: string }) 
         cx="250"
         cy="300"
         r="4"
-        fill="#7E3F35"
+        fill="#D4AF37"
         opacity={drawn ? 1 : 0}
         style={{ transition: "opacity 0.5s ease 1.6s" }}
       />

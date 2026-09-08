@@ -8,10 +8,10 @@ import Link from 'next/link'
 
 export default function AnnouncementBanner() {
   const [config, setConfig] = useState<AnnouncementBannerConfig | null>(null)
-  
+
   useEffect(() => {
     getAnnouncementBannerSettings().then(setConfig).catch(console.error)
-    
+
     // Listen for cross-tab or same-window updates
     const handleUpdate = () => {
       getAnnouncementBannerSettings().then(setConfig).catch(console.error)
@@ -59,7 +59,7 @@ export default function AnnouncementBanner() {
   }
 
   return (
-    <div 
+    <div
       className="relative w-full overflow-hidden flex items-center z-[100000] shadow-sm transition-all duration-300"
       style={{
         backgroundColor: config.backgroundColor,
@@ -68,7 +68,7 @@ export default function AnnouncementBanner() {
         fontSize: config.fontSize,
       }}
     >
-      <div 
+      <div
         className={`flex whitespace-nowrap w-max animate-marquee ${config.pauseOnHover ? 'hover:[animation-play-state:paused]' : ''}`}
         style={{ animationDuration: `${config.speed}s` }}
       >

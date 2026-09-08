@@ -121,7 +121,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         }],
         product_information: [
           { label: "Care Instructions", value: "Gentle hand wash or dry clean recommended", display_order: 1 },
-          { label: "Origin", value: "Crafted with love for modern Hijabistas", display_order: 2 }
+          { label: "Origin", value: "Crafted with love by Elite Hijab", display_order: 2 }
         ],
         product_faqs: [
           { question: "Is this material non-slip?", answer: "Yes! Our fabric has a subtle texture engineered to stay securely in place without slipping.", display_order: 1 },
@@ -417,11 +417,11 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
           {/* Breadcrumbs */}
           <div className="flex items-center gap-1.5 text-xs text-ink/50 font-medium mb-8">
-            <Link href="/" className="hover:text-emerald transition-colors">Home</Link>
+            <Link href="/" className="hover:text-gold transition-colors">Home</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/shop" className="hover:text-emerald transition-colors">Shop</Link>
+            <Link href="/shop" className="hover:text-gold transition-colors">Shop</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href={`/shop?category=${productData.category_id}`} className="hover:text-emerald transition-colors capitalize">
+            <Link href={`/shop?category=${productData.category_id}`} className="hover:text-gold transition-colors capitalize">
               {categoryName}
             </Link>
             <ChevronRight className="w-3.5 h-3.5" />

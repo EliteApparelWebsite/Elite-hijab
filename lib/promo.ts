@@ -13,10 +13,10 @@ export type PromoPopupConfig = {
 }
 
 export const DEFAULT_PROMO_POPUP: PromoPopupConfig = {
-  enabled: true,
+  enabled: false,
   frequency: 'always',
   max_views: 3,
-  image_url: '/hijab-medina.jpg',
+  image_url: '/assets/images/img_05.webp',
   headline: "Here's 15% Off Just For You",
   subtitle: "BEFORE YOU GO!",
   description: "Use the code below at checkout and get 15% OFF on your first order.",

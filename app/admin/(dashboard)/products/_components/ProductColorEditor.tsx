@@ -68,7 +68,7 @@ export default function ProductColorEditor({
       const updated = updater(prev)
       try {
         if (typeof window !== 'undefined') {
-          localStorage.setItem('hijabista_admin_color_presets', JSON.stringify(updated))
+          localStorage.setItem('elitehijab_admin_color_presets', JSON.stringify(updated))
         }
       } catch (e) {}
       return updated
@@ -79,7 +79,7 @@ export default function ProductColorEditor({
   React.useEffect(() => {
     try {
       if (typeof window !== 'undefined') {
-        const saved = localStorage.getItem('hijabista_admin_color_presets')
+        const saved = localStorage.getItem('elitehijab_admin_color_presets')
         if (saved) {
           const parsed = JSON.parse(saved)
           if (Array.isArray(parsed) && parsed.length > 0) {

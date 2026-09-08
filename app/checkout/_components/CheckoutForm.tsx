@@ -231,7 +231,7 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
         contact: profile.phone,
       },
       theme: {
-        color: "#1E3B2E" // Emerald
+        color: "#0A0A0A" // Obsidian Black
       }
     };
     
@@ -338,19 +338,19 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
   const getWhatsappLink = () => {
     if (!placedOrder) return ''
     const itemsText = placedOrder.items.map((i: any) => `- ${i.name} (x${i.quantity})`).join('\n')
-    const message = `Hi HIJABISTA!\n\nI just placed an order:\nOrder Number: *${placedOrder.order_number}*\nItems:\n${itemsText}\nTotal Amount: *₹${placedOrder.total.toLocaleString('en-IN')}*\nPayment Method: *${paymentMethod}*\n\nShipping Address: ${placedOrder.shippingAddress}\n\nPlease confirm my order. Thank you!`
+    const message = `Hi Elite Hijab!\n\nI just placed an order:\nOrder Number: *${placedOrder.order_number}*\nItems:\n${itemsText}\nTotal Amount: *₹${placedOrder.total.toLocaleString('en-IN')}*\nPayment Method: *${paymentMethod}*\n\nShipping Address: ${placedOrder.shippingAddress}\n\nPlease confirm my order. Thank you!`
     return `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(message)}`
   }
 
   if (placedOrder) {
     return (
       <div className="max-w-md mx-auto bg-white rounded-3xl p-8 border border-cream-line shadow-card text-center space-y-6 animate-fade-in mt-6">
-        <div className="w-16 h-16 bg-emerald/10 text-emerald rounded-full flex items-center justify-center mx-auto">
+        <div className="w-16 h-16 bg-gold/15 text-gold rounded-full flex items-center justify-center mx-auto border border-gold/30">
           <CheckCircle2 className="w-10 h-10" />
         </div>
         <div>
           <h2 className="font-display font-bold text-2xl text-ink">Order Placed Successfully!</h2>
-          <p className="text-sm text-ink/60 mt-1">Thank you for shopping with HIJABISTA.</p>
+          <p className="text-sm text-ink/60 mt-1">Thank you for shopping with Elite Hijab.</p>
         </div>
 
         <div className="p-4 bg-cream/40 rounded-2xl border border-cream-line/50 text-left space-y-3">
@@ -360,7 +360,7 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
           </div>
           <div className="flex justify-between text-xs">
             <span className="text-ink/50 uppercase font-semibold">Grand Total</span>
-            <span className="font-bold text-emerald">₹{placedOrder.total.toLocaleString('en-IN')}</span>
+            <span className="font-bold text-[#0D0D0D]">₹{placedOrder.total.toLocaleString('en-IN')}</span>
           </div>
           <div className="flex justify-between text-xs">
             <span className="text-ink/50 uppercase font-semibold">Payment Method</span>
@@ -373,7 +373,7 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
             href={getWhatsappLink()}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 bg-emerald text-cream font-body font-semibold rounded-full shadow-card hover:bg-emerald-deep transition-all"
+            className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 bg-[#0A0A0A] text-white border border-gold/40 font-body font-semibold rounded-full shadow-md hover:bg-[#D4AF37] hover:text-black hover:border-transparent transition-all duration-300"
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.665.989 3.3 1.49 4.975 1.491 5.474 0 9.932-4.457 9.935-9.931a9.885 9.885 0 0 0-2.883-7.054A9.882 9.882 0 0 0 11.758 1.15c-5.483 0-9.94 4.458-9.944 9.934-.002 1.936.507 3.82 1.476 5.489L2.247 20.89l4.4-.736z" />
@@ -382,7 +382,7 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
           </a>
           <a
             href="/"
-            className="w-full inline-flex items-center justify-center py-3 text-sm text-ink/60 hover:text-emerald font-semibold transition-colors"
+            className="w-full inline-flex items-center justify-center py-3 text-sm text-ink/60 hover:text-gold font-semibold transition-colors"
           >
             Return to Store
           </a>
@@ -414,7 +414,7 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
                 value={profile.fullName}
                 onChange={(e) => setProfile({ ...profile, fullName: e.target.value })}
                 placeholder="e.g. Sumaiya Khan"
-                className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-emerald/20 focus:border-emerald transition-all text-sm"
+                className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-gold/25 focus:border-gold transition-all text-sm"
               />
             </div>
             <div>
@@ -431,7 +431,7 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
                 className={`w-full px-4 py-2.5 rounded-xl border border-cream-line text-sm transition-all focus:outline-none ${
                   isLoggedIn 
                     ? 'bg-cream/10 text-ink/50 cursor-not-allowed' 
-                    : 'bg-cream/20 text-ink focus:ring-2 focus:ring-emerald/20 focus:border-emerald'
+                    : 'bg-cream/20 text-ink focus:ring-2 focus:ring-gold/25 focus:border-gold'
                 }`}
               />
             </div>
@@ -448,7 +448,7 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
                 value={profile.phone}
                 onChange={(e) => setProfile({ ...profile, phone: e.target.value.replace(/\D/g, '') })}
                 placeholder="e.g. 9876543210"
-                className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-emerald/20 focus:border-emerald transition-all text-sm"
+                className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-gold/25 focus:border-gold transition-all text-sm"
               />
             </div>
             <div>
@@ -463,7 +463,7 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
                 value={profile.alternatePhone}
                 onChange={(e) => setProfile({ ...profile, alternatePhone: e.target.value.replace(/\D/g, '') })}
                 placeholder="e.g. 9876543210"
-                className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-emerald/20 focus:border-emerald transition-all text-sm"
+                className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-gold/25 focus:border-gold transition-all text-sm"
               />
             </div>
           </div>
@@ -480,7 +480,7 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
                 value={profile.street}
                 onChange={(e) => setProfile({ ...profile, street: e.target.value })}
                 placeholder="e.g. Apartment number, street name"
-                className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-emerald/20 focus:border-emerald transition-all text-sm"
+                className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-gold/25 focus:border-gold transition-all text-sm"
               />
             </div>
 
@@ -496,7 +496,7 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
                   value={profile.city}
                   onChange={(e) => setProfile({ ...profile, city: e.target.value })}
                   placeholder="e.g. Mumbai"
-                  className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-emerald/20 focus:border-emerald transition-all text-sm"
+                  className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-gold/25 focus:border-gold transition-all text-sm"
                 />
               </div>
               <div>
@@ -510,7 +510,7 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
                   value={profile.state}
                   onChange={(e) => setProfile({ ...profile, state: e.target.value })}
                   placeholder="e.g. Maharashtra"
-                  className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-emerald/20 focus:border-emerald transition-all text-sm"
+                  className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-gold/25 focus:border-gold transition-all text-sm"
                 />
               </div>
             </div>
@@ -528,7 +528,7 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
                 value={profile.zipCode}
                 onChange={(e) => setProfile({ ...profile, zipCode: e.target.value.replace(/\D/g, '') })}
                 placeholder="e.g. 110001"
-                className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-emerald/20 focus:border-emerald transition-all text-sm"
+                className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-gold/25 focus:border-gold transition-all text-sm"
               />
             </div>
           </div>
@@ -542,7 +542,7 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <label className={`flex flex-col p-4 rounded-2xl border-2 cursor-pointer transition-all border-emerald bg-emerald/5`}>
+            <label className={`flex flex-col p-4 rounded-2xl border-2 cursor-pointer transition-all border-gold bg-gold/5`}>
               <input
                 type="radio"
                 name="payment"
@@ -586,10 +586,10 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
                   </Link>
                   <div className="flex-1 min-w-0 space-y-2">
                     <div className="flex items-start justify-between gap-2">
-                      <Link href={`/shop/${item.id}`} className="hover:text-emerald transition-colors">
+                      <Link href={`/shop/${item.id}`} className="hover:text-gold transition-colors">
                         <h4 className="font-semibold text-ink text-sm leading-snug line-clamp-2">{item.name}</h4>
                       </Link>
-                      <span className="font-semibold text-emerald shrink-0 text-lg">
+                      <span className="font-semibold text-[#0D0D0D] shrink-0 text-lg">
                         ₹{(item.price * item.quantity).toLocaleString('en-IN')}
                       </span>
                     </div>
@@ -615,7 +615,7 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
                         <button
                           type="button"
                           onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}
-                          className="p-1 text-ink/60 hover:text-emerald rounded-full hover:bg-cream transition-colors"
+                          className="p-1 text-ink/60 hover:text-gold rounded-full hover:bg-cream transition-colors"
                           aria-label="Decrease quantity"
                         >
                           <Minus className="w-3.5 h-3.5" />
@@ -624,7 +624,7 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
                         <button
                           type="button"
                           onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}
-                          className="p-1 text-ink/60 hover:text-emerald rounded-full hover:bg-cream transition-colors"
+                          className="p-1 text-ink/60 hover:text-gold rounded-full hover:bg-cream transition-colors"
                           aria-label="Increase quantity"
                         >
                           <Plus className="w-3.5 h-3.5" />
@@ -654,32 +654,32 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
             <div className="flex justify-between text-xs">
               <span className="text-ink/60">Shipping</span>
               <span className="font-bold text-ink">
-                {shippingFee === 0 ? <span className="text-emerald font-semibold uppercase">Free</span> : `₹${shippingFee}`}
+                {shippingFee === 0 ? <span className="text-gold font-bold uppercase">Free</span> : `₹${shippingFee}`}
               </span>
             </div>
 
             {onlineDiscountAmount > 0 && (
-              <div className="flex justify-between text-xs text-emerald font-semibold">
+              <div className="flex justify-between text-xs text-gold font-semibold">
                 <span>Online Payment Discount ({onlineDiscountPercent}%)</span>
                 <span>-₹{onlineDiscountAmount.toLocaleString('en-IN')}</span>
               </div>
             )}
             {discount > 0 && (
-              <div className="flex justify-between text-xs text-emerald">
+              <div className="flex justify-between text-xs text-gold">
                 <span>Discount ({activeCoupon?.code})</span>
                 <span className="font-bold">-₹{discount.toLocaleString('en-IN')}</span>
               </div>
             )}
             <div className="flex justify-between text-sm border-t border-cream-line pt-3">
               <span className="font-bold text-ink">Grand Total</span>
-              <span className="font-display font-bold text-lg text-emerald">₹{grandTotal.toLocaleString('en-IN')}</span>
+              <span className="font-display font-bold text-lg text-[#0D0D0D]">₹{grandTotal.toLocaleString('en-IN')}</span>
             </div>
           </div>
 
           <button
             type="submit"
             disabled={pending || otpPending}
-            className="w-full py-4 px-6 bg-ink text-cream font-body font-bold rounded-full shadow-card hover:bg-gold transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+            className="w-full py-4 px-6 bg-[#0A0A0A] text-white border border-gold/40 font-body font-bold rounded-full shadow-md hover:bg-[#D4AF37] hover:text-black hover:border-transparent transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {pending || otpPending ? (
               <Loader2 className="w-5 h-5 animate-spin" />
@@ -712,19 +712,19 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
                 }
               }}
               placeholder="e.g. EID50, WELCOME100"
-              className="flex-1 px-3.5 py-2 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-emerald/20 focus:border-emerald transition-all text-xs uppercase"
+              className="flex-1 px-3.5 py-2 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-gold/25 focus:border-gold transition-all text-xs uppercase"
             />
             <button
               type="button"
               onClick={handleApplyCoupon}
-              className="px-4 py-2 bg-emerald hover:bg-emerald-deep text-cream text-xs font-bold rounded-xl transition-all"
+              className="px-4 py-2 bg-[#0A0A0A] hover:bg-[#D4AF37] hover:text-black text-white text-xs font-bold rounded-xl transition-all border border-gold/30"
             >
               Apply
             </button>
           </div>
 
           {couponError && <p className="text-xs text-red-500">{couponError}</p>}
-          {couponSuccess && <p className="text-xs text-emerald font-semibold">{couponSuccess}</p>}
+          {couponSuccess && <p className="text-xs text-gold font-semibold">{couponSuccess}</p>}
 
           <div className="text-[11px] text-ink/40 border-t border-cream-line/50 pt-2 space-y-1">
             <p><strong>EID50</strong> — 50% discount on orders above ₹999</p>

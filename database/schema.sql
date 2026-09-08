@@ -1,4 +1,4 @@
--- HIJABISTAA Supabase Complete Database Schema
+-- Elite Hijab Supabase Complete Database Schema
 
 -- 1. Profiles Table
 CREATE TABLE IF NOT EXISTS profiles (
@@ -238,7 +238,7 @@ CREATE TABLE IF NOT EXISTS subscribers (
 CREATE TABLE IF NOT EXISTS instagram_posts (
   id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
   image_url TEXT NOT NULL,
-  link_url TEXT DEFAULT 'https://www.instagram.com/__hijabistaa__',
+  link_url TEXT DEFAULT 'https://www.instagram.com/elite_apparel02',
   caption TEXT,
   display_order INTEGER DEFAULT 0,
   is_active BOOLEAN DEFAULT true,
@@ -298,12 +298,12 @@ CREATE POLICY "Allow authenticated admins full access to mega_menu_discover" ON 
 
 INSERT INTO instagram_posts (id, image_url, link_url, caption, display_order, is_active)
 VALUES
-  ('insta-1', 'https://images.unsplash.com/photo-1589156229687-496a31ad1d1f?q=80&w=600&auto=format&fit=crop', 'https://www.instagram.com/__hijabistaa__', 'Flowing Double Layer Abaya', 1, true),
-  ('insta-2', 'https://images.unsplash.com/photo-1608228079968-c76819b11456?q=80&w=600&auto=format&fit=crop', 'https://www.instagram.com/__hijabistaa__', 'Medina Silk Hijab Collection', 2, true),
-  ('insta-3', 'https://images.unsplash.com/photo-1598555310619-74d32049d5c4?q=80&w=600&auto=format&fit=crop', 'https://www.instagram.com/__hijabistaa__', 'Luxe Salwar Suit Details', 3, true),
-  ('insta-4', 'https://images.unsplash.com/photo-1621217036662-79ee88619379?q=80&w=600&auto=format&fit=crop', 'https://www.instagram.com/__hijabistaa__', 'Royal Blue Jilbab Set', 4, true),
-  ('insta-5', 'https://images.unsplash.com/photo-1555529902-5261145633bf?q=80&w=600&auto=format&fit=crop', 'https://www.instagram.com/__hijabistaa__', 'Handwork Khimar Elegance', 5, true),
-  ('insta-6', 'https://images.unsplash.com/photo-1616781296191-49e3975000a6?q=80&w=600&auto=format&fit=crop', 'https://www.instagram.com/__hijabistaa__', 'Modest Fashion Inspiration', 6, true)
+  ('insta-1', 'https://images.unsplash.com/photo-1589156229687-496a31ad1d1f?q=80&w=600&auto=format&fit=crop', 'https://www.instagram.com/elite_apparel02', 'Flowing Double Layer Abaya', 1, true),
+  ('insta-2', 'https://images.unsplash.com/photo-1608228079968-c76819b11456?q=80&w=600&auto=format&fit=crop', 'https://www.instagram.com/elite_apparel02', 'Medina Silk Hijab Collection', 2, true),
+  ('insta-3', 'https://images.unsplash.com/photo-1598555310619-74d32049d5c4?q=80&w=600&auto=format&fit=crop', 'https://www.instagram.com/elite_apparel02', 'Luxe Salwar Suit Details', 3, true),
+  ('insta-4', 'https://images.unsplash.com/photo-1621217036662-79ee88619379?q=80&w=600&auto=format&fit=crop', 'https://www.instagram.com/elite_apparel02', 'Royal Blue Jilbab Set', 4, true),
+  ('insta-5', 'https://images.unsplash.com/photo-1555529902-5261145633bf?q=80&w=600&auto=format&fit=crop', 'https://www.instagram.com/elite_apparel02', 'Handwork Khimar Elegance', 5, true),
+  ('insta-6', 'https://images.unsplash.com/photo-1616781296191-49e3975000a6?q=80&w=600&auto=format&fit=crop', 'https://www.instagram.com/elite_apparel02', 'Modest Fashion Inspiration', 6, true)
 ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO mega_menu_discover (title, badge, badge_color, href, image_url, display_order)

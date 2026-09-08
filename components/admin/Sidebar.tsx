@@ -57,12 +57,12 @@ export default function AdminSidebar() {
       {/* Brand */}
       <div className="h-16 flex items-center px-4 border-b border-cream-line gap-3">
         <div className="w-9 h-9 bg-gradient-to-br from-emerald to-emerald-deep rounded-lg flex items-center justify-center shrink-0 shadow-lg shadow-emerald/20">
-          <span className="text-white font-bold text-sm">H</span>
+          <span className="text-white font-bold text-sm">E</span>
         </div>
         {!collapsed && (
           <div className="overflow-hidden">
             <p className="text-ink font-semibold text-sm leading-tight truncate">
-              HIJABISTAA
+              Elite Hijab
             </p>
             <p className="text-ink/50 text-xs truncate">Admin Panel</p>
           </div>

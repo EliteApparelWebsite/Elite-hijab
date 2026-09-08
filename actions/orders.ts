@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 
 export async function trackOrderAction(orderNumber: string, emailOrPhone: string) {
   if (!orderNumber || !orderNumber.trim()) {
@@ -8,14 +9,15 @@ export async function trackOrderAction(orderNumber: string, emailOrPhone: string
   }
 
   const supabase = await createClient()
+  const admin = createAdminClient()
   const cleanOrderNum = orderNumber.trim().toUpperCase()
   const cleanContact = emailOrPhone ? emailOrPhone.trim().toLowerCase() : ''
 
   // 1. Get user if logged in
   const { data: { user } } = await supabase.auth.getUser()
 
-  // Fetch matching order
-  const { data: order, error } = await supabase
+  // Fetch matching order via admin client to allow verification of non-logged in or guest orders
+  const { data: order, error } = await admin
     .from('orders')
     .select(`
       *,
@@ -105,7 +107,8 @@ export async function getUserOrdersAction() {
     return { success: false, orders: [], isGuest: true }
   }
 
-  const { data: userOrders, error } = await supabase
+  const admin = createAdminClient()
+  const { data: userOrders, error } = await admin
     .from('orders')
     .select(`
       *,
@@ -128,7 +131,7 @@ export async function getUserOrdersAction() {
 
   if (allProductIds.length > 0) {
     // Fetch product main images
-    const { data: productsData } = await supabase
+    const { data: productsData } = await admin
       .from('products')
       .select('id, featured_image_url, product_images ( image_url )')
       .in('id', allProductIds)

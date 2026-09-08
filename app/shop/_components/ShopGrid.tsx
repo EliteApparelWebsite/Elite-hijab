@@ -126,17 +126,17 @@ export default function ShopGrid({ initialProducts, categories, selectedCategory
                   <div 
                     className={`w-5 h-5 rounded border flex items-center justify-center transition-colors shadow-sm ${
                       selectedCategories.includes(mainCat.id) 
-                        ? 'bg-emerald border-emerald' 
-                        : 'bg-white border-cream-line group-hover:border-emerald'
+                        ? 'bg-[#0A0A0A] border-[#0A0A0A]' 
+                        : 'bg-white border-cream-line group-hover:border-gold'
                     }`}
                   >
                     {selectedCategories.includes(mainCat.id) && (
-                      <svg className="w-3.5 h-3.5 text-cream" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                      <svg className="w-3.5 h-3.5 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                       </svg>
                     )}
                   </div>
-                  <span className={`text-[15px] font-medium transition-colors ${selectedCategories.includes(mainCat.id) ? 'text-emerald' : 'text-ink/90 group-hover:text-emerald'}`}>
+                  <span className={`text-[15px] font-medium transition-colors ${selectedCategories.includes(mainCat.id) ? 'text-gold font-bold' : 'text-ink/90 group-hover:text-gold'}`}>
                     {mainCat.name}
                   </span>
                 </label>
@@ -155,17 +155,17 @@ export default function ShopGrid({ initialProducts, categories, selectedCategory
                         <div 
                           className={`w-4 h-4 rounded-sm border flex items-center justify-center transition-colors shadow-sm ${
                             selectedCategories.includes(subCat.id) 
-                              ? 'bg-emerald border-emerald' 
-                              : 'bg-white border-cream-line group-hover:border-emerald'
+                              ? 'bg-[#0A0A0A] border-[#0A0A0A]' 
+                              : 'bg-white border-cream-line group-hover:border-gold'
                           }`}
                         >
                           {selectedCategories.includes(subCat.id) && (
-                            <svg className="w-3 h-3 text-cream" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                            <svg className="w-3 h-3 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                             </svg>
                           )}
                         </div>
-                        <span className={`text-[14px] transition-colors ${selectedCategories.includes(subCat.id) ? 'text-emerald font-medium' : 'text-ink/75 group-hover:text-emerald'}`}>
+                        <span className={`text-[14px] transition-colors ${selectedCategories.includes(subCat.id) ? 'text-gold font-bold' : 'text-ink/75 group-hover:text-gold'}`}>
                           {subCat.name}
                         </span>
                       </label>
@@ -182,7 +182,7 @@ export default function ShopGrid({ initialProducts, categories, selectedCategory
       <div>
         <div className="flex items-center justify-between mb-4 border-b border-cream-line/60 pb-3">
           <h3 className="font-display font-bold text-xl text-ink">Max Price</h3>
-          <span className="font-bold text-emerald">₹{maxPrice.toLocaleString('en-IN')}</span>
+          <span className="font-bold text-[#D4AF37]">₹{maxPrice.toLocaleString('en-IN')}</span>
         </div>
         <input 
           type="range" 
@@ -191,7 +191,7 @@ export default function ShopGrid({ initialProducts, categories, selectedCategory
           step="100" 
           value={maxPrice} 
           onChange={(e) => setMaxPrice(Number(e.target.value))}
-          className="w-full cursor-pointer accent-emerald"
+          className="w-full cursor-pointer accent-[#D4AF37]"
         />
         <div className="flex justify-between text-[11px] text-ink/50 mt-3 font-bold uppercase tracking-wider">
           <span>₹500</span>
@@ -210,7 +210,7 @@ export default function ShopGrid({ initialProducts, categories, selectedCategory
           <div className="relative mr-auto w-[85%] max-w-sm h-full bg-white p-6 overflow-y-auto flex flex-col shadow-2xl">
             <div className="flex items-center justify-between mb-8 border-b border-cream-line/60 pb-4">
               <h2 className="font-display font-bold text-2xl text-ink">Filters</h2>
-              <button onClick={() => setIsMobileFilterOpen(false)} className="p-2 bg-cream rounded-full text-ink/70 hover:text-emerald transition-colors">
+              <button onClick={() => setIsMobileFilterOpen(false)} className="p-2 bg-cream rounded-full text-ink/70 hover:text-gold transition-colors">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
@@ -222,7 +222,7 @@ export default function ShopGrid({ initialProducts, categories, selectedCategory
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         
         {/* Left Sidebar Filter (Desktop) */}
-        <div className="hidden lg:block lg:col-span-1 bg-white p-6 rounded-[28px] border border-emerald/10 shadow-lg h-fit sticky top-[100px]">
+        <div className="hidden lg:block lg:col-span-1 bg-white p-6 rounded-[28px] border border-[#D4AF37]/20 shadow-lg h-fit sticky top-[100px]">
           {FilterContent}
         </div>
 
@@ -230,7 +230,7 @@ export default function ShopGrid({ initialProducts, categories, selectedCategory
         <div className="lg:col-span-3 space-y-6">
           <div className="flex flex-wrap items-center justify-between pb-3 border-b border-cream-line/50 gap-3">
             <p className="text-[15px] font-bold text-ink/70">
-              Showing <span className="text-emerald">{filteredProducts.length}</span> products
+              Showing <span className="text-gold font-bold">{filteredProducts.length}</span> products
             </p>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2">
@@ -239,7 +239,7 @@ export default function ShopGrid({ initialProducts, categories, selectedCategory
                   id="sort"
                   value={sortOption}
                   onChange={(e) => setSortOption(e.target.value)}
-                  className="bg-white border border-cream-line rounded-lg px-3 py-1.5 text-sm font-medium text-ink focus:outline-none focus:ring-1 focus:ring-emerald shadow-sm cursor-pointer"
+                  className="bg-white border border-cream-line rounded-lg px-3 py-1.5 text-sm font-medium text-ink focus:outline-none focus:ring-1 focus:ring-gold shadow-sm cursor-pointer"
                 >
                   <option value="featured">Featured</option>
                   <option value="price-low-high">Price: Low to High</option>
@@ -251,9 +251,9 @@ export default function ShopGrid({ initialProducts, categories, selectedCategory
               {/* Mobile Filter Toggle */}
               <button 
                 onClick={() => setIsMobileFilterOpen(true)}
-                className="lg:hidden px-4 py-1.5 bg-emerald text-cream rounded-full text-sm font-semibold flex items-center gap-2 shadow-sm whitespace-nowrap"
+                className="lg:hidden px-4 py-1.5 bg-[#0A0A0A] text-white border border-[#D4AF37]/50 rounded-full text-sm font-semibold flex items-center gap-2 shadow-sm whitespace-nowrap hover:bg-[#D4AF37] hover:text-[#0A0A0A] transition-all"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                 </svg>
                 Filters
@@ -262,7 +262,7 @@ export default function ShopGrid({ initialProducts, categories, selectedCategory
           </div>
 
           {filteredProducts.length === 0 ? (
-            <div className="text-center py-20 text-ink/50 bg-white rounded-[28px] border border-emerald/10 shadow-lg">
+            <div className="text-center py-20 text-ink/50 bg-white rounded-[28px] border border-[#D4AF37]/20 shadow-lg">
               No products match your filters.
             </div>
           ) : (
@@ -270,7 +270,7 @@ export default function ShopGrid({ initialProducts, categories, selectedCategory
             {filteredProducts.map((p) => {
               const catName = categories.find(c => c.id === p.category_id)?.name || p.category_id
               return (
-                <div key={p.id} className="min-w-0 lift group bg-[#FAF7F2] rounded-xl md:rounded-[20px] p-2 md:p-3 shadow-[0_2px_12px_rgba(0,0,0,0.03)] hover:shadow-md border border-cream-line/80 flex flex-col h-full transition-all duration-300">
+                <div key={p.id} className="min-w-0 lift group bg-[#FAF7F2] rounded-xl md:rounded-[20px] p-2 md:p-3 shadow-[0_2px_12px_rgba(0,0,0,0.03)] hover:shadow-md border border-cream-line/80 hover:border-[#D4AF37]/40 flex flex-col h-full transition-all duration-300">
                   <div className="relative aspect-[4/4.3] rounded-xl bg-cream-deep/20 block shrink-0">
                     <Link href={`/shop/${p.id}`} className="absolute inset-0 block z-0 overflow-hidden rounded-xl">
                       <Image
@@ -282,7 +282,7 @@ export default function ShopGrid({ initialProducts, categories, selectedCategory
                       />
                     </Link>
                     {p.badge && (
-                      <span className="absolute top-[5px] right-[2%] z-10 bg-[#6E3416] text-white text-[9px] md:text-[10px] font-bold tracking-wider uppercase px-2 py-1 md:px-2.5 rounded-xl shadow-sm pointer-events-none">
+                      <span className="absolute top-[5px] right-[2%] z-10 bg-[#0A0A0A] text-[#D4AF37] border border-[#D4AF37]/40 text-[9px] md:text-[10px] font-bold tracking-wider uppercase px-2 py-1 md:px-2.5 rounded-xl shadow-sm pointer-events-none">
                         {p.badge}
                       </span>
                     )}
@@ -305,22 +305,22 @@ export default function ShopGrid({ initialProducts, categories, selectedCategory
                           })
                         }
                       }}
-                      className="absolute top-2 left-2 z-10 p-2 bg-white/80 backdrop-blur-sm rounded-full text-ink/60 hover:text-[#C84B31] hover:bg-white transition-all shadow-sm"
+                      className="absolute top-2 left-2 z-10 p-2 bg-white/90 backdrop-blur-sm rounded-full text-ink/60 hover:text-[#D4AF37] hover:bg-white transition-all shadow-sm"
                       aria-label={isInWishlist(p.id) ? "Remove from wishlist" : "Add to wishlist"}
                     >
-                      <Heart className={`w-4 h-4 ${isInWishlist(p.id) ? "fill-[#C84B31] text-[#C84B31]" : ""}`} />
+                      <Heart className={`w-4 h-4 ${isInWishlist(p.id) ? "fill-[#D4AF37] text-[#D4AF37]" : ""}`} />
                     </button>
                   </div>
 
                   <div className="flex flex-col flex-1 pt-3 px-0.5">
                     <div className="flex-1">
-                      <Link href={`/shop/${p.id}`} className="hover:text-emerald transition-colors block">
+                      <Link href={`/shop/${p.id}`} className="hover:text-gold transition-colors block">
                         <h3 className="font-display font-medium text-ink text-[13px] md:text-[15.5px] leading-snug line-clamp-2 min-h-[2.25rem]">
                           {p.name}
                         </h3>
                       </Link>
                       {p.colorCount && p.colorCount > 1 && (
-                        <p className="mt-1 text-[11px] font-semibold text-emerald">
+                        <p className="mt-1 text-[11px] font-semibold text-[#C5A059]">
                           {p.colorCount} colors available
                         </p>
                       )}
@@ -338,7 +338,7 @@ export default function ShopGrid({ initialProducts, categories, selectedCategory
                     </div>
 
                     <div className="mt-1.5 flex flex-wrap items-center gap-1 md:gap-1.5">
-                      <div className="flex items-center text-[#B8622A] text-[11px] md:text-[13px] tracking-tight gap-0.5">
+                      <div className="flex items-center text-[#D4AF37] text-[11px] md:text-[13px] tracking-tight gap-0.5">
                         {"★".repeat(5)}
                       </div>
                       <span className="text-ink/55 text-[11px] md:text-[12px] font-medium">
@@ -358,9 +358,9 @@ export default function ShopGrid({ initialProducts, categories, selectedCategory
                             category_name: catName
                           });
                         }}
-                        className="w-full h-9 md:h-10 text-center rounded-lg border border-[#DECDBE] bg-white text-[#5C3317] text-[12px] md:text-sm font-semibold hover:bg-[#F9F6F0] hover:border-[#D0BCAC] transition-all flex items-center justify-center gap-1 shadow-[0_1px_2px_rgba(0,0,0,0.02)] px-1"
+                        className="w-full h-9 md:h-10 text-center rounded-lg border border-[#D4AF37]/50 bg-white text-black text-[12px] md:text-sm font-semibold hover:bg-[#FDFBF7] hover:border-[#D4AF37] transition-all flex items-center justify-center gap-1 shadow-[0_1px_2px_rgba(0,0,0,0.02)] px-1"
                       >
-                        <svg className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#5C3317]/80 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <svg className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#D4AF37] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                         </svg>
                         <span className="truncate">Add to cart</span>
@@ -377,7 +377,7 @@ export default function ShopGrid({ initialProducts, categories, selectedCategory
                           });
                           router.push('/checkout');
                         }}
-                        className="w-full h-9 md:h-10 text-center rounded-lg bg-[#6E3416] text-white text-[12px] md:text-sm font-semibold hover:bg-[#5A2910] transition-all flex items-center justify-center shadow-sm px-1"
+                        className="w-full h-9 md:h-10 text-center rounded-lg bg-[#0A0A0A] text-white border border-[#D4AF37]/40 text-[12px] md:text-sm font-semibold hover:bg-[#D4AF37] hover:text-[#0A0A0A] transition-all flex items-center justify-center shadow-sm px-1"
                       >
                         <span className="truncate">Buy now</span>
                       </button>

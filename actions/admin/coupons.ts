@@ -23,7 +23,8 @@ export async function getCoupons() {
 }
 
 export async function createCoupon(coupon: Omit<Coupon, 'id' | 'created_at'>) {
-  const supabase = await createClient()
+  const { createAdminClient } = await import('@/lib/supabase/admin')
+  const supabase = createAdminClient()
   const { error } = await supabase
     .from('coupons')
     .insert([{
@@ -39,7 +40,8 @@ export async function createCoupon(coupon: Omit<Coupon, 'id' | 'created_at'>) {
 }
 
 export async function deleteCoupon(id: string) {
-  const supabase = await createClient()
+  const { createAdminClient } = await import('@/lib/supabase/admin')
+  const supabase = createAdminClient()
   const { error } = await supabase
     .from('coupons')
     .delete()

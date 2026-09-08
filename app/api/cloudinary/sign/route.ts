@@ -1,8 +1,16 @@
 import { v2 as cloudinary } from 'cloudinary'
 
 export async function POST(request: Request) {
-  const body = await request.json()
-  const { paramsToSign } = body
+  let body: any
+  try {
+    body = await request.json()
+  } catch {
+    return Response.json({ error: 'Invalid or missing JSON body' }, { status: 400 })
+  }
+  const { paramsToSign } = body || {}
+  if (!paramsToSign) {
+    return Response.json({ error: 'Missing paramsToSign' }, { status: 400 })
+  }
 
   // Configure cloudinary with the credentials from the environment
   cloudinary.config({

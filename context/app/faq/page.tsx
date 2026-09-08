@@ -9,7 +9,7 @@ export const metadata = {
 const fallbackFaqs = [
   {
     question: "How long does shipping take?",
-    answer: "All standard orders are processed within 2-3 business days. Delivery within Mumbai takes 1-2 business days, Metro Cities take 3-4 business days, and the Rest of India takes 5-7 business days after dispatch."
+    answer: "All standard orders are processed within 2-3 business days. Delivery to Metro Cities takes 3-4 business days, and the Rest of India takes 5-7 business days after dispatch."
   },
   {
     question: "What are the shipping charges?",

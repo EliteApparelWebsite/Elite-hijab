@@ -77,7 +77,7 @@ export default async function ShopPage({
     <>
       <Header />
       <main className="min-h-screen bg-cream pt-28 md:pt-[130px]">
-        
+
         {/* Shop Hero Banner */}
         <section className="relative w-full h-[160px] md:h-[220px] bg-gradient-to-br from-cream via-cream-deep to-[#F5ECE0] flex items-center justify-center overflow-hidden border-b border-cream-line">
           <Image
@@ -88,7 +88,7 @@ export default async function ShopPage({
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-tr from-cream/90 via-cream-deep/60 to-white/90" />
-          
+
           <div className="relative z-10 text-center px-5">
             <div className="eyebrow justify-center inline-flex items-center gap-2 mb-3">
               <span className="h-px w-6 bg-gold" />
@@ -99,8 +99,8 @@ export default async function ShopPage({
               {searchQuery ? `Results for "${searchQuery}"` : 'Shop the Drop'}
             </h1>
             <p className="mt-4 text-ink/75 font-body text-sm md:text-base max-w-lg mx-auto">
-              {searchQuery 
-                ? `Showing matching products for your search. Use the filters below to refine your results.` 
+              {searchQuery
+                ? `Showing matching products for your search. Use the filters below to refine your results.`
                 : 'Timeless hijabs and modest silhouettes designed with maximum drape, elegance, and comfort.'}
             </p>
           </div>
@@ -108,10 +108,10 @@ export default async function ShopPage({
 
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6 md:py-16">
 
-          <ShopGrid 
-            initialProducts={products} 
-            categories={categories} 
-            selectedCategory={selectedCategory} 
+          <ShopGrid
+            initialProducts={products}
+            categories={categories}
+            selectedCategory={selectedCategory}
           />
 
         </div>

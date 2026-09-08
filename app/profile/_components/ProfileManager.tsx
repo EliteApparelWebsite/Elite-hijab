@@ -108,7 +108,7 @@ export default function ProfileManager({ adminProfile, orders = [] }: { adminPro
                   value={profile.fullName}
                   onChange={(e) => handleChange('fullName', e.target.value)}
                   placeholder="e.g. Sumaiya Khan"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-emerald/20 focus:border-emerald transition-all text-[15px]"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-gold/25 focus:border-gold transition-all text-[15px]"
                 />
                 <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-ink/30" />
               </div>
@@ -141,7 +141,7 @@ export default function ProfileManager({ adminProfile, orders = [] }: { adminPro
                   value={profile.phone}
                   onChange={(e) => handleChange('phone', e.target.value)}
                   placeholder="e.g. +91 98765 43210"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-emerald/20 focus:border-emerald transition-all text-[15px]"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-gold/25 focus:border-gold transition-all text-[15px]"
                 />
                 <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-ink/30" />
               </div>
@@ -157,7 +157,7 @@ export default function ProfileManager({ adminProfile, orders = [] }: { adminPro
                   value={profile.alternatePhone}
                   onChange={(e) => handleChange('alternatePhone', e.target.value)}
                   placeholder="e.g. +91 98765 43210"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-emerald/20 focus:border-emerald transition-all text-[15px]"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-gold/25 focus:border-gold transition-all text-[15px]"
                 />
                 <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-ink/30" />
               </div>
@@ -179,7 +179,7 @@ export default function ProfileManager({ adminProfile, orders = [] }: { adminPro
                 value={profile.street}
                 onChange={(e) => handleChange('street', e.target.value)}
                 placeholder="e.g. Apartment, Suite, Block number"
-                className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-emerald/20 focus:border-emerald transition-all text-[15px]"
+                className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-gold/25 focus:border-gold transition-all text-[15px]"
               />
             </div>
 
@@ -194,7 +194,7 @@ export default function ProfileManager({ adminProfile, orders = [] }: { adminPro
                   value={profile.city}
                   onChange={(e) => handleChange('city', e.target.value)}
                   placeholder="e.g. Mumbai"
-                  className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-emerald/20 focus:border-emerald transition-all text-[15px]"
+                  className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-gold/25 focus:border-gold transition-all text-[15px]"
                 />
               </div>
 
@@ -208,7 +208,7 @@ export default function ProfileManager({ adminProfile, orders = [] }: { adminPro
                   value={profile.state}
                   onChange={(e) => handleChange('state', e.target.value)}
                   placeholder="e.g. Maharashtra"
-                  className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-emerald/20 focus:border-emerald transition-all text-[15px]"
+                  className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-gold/25 focus:border-gold transition-all text-[15px]"
                 />
               </div>
             </div>
@@ -223,14 +223,14 @@ export default function ProfileManager({ adminProfile, orders = [] }: { adminPro
                 value={profile.zipCode}
                 onChange={(e) => handleChange('zipCode', e.target.value)}
                 placeholder="e.g. 110001"
-                className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-emerald/20 focus:border-emerald transition-all text-[15px]"
+                className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-gold/25 focus:border-gold transition-all text-[15px]"
               />
             </div>
           </div>
 
           <button
             type="submit"
-            className="w-full py-3.5 px-4 bg-emerald text-cream font-body font-semibold rounded-full shadow-card hover:bg-emerald-deep transition-all duration-200"
+            className="w-full py-3.5 px-4 bg-[#0A0A0A] hover:bg-[#D4AF37] text-white hover:text-black border border-gold/40 font-body font-semibold rounded-full shadow-md transition-all duration-300"
           >
             Save Account Details
           </button>
@@ -247,7 +247,7 @@ export default function ProfileManager({ adminProfile, orders = [] }: { adminPro
           <button 
             type="button"
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="w-full flex items-center justify-between bg-white border border-cream-line rounded-xl px-5 py-3.5 text-sm font-bold text-ink shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald/20 transition-all capitalize"
+            className="w-full flex items-center justify-between bg-white border border-cream-line rounded-xl px-5 py-3.5 text-sm font-bold text-ink shadow-sm focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all capitalize"
           >
             <span>{activeTab === 'all' ? 'All Orders' : activeTab}</span>
             <svg className={`w-5 h-5 text-ink/50 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -267,7 +267,7 @@ export default function ProfileManager({ adminProfile, orders = [] }: { adminPro
                   }}
                   className={`w-full text-left px-5 py-3 text-sm capitalize transition-colors ${
                     activeTab === tab 
-                      ? 'bg-emerald/5 font-bold text-emerald' 
+                      ? 'bg-gold/10 font-bold text-black' 
                       : 'font-medium text-ink hover:bg-cream/50'
                   }`}
                 >
@@ -330,13 +330,13 @@ export default function ProfileManager({ adminProfile, orders = [] }: { adminPro
               const isCancelled = order.order_status?.toLowerCase() === 'cancelled'
 
               return (
-                <div key={order.id} className={`bg-white rounded-xl border ${isDelivered ? 'border-emerald/30' : isCancelled ? 'border-red-500/30' : 'border-cream-line/75'} shadow-sm overflow-hidden`}>
+                <div key={order.id} className={`bg-white rounded-xl border ${isDelivered ? 'border-gold/40' : isCancelled ? 'border-red-500/30' : 'border-cream-line/75'} shadow-sm overflow-hidden`}>
                   {/* Order Header */}
                   <div 
                     onClick={() => toggleOrder(order.id)}
                     className={`p-4 md:p-6 flex items-start md:items-center gap-3 md:gap-4 border-b ${
                       isDelivered 
-                        ? 'border-emerald/20 bg-emerald/5 hover:bg-emerald/10' 
+                        ? 'border-gold/30 bg-gold/5 hover:bg-gold/10' 
                         : isCancelled
                         ? 'border-red-500/20 bg-red-50 hover:bg-red-100'
                         : 'border-cream-line/50 bg-cream/10 hover:bg-cream/20'
@@ -352,11 +352,11 @@ export default function ProfileManager({ adminProfile, orders = [] }: { adminPro
                     {/* Order Info */}
                     <div className="space-y-1 md:space-y-1.5 flex-1">
                       <div className="flex flex-wrap items-center gap-1.5 md:gap-2 text-ink font-bold text-sm md:text-base">
-                        <Package className={`w-4 h-4 md:w-5 md:h-5 ${isDelivered ? 'text-emerald' : isCancelled ? 'text-red-500' : 'text-ink/70'}`} />
+                        <Package className={`w-4 h-4 md:w-5 md:h-5 ${isDelivered ? 'text-gold' : isCancelled ? 'text-red-500' : 'text-ink/70'}`} />
                         <span>Order <span className="font-semibold">#{order.order_number}</span></span>
                         
                         {isDelivered && (
-                          <span className="ml-1 px-1.5 py-0.5 bg-emerald/10 text-emerald text-[10px] uppercase tracking-wider font-bold rounded-md">
+                          <span className="ml-1 px-1.5 py-0.5 bg-gold/15 text-[#AA8034] text-[10px] uppercase tracking-wider font-bold rounded-md">
                             Delivered
                           </span>
                         )}
@@ -366,7 +366,7 @@ export default function ProfileManager({ adminProfile, orders = [] }: { adminPro
                           </span>
                         )}
                       </div>
-                      <div className={`flex items-center gap-1.5 md:gap-2 text-xs md:text-sm ${isDelivered ? 'text-emerald/80' : isCancelled ? 'text-red-600/80' : 'text-ink/60'}`}>
+                      <div className={`flex items-center gap-1.5 md:gap-2 text-xs md:text-sm ${isDelivered ? 'text-gold-dark' : isCancelled ? 'text-red-600/80' : 'text-ink/60'}`}>
                         <CheckCircle className="w-3.5 h-3.5 md:w-4 md:h-4 shrink-0" />
                         <span>Date: {formattedDate}</span>
                       </div>
@@ -396,7 +396,7 @@ export default function ProfileManager({ adminProfile, orders = [] }: { adminPro
                             <div className="flex flex-col md:flex-row md:justify-between gap-4">
                               <div className="space-y-1">
                                 <h4 className="font-bold text-lg text-ink">{item.product_name || item.product_title || 'Unknown Product'}</h4>
-                                <p className="text-sm text-ink/60">By: HIJABISTA</p>
+                                <p className="text-sm text-ink/60">By: Elite Hijab</p>
                                 
                                 <div className="flex flex-wrap items-center gap-3 pt-2 text-sm text-ink/80">
                                   {(item.variant_name || item.selected_size) && (
@@ -418,7 +418,7 @@ export default function ProfileManager({ adminProfile, orders = [] }: { adminPro
                               <div className="flex flex-col md:items-end gap-1">
                                 <span className="text-sm text-ink/60">Status</span>
                                 <span className={`font-bold capitalize ${
-                                  order.order_status === 'delivered' ? 'text-emerald' : 
+                                  order.order_status === 'delivered' ? 'text-gold-dark font-bold' : 
                                   order.order_status === 'cancelled' ? 'text-red-500' : 
                                   'text-ink'
                                 }`}>

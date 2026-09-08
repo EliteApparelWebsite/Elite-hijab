@@ -1,6 +1,6 @@
-# HIJABISTAA — Landing Page
+# Elite Hijab — Modest Fashion E-Commerce
 
-A Next.js 14 (App Router) landing page for **HIJABISTAA**, built with TypeScript and Tailwind CSS.
+A Next.js 14 (App Router) modern e-commerce platform for **Elite Hijab**, built with TypeScript, Tailwind CSS, and Supabase.
 
 ## Getting started
 

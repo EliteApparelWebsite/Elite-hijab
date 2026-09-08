@@ -2,28 +2,39 @@
 -- This version uses a SECURITY DEFINER function to reliably check if a user is an admin without recursion.
 -- It includes a fallback check on auth.users email to ensure admin operations don't get locked out.
 
--- 0. Create/Update is_admin helper function
-CREATE OR REPLACE FUNCTION public.is_admin(user_id uuid)
-RETURNS boolean SECURITY DEFINER AS $$
+-- 0. Create/Update is_admin helper function (Hardened)
+CREATE OR REPLACE FUNCTION public.is_admin(user_id uuid DEFAULT auth.uid())
+RETURNS boolean
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, auth
+AS $$
 DECLARE
+  target_id uuid;
   user_email text;
 BEGIN
+  target_id := COALESCE(user_id, auth.uid());
+
+  IF target_id IS NULL THEN
+    RETURN false;
+  END IF;
+
   -- Get user email from auth.users
-  SELECT email INTO user_email FROM auth.users WHERE id = user_id;
+  SELECT email INTO user_email FROM auth.users WHERE id = target_id;
 
   RETURN (
-    EXISTS (SELECT 1 FROM public.profiles WHERE id = user_id AND role = 'admin')
-    OR user_email = 'admin@hijabistaa.com'
-    OR user_email LIKE '%admin%'
+    EXISTS (SELECT 1 FROM public.profiles WHERE id = target_id AND role = 'admin')
+    OR user_email = 'husnezaman@gmail.com'
   );
 END;
-$$ LANGUAGE plpgsql;
+$$;
+
+GRANT EXECUTE ON FUNCTION public.is_admin(uuid) TO anon, authenticated, service_role;
 
 -- 0.1 Seed/Fix existing admin profiles in the database
--- This updates existing profile roles to 'admin' for admin emails.
 UPDATE public.profiles
 SET role = 'admin'
-WHERE email = 'hijabistaa01@gmail.com' OR email LIKE '%admin%';
+WHERE email = 'husnezaman@gmail.com';
 
 DO $$
 BEGIN
@@ -147,15 +158,12 @@ BEGIN
         EXECUTE 'CREATE POLICY "Allow admin full access to settings" ON settings FOR ALL TO authenticated USING (public.is_admin(auth.uid())) WITH CHECK (public.is_admin(auth.uid()))';
     END IF;
 
-    -- 13. Email OTPs Table
+    -- 13. Email OTPs Table (Strictly protected - access only via backend service_role)
     IF EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'email_otps') THEN
         EXECUTE 'ALTER TABLE email_otps ENABLE ROW LEVEL SECURITY';
         EXECUTE 'DROP POLICY IF EXISTS "Allow public insert email_otps" ON email_otps';
         EXECUTE 'DROP POLICY IF EXISTS "Allow public select email_otps" ON email_otps';
         EXECUTE 'DROP POLICY IF EXISTS "Allow public delete email_otps" ON email_otps';
-        EXECUTE 'CREATE POLICY "Allow public insert email_otps" ON email_otps FOR INSERT WITH CHECK (true)';
-        EXECUTE 'CREATE POLICY "Allow public select email_otps" ON email_otps FOR SELECT USING (true)';
-        EXECUTE 'CREATE POLICY "Allow public delete email_otps" ON email_otps FOR DELETE USING (true)';
     END IF;
 
     -- 14. Product Variants Table

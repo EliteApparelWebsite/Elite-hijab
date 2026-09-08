@@ -2,7 +2,7 @@ import { getGlobalFaqs } from '@/actions/global_faqs'
 import { GlobalFaqsEditor } from '@/components/admin/GlobalFaqsEditor'
 
 export const metadata = {
-  title: 'Global FAQs | HIJABISTA Admin',
+  title: 'Global FAQs | Elite Hijab Admin',
 }
 
 export default async function GlobalFaqsPage() {

@@ -21,6 +21,8 @@ try {
   console.warn("Razorpay credentials missing or invalid")
 }
 
+const isValidUUID = (str: any) => typeof str === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str)
+
 export async function createOrder(addressId: string, paymentMethod: string, cartItemsFromFrontend: any[]) {
   const supabase = await createClient()
 
@@ -128,10 +130,17 @@ export async function createOrder(addressId: string, paymentMethod: string, cart
     return { success: false, error: orderError?.message || 'Failed to create order' }
   }
 
-  // 6. Insert Order Items
+  // 6. Insert Order Items (only insert columns that exist in order_items table)
   const itemsToInsert = orderItems.map(item => ({
-    ...item,
-    order_id: order.id
+    order_id: order.id,
+    product_id: isValidUUID(item.product_id) ? item.product_id : null,
+    variant_id: isValidUUID(item.variant_id) ? item.variant_id : null,
+    product_name: item.product_name,
+    variant_name: item.variant_name || null,
+    color_name: item.color_name || null,
+    price_at_purchase: item.price_at_purchase,
+    quantity: item.quantity,
+    line_total: item.line_total
   }))
 
   const { error: itemsError } = await admin
@@ -140,7 +149,7 @@ export async function createOrder(addressId: string, paymentMethod: string, cart
 
   if (itemsError) {
     console.error('Failed to insert order items:', itemsError)
-    return { success: false, error: 'Failed to create order items' }
+    return { success: false, error: 'Failed to create order items: ' + (itemsError.message || '') }
   }
 
   // 7. Handle Payment Method Specific Logic
@@ -391,7 +400,7 @@ export async function processCheckout(
   // Insert new cart items
   const cartInserts = items.map(item => ({
     user_id: user.id,
-    variant_id: item.variant_id || item.id, // Use variant_id directly, fallback to product id if needed
+    variant_id: isValidUUID(item.variant_id) ? item.variant_id : (isValidUUID(item.id) ? item.id : null),
     color_name: item.color_name || null,
     quantity: item.quantity
   }))

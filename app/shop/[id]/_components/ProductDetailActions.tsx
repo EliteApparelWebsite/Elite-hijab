@@ -211,7 +211,7 @@ export default function ProductDetailActions({
       {/* Dynamic Price Display */}
       <div className="flex items-center justify-between pt-2 border-t border-cream-line/50">
         <div className="flex items-baseline gap-3">
-          <span className="font-display font-bold text-3xl text-emerald">
+          <span className="font-display font-bold text-3xl text-[#0D0D0D]">
             ₹{Number(currentPrice).toLocaleString('en-IN')}
           </span>
           {currentOldPrice != null && Number(currentOldPrice) > currentPrice && (
@@ -222,7 +222,7 @@ export default function ProductDetailActions({
         </div>
         
         {isStockKnown && (
-          <span className={`text-xs font-bold px-3 py-1.5 rounded-full ${isInStock ? 'bg-emerald/10 text-emerald' : 'bg-red-50 text-red-600 border border-red-100'}`}>
+          <span className={`text-xs font-bold px-3 py-1.5 rounded-full ${isInStock ? 'bg-gold/15 text-[#AA8034] border border-gold/30' : 'bg-red-50 text-red-600 border border-red-100'}`}>
             {isInStock ? "In Stock" : "Out of Stock"}
           </span>
         )}
@@ -241,7 +241,7 @@ export default function ProductDetailActions({
             <button
               type="button"
               onClick={() => setIsColorDropdownOpen(!isColorDropdownOpen)}
-              className="w-full flex items-center justify-between border-2 border-cream-line rounded-xl px-3.5 py-2.5 bg-white text-ink text-sm hover:border-emerald/40 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald/20 shadow-sm"
+              className="w-full flex items-center justify-between border-2 border-cream-line rounded-xl px-3.5 py-2.5 bg-white text-ink text-sm hover:border-gold/60 transition-colors focus:outline-none focus:ring-2 focus:ring-gold/25 shadow-sm"
             >
               <span className="truncate font-medium">
                 {selectedColors.length > 0 
@@ -267,16 +267,16 @@ export default function ProductDetailActions({
                           if (onSelectColor) onSelectColor(c)
                           setIsColorDropdownOpen(false)
                         }}
-                        className={`w-full flex items-center px-4 py-3 rounded-lg hover:bg-emerald/5 transition-colors focus:outline-none ${isSelected ? 'bg-emerald/5' : ''}`}
+                        className={`w-full flex items-center px-4 py-3 rounded-lg hover:bg-gold/10 transition-colors focus:outline-none ${isSelected ? 'bg-gold/10' : ''}`}
                       >
                         <div
                           className="w-6 h-6 rounded-full border border-black/10 mr-3 flex-shrink-0 shadow-sm"
                           style={{ backgroundColor: c.color_hex || '#E6DAC4' }}
                         />
-                        <span className={`text-sm ${isSelected ? 'font-bold text-emerald' : 'font-medium text-ink/80'}`}>
+                        <span className={`text-sm ${isSelected ? 'font-bold text-black' : 'font-medium text-ink/80'}`}>
                           {c.color_name}
                         </span>
-                        {isSelected && <Check className="w-4 h-4 ml-auto text-emerald stroke-[3]" />}
+                        {isSelected && <Check className="w-4 h-4 ml-auto text-gold stroke-[3]" />}
                       </button>
                     )
                   })})()}
@@ -298,7 +298,7 @@ export default function ProductDetailActions({
                 <span className="text-[13px] uppercase tracking-wider font-bold text-ink/70">
                   Select Size
                   {selectedSize && (
-                    <span className="ml-2 font-semibold text-emerald normal-case">
+                    <span className="ml-2 font-semibold text-gold normal-case">
                       ({selectedSize})
                     </span>
                   )}
@@ -315,8 +315,8 @@ export default function ProductDetailActions({
                       onClick={() => setSelectedSize(sz)}
                       className={`min-w-[3.5rem] h-9 px-3.5 rounded-xl text-xs font-bold flex items-center justify-center transition-all duration-200 border-2 ${
                         isSelected
-                          ? 'border-emerald text-emerald bg-emerald/5 shadow-sm scale-[1.02] ring-2 ring-emerald/20'
-                          : 'border-cream-line text-ink/80 hover:border-emerald/40 hover:text-emerald bg-white shadow-xs'
+                          ? 'border-[#0A0A0A] text-white bg-[#0A0A0A] shadow-sm scale-[1.02] ring-2 ring-gold/40'
+                          : 'border-cream-line text-ink/80 hover:border-gold/60 hover:text-black bg-white shadow-xs'
                       }`}
                     >
                       {sz}
@@ -340,7 +340,7 @@ export default function ProductDetailActions({
                 <button
                   type="button"
                   onClick={() => setIsDesignDropdownOpen(!isDesignDropdownOpen)}
-                  className="w-full flex items-center justify-between border-2 border-cream-line rounded-xl px-3.5 py-2.5 bg-white text-ink text-sm hover:border-emerald/40 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald/20 shadow-sm"
+                  className="w-full flex items-center justify-between border-2 border-cream-line rounded-xl px-3.5 py-2.5 bg-white text-ink text-sm hover:border-gold/60 transition-colors focus:outline-none focus:ring-2 focus:ring-gold/25 shadow-sm"
                 >
                   <span className="truncate font-medium">
                     {selectedDesign || "Select Design"}
@@ -357,10 +357,10 @@ export default function ProductDetailActions({
                           setSelectedDesign('')
                           setIsDesignDropdownOpen(false)
                         }}
-                        className={`w-full flex items-center px-4 py-3 rounded-lg hover:bg-emerald/5 transition-colors focus:outline-none ${!selectedDesign ? 'bg-emerald/5 text-emerald font-bold' : 'text-ink/80 font-medium'}`}
+                        className={`w-full flex items-center px-4 py-3 rounded-lg hover:bg-gold/10 transition-colors focus:outline-none ${!selectedDesign ? 'bg-gold/10 text-black font-bold' : 'text-ink/80 font-medium'}`}
                       >
                         <span className="text-sm">Select Design</span>
-                        {!selectedDesign && <Check className="w-4 h-4 ml-auto text-emerald stroke-[3]" />}
+                        {!selectedDesign && <Check className="w-4 h-4 ml-auto text-gold stroke-[3]" />}
                       </button>
                       {productDesigns.map((d) => {
                         const isSelected = selectedDesign === d
@@ -372,12 +372,12 @@ export default function ProductDetailActions({
                               setSelectedDesign(d)
                               setIsDesignDropdownOpen(false)
                             }}
-                            className={`w-full flex items-center px-4 py-3 rounded-lg hover:bg-emerald/5 transition-colors focus:outline-none ${isSelected ? 'bg-emerald/5' : ''}`}
+                            className={`w-full flex items-center px-4 py-3 rounded-lg hover:bg-gold/10 transition-colors focus:outline-none ${isSelected ? 'bg-gold/10' : ''}`}
                           >
-                            <span className={`text-sm ${isSelected ? 'font-bold text-emerald' : 'font-medium text-ink/80'}`}>
+                            <span className={`text-sm ${isSelected ? 'font-bold text-black' : 'font-medium text-ink/80'}`}>
                               {d}
                             </span>
-                            {isSelected && <Check className="w-4 h-4 ml-auto text-emerald stroke-[3]" />}
+                            {isSelected && <Check className="w-4 h-4 ml-auto text-gold stroke-[3]" />}
                           </button>
                         )
                       })}
@@ -395,7 +395,7 @@ export default function ProductDetailActions({
         {/* Info text if in cart */}
         {currentQty > 0 && selectedColors.length <= 1 && (
           <div className="flex">
-            <span className="text-xs font-semibold text-emerald bg-emerald/5 border border-emerald/10 px-3 py-1.5 rounded-full">
+            <span className="text-xs font-semibold text-[#0A0A0A] bg-gold/15 border border-gold/30 px-3 py-1.5 rounded-full">
               {currentQty} currently in your cart {selectedColors.length === 1 ? `(${selectedColors[0].color_name})` : ''}
             </span>
           </div>
@@ -407,14 +407,14 @@ export default function ProductDetailActions({
           <div className="flex items-center border border-cream-line bg-white rounded-full p-1 shadow-sm">
             <button
               onClick={() => setQuantity(q => Math.max(1, q - 1))}
-              className="p-1.5 hover:text-emerald text-ink/60 transition-colors rounded-full hover:bg-cream"
+              className="p-1.5 hover:text-gold text-ink/60 transition-colors rounded-full hover:bg-gold/10"
             >
               <Minus className="w-4 h-4" />
             </button>
             <span className="px-4 font-semibold text-ink text-sm">{quantity}</span>
             <button
               onClick={() => setQuantity(q => q + 1)}
-              className="p-1.5 hover:text-emerald text-ink/60 transition-colors rounded-full hover:bg-cream"
+              className="p-1.5 hover:text-gold text-ink/60 transition-colors rounded-full hover:bg-gold/10"
             >
               <Plus className="w-4 h-4" />
             </button>
@@ -425,15 +425,15 @@ export default function ProductDetailActions({
           <button
             onClick={handleAdd}
             disabled={colorVariants.length > 0 && selectedColors.length === 0}
-            className="w-full py-3 px-4 bg-emerald text-cream font-body font-semibold rounded-full shadow-card hover:bg-emerald-deep transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 px-4 bg-[#0A0A0A] text-white border border-gold/40 font-body font-semibold rounded-full shadow-md hover:bg-[#D4AF37] hover:text-black hover:border-transparent transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed group"
           >
-            <ShoppingBag className="w-5 h-5" /> {currentQty > 0 && selectedColors.length <= 1 ? 'Update Cart' : 'Add to Cart'}
+            <ShoppingBag className="w-5 h-5 group-hover:scale-110 transition-transform" /> {currentQty > 0 && selectedColors.length <= 1 ? 'Update Cart' : 'Add to Cart'}
           </button>
 
           <button
             onClick={handleBuyNow}
             disabled={colorVariants.length > 0 && selectedColors.length === 0}
-            className="w-full py-3 px-4 border-2 border-emerald text-emerald font-body font-semibold rounded-full hover:bg-emerald hover:text-cream transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 px-4 border-2 border-[#0A0A0A] text-[#0A0A0A] font-body font-semibold rounded-full hover:bg-[#0A0A0A] hover:text-[#DFBA73] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <CreditCard className="w-5 h-5" /> Buy Now
           </button>
@@ -455,9 +455,9 @@ export default function ProductDetailActions({
               })
             }
           }}
-          className="w-full py-3 px-4 border border-cream-line bg-[#FAF7F2] text-ink/70 font-body font-medium rounded-full hover:bg-white hover:text-[#C84B31] hover:border-[#C84B31]/30 transition-all duration-200 flex items-center justify-center gap-2 shadow-sm"
+          className="w-full py-3 px-4 border border-cream-line bg-[#FAF7F2] text-ink/70 font-body font-medium rounded-full hover:bg-white hover:text-gold hover:border-gold/40 transition-all duration-200 flex items-center justify-center gap-2 shadow-sm"
         >
-          <Heart className={`w-4 h-4 ${isInWishlist(product.id) ? "fill-[#C84B31] text-[#C84B31]" : ""}`} /> 
+          <Heart className={`w-4 h-4 ${isInWishlist(product.id) ? "fill-gold text-gold" : ""}`} /> 
           {isInWishlist(product.id) ? "Saved to Wishlist" : "Save to Wishlist"}
         </button>
       </div>

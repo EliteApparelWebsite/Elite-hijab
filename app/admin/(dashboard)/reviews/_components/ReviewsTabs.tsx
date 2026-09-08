@@ -22,7 +22,7 @@ const defaultHomeReviews: Testimonial[] = [
     id: 'mock-2',
     name: 'Afreen K.',
     city: 'Noida',
-    quote: "Hijabista understands modest fashion perfectly. The jersey hijabs are so soft and breathable, even in the summer heat.",
+    quote: "Elite Hijab understands modest fashion perfectly. The jersey hijabs are so soft and breathable, even in the summer heat.",
     initials: 'AK',
     product: 'Luxury Jersey Hijab',
     rating: 5,

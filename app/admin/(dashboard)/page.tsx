@@ -37,28 +37,15 @@ async function getStats() {
       ])
 
     const ordersData = ordersRes?.data || []
-    const validOrders = ordersData.filter((order: any) => {
-      if (order.payment_method === 'COD' || order.payment_method === 'Cash on Delivery') {
-        return true
-      }
-      return order.payment_status === 'paid'
-    })
-
-    const totalOrders = validOrders.length
-    const totalRevenue = validOrders.reduce(
-      (sum, order) => sum + (Number(order?.total_amount) || 0),
-      0
-    ) || 0
+    const totalOrders = ordersData.length
+    const totalRevenue = ordersData
+      .filter((o: any) => o.payment_status === 'paid')
+      .reduce((sum: number, order: any) => sum + (Number(order?.total_amount) || 0), 0) || 0
     const totalCustomers = customersRes?.count || 0
     const totalProducts = productsRes?.count || 0
 
     const rawRecentOrders = recentOrdersRes?.data || []
-    const recentOrders = rawRecentOrders.filter((order: any) => {
-      if (order.payment_method === 'COD' || order.payment_method === 'Cash on Delivery') {
-        return true
-      }
-      return order.payment_status === 'paid'
-    }).slice(0, 5)
+    const recentOrders = rawRecentOrders.slice(0, 5)
 
     return { totalOrders, totalRevenue, totalCustomers, totalProducts, recentOrders }
   } catch (error) {

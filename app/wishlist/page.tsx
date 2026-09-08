@@ -50,7 +50,7 @@ export default function WishlistPage() {
                   My Wishlist
                 </h1>
                 {wishlist.length > 0 && (
-                  <span className="text-[11px] font-sans font-bold uppercase tracking-wider bg-emerald/10 text-emerald border border-emerald/20 px-3 py-1 rounded-full shadow-sm mt-1 sm:mt-0">
+                  <span className="text-[11px] font-sans font-bold uppercase tracking-wider bg-gold/15 text-[#AA8034] border border-gold/30 px-3 py-1 rounded-full shadow-sm mt-1 sm:mt-0">
                     {wishlist.length} {wishlist.length === 1 ? 'Item' : 'Items'}
                   </span>
                 )}
@@ -93,7 +93,7 @@ export default function WishlistPage() {
               <div className="pt-2">
                 <Link
                   href="/shop"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-emerald hover:bg-emerald-deep text-cream font-body font-semibold text-sm tracking-wide shadow-md transition-all group"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-[#0A0A0A] hover:bg-[#D4AF37] text-white hover:text-black font-body font-semibold text-sm tracking-wide shadow-md transition-all group border border-gold/40"
                 >
                   Explore Collection
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -129,12 +129,12 @@ export default function WishlistPage() {
                       {/* Top Badges */}
                       <div className="absolute top-2 right-2 z-10 flex flex-col items-end gap-1.5 pointer-events-none">
                         {item.badge && (
-                          <span className="bg-[#6E3416] text-white text-[9px] md:text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full shadow-sm">
+                          <span className="bg-[#0A0A0A] text-[#DFBA73] border border-[#D4AF37]/30 text-[9px] md:text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full shadow-sm">
                             {item.badge}
                           </span>
                         )}
                         {discountPercent && (
-                          <span className="bg-emerald text-cream text-[9px] md:text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full shadow-sm">
+                          <span className="bg-[#0A0A0A] text-[#DFBA73] border border-[#D4AF37]/30 text-[9px] md:text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full shadow-sm">
                             -{discountPercent}%
                           </span>
                         )}
@@ -158,7 +158,7 @@ export default function WishlistPage() {
                     <div className="flex flex-col flex-1 pt-3.5 px-0.5">
                       {/* Title */}
                       <div className="flex-1">
-                        <Link href={`/shop/${item.id}`} className="hover:text-emerald transition-colors block">
+                        <Link href={`/shop/${item.id}`} className="hover:text-gold transition-colors block">
                           <h3 className="font-display font-semibold text-ink text-[13px] md:text-[15.5px] leading-snug line-clamp-2 min-h-[2.25rem]">
                             {item.name}
                           </h3>
@@ -167,7 +167,7 @@ export default function WishlistPage() {
 
                       {/* Rating Stars */}
                       <div className="mt-2 flex items-center gap-1.5">
-                        <div className="flex items-center text-[#B8622A] text-[11px] md:text-[13px] tracking-tight gap-0.5">
+                        <div className="flex items-center text-gold text-[11px] md:text-[13px] tracking-tight gap-0.5">
                           {'★'.repeat(Math.round(item.rating || 5))}
                         </div>
                         <span className="text-ink/80 text-[11px] md:text-[12px] font-semibold">
@@ -180,7 +180,7 @@ export default function WishlistPage() {
 
                       {/* Pricing */}
                       <div className="mt-2.5 flex items-baseline gap-2">
-                        <span className="font-display font-bold text-emerald text-[15px] md:text-[17px]">
+                        <span className="font-display font-bold text-[#0D0D0D] text-[15px] md:text-[17px]">
                           ₹{(Number(item.price) || 0).toLocaleString('en-IN')}
                         </span>
                         {item.oldPrice && item.oldPrice > item.price && (
@@ -191,8 +191,8 @@ export default function WishlistPage() {
                       </div>
 
                       {/* In Stock Badge */}
-                      <div className="mt-2 flex items-center gap-1 text-[10px] md:text-[11px] font-semibold text-green-700">
-                        <CheckCircle2 className="w-3 h-3 text-green-600 shrink-0" />
+                      <div className="mt-2 flex items-center gap-1 text-[10px] md:text-[11px] font-semibold text-gold-dark">
+                        <CheckCircle2 className="w-3 h-3 text-gold shrink-0" />
                         In Stock & Ready to Ship
                       </div>
 
@@ -203,9 +203,9 @@ export default function WishlistPage() {
                             e.preventDefault()
                             handleAddToCart(item)
                           }}
-                          className="w-full py-2.5 px-3 rounded-xl bg-emerald hover:bg-emerald-deep text-cream font-bold text-xs md:text-sm flex items-center justify-center gap-2 shadow-sm hover:shadow transition-all duration-200"
+                          className="w-full py-2.5 px-3 rounded-xl bg-[#0A0A0A] hover:bg-[#D4AF37] text-white hover:text-black font-bold text-xs md:text-sm flex items-center justify-center gap-2 shadow-sm hover:shadow transition-all duration-300 border border-gold/40 group"
                         >
-                          <ShoppingBag className="w-4 h-4" />
+                          <ShoppingBag className="w-4 h-4 group-hover:scale-110 transition-transform" />
                           Add to Cart
                         </button>
                       </div>

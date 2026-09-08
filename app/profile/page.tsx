@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 
 export const metadata = {
-  title: 'My Profile | HIJABISTA',
+  title: 'My Profile | Elite Hijab',
   description: 'Manage your shipping address, contact details, and order tracking.',
 }
 
@@ -20,13 +20,16 @@ export default async function CustomerProfilePage() {
   let adminProfile = null
   let orders = []
   if (user) {
-    const { data: profile } = await supabase
+    const { createAdminClient } = await import('@/lib/supabase/admin')
+    const adminDb = createAdminClient()
+
+    const { data: profile } = await adminDb
       .from('customers')
       .select('*')
       .eq('id', user.id)
-      .single()
+      .maybeSingle()
 
-    const { data: address } = await supabase
+    const { data: address } = await adminDb
       .from('addresses')
       .select('*')
       .eq('user_id', user.id)

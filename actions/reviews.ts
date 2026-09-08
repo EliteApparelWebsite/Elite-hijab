@@ -61,48 +61,16 @@ export async function submitReview(
 
     // 2. Try saving to Supabase if available
     try {
-      // Ensure the product exists in the Supabase 'products' table to avoid foreign_key_violation
-      const { data: existingProduct } = await supabase
-        .from('products')
-        .select('id, name')
-        .eq('id', productId)
-        .single()
+      const { createAdminClient } = await import('@/lib/supabase/admin')
+      const adminDb = createAdminClient()
+      const isValidUUID = (str: any) => typeof str === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str)
 
-      if (!existingProduct) {
-        await supabase.from('products').insert({
-          id: productId,
-          name: productName || `Modest Collection Style`,
-          slug: `${productId.toLowerCase()}-${Date.now()}`,
-          is_active: true
-        })
-      }
-
-      let validUserId: string | null = null
-      if (user?.id) {
-        const { data: profile } = await supabase
-          .from('customers')
-          .select('id')
-          .eq('id', user.id)
-          .single()
-
-        if (profile) {
-          validUserId = user.id
-        } else {
-          const { error: profileError } = await supabase.from('customers').insert({
-            id: user.id,
-            email: user.email || 'customer@hijabistaa.com',
-            full_name: customerName
-          })
-          validUserId = profileError ? null : user.id
-        }
-      }
-
-      await supabase
+      await adminDb
         .from('reviews')
         .insert({
           id: reviewId,
           product_id: productId,
-          user_id: validUserId,
+          user_id: user?.id && isValidUUID(user.id) ? user.id : null,
           rating,
           comment: comment ? comment.trim() : null,
           is_approved: false // Default to pending for admin moderation

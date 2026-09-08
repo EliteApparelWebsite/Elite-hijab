@@ -128,7 +128,7 @@ export default function ProductDetailSection({
             </div>
             <span className="font-bold text-ink">{displayRating} ★</span>
             <span className="text-ink/30">|</span>
-            <a href="#reviews" className="text-emerald font-semibold hover:underline transition-colors">
+            <a href="#reviews" className="text-gold hover:text-black font-semibold hover:underline transition-colors">
               {reviewCount} {reviewCount === 1 ? 'Review' : 'Reviews'}
             </a>
           </div>
@@ -163,9 +163,9 @@ export default function ProductDetailSection({
           {/* Product Specifications */}
           {information.length > 0 && (
             <details className="group bg-white rounded-2xl border border-cream-line shadow-sm overflow-hidden open:bg-cream-deep/30 transition-colors" open>
-              <summary className="font-display font-semibold text-ink text-[15px] px-5 py-4 cursor-pointer flex justify-between items-center outline-none list-none hover:text-emerald transition-colors">
+              <summary className="font-display font-semibold text-ink text-[15px] px-5 py-4 cursor-pointer flex justify-between items-center outline-none list-none hover:text-gold transition-colors">
                 Product Specifications
-                <span className="text-ink/50 transition-transform group-open:rotate-180 group-open:text-emerald">
+                <span className="text-ink/50 transition-transform group-open:rotate-180 group-open:text-gold">
                   <svg fill="none" height="18" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="18"><polyline points="6 9 12 15 18 9"/></svg>
                 </span>
               </summary>
@@ -174,7 +174,7 @@ export default function ProductDetailSection({
                   {information.map((info: any, idx: number) => (
                     <div key={idx} className="p-4 bg-white rounded-xl border border-cream-line shadow-sm">
                       <p className="text-[11px] font-bold text-ink/50 uppercase tracking-wider">{info.label}</p>
-                      <p className="text-sm font-semibold text-emerald mt-1">{info.value}</p>
+                      <p className="text-sm font-semibold text-ink mt-1">{info.value}</p>
                     </div>
                   ))}
                 </div>
@@ -183,9 +183,9 @@ export default function ProductDetailSection({
           )}
 
           <details className="group bg-white rounded-2xl border border-cream-line shadow-sm overflow-hidden open:bg-cream-deep/30 transition-colors">
-            <summary className="font-display font-semibold text-ink text-[15px] px-5 py-4 cursor-pointer flex justify-between items-center outline-none list-none hover:text-emerald transition-colors">
+            <summary className="font-display font-semibold text-ink text-[15px] px-5 py-4 cursor-pointer flex justify-between items-center outline-none list-none hover:text-gold transition-colors">
               Product Details
-              <span className="text-ink/50 transition-transform group-open:rotate-180 group-open:text-emerald">
+              <span className="text-ink/50 transition-transform group-open:rotate-180 group-open:text-gold">
                 <svg fill="none" height="18" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="18"><polyline points="6 9 12 15 18 9"/></svg>
               </span>
             </summary>
@@ -200,9 +200,9 @@ export default function ProductDetailSection({
               <div className="space-y-3">
                 {faqs.map((faq: any, idx: number) => (
                   <details key={idx} className="group bg-white rounded-2xl border border-cream-line shadow-sm overflow-hidden open:bg-cream-deep/30 transition-colors">
-                    <summary className="font-display font-semibold text-ink text-[15px] px-5 py-4 cursor-pointer flex justify-between items-center outline-none list-none hover:text-emerald transition-colors">
+                    <summary className="font-display font-semibold text-ink text-[15px] px-5 py-4 cursor-pointer flex justify-between items-center outline-none list-none hover:text-gold transition-colors">
                       {faq.question}
-                      <span className="text-ink/50 transition-transform group-open:rotate-180 group-open:text-emerald">
+                      <span className="text-ink/50 transition-transform group-open:rotate-180 group-open:text-gold">
                         <svg fill="none" height="18" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="18"><polyline points="6 9 12 15 18 9"/></svg>
                       </span>
                     </summary>

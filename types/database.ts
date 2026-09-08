@@ -1,4 +1,4 @@
-// Database type definitions for HIJABISTAA
+// Database type definitions for Elite Hijab
 // These types mirror the Supabase database schema
 
 export type UserRole = 'customer' | 'admin'

@@ -95,15 +95,30 @@ export default async function Home() {
   }, {});
 
   const staticCategories = (await import("@/lib/data")).categories;
+  const getSafeCatImage = (img: string | undefined, idx: number) => {
+    const fallbackList = [
+      "/assets/images/img_06.webp",
+      "/assets/images/img_07.webp",
+      "/assets/images/img_08.webp",
+      "/assets/images/img_09.webp",
+      "/assets/images/img_10.webp",
+      "/assets/images/img_11.webp"
+    ];
+    if (!img || img.includes("hijab-medina") || img.includes("hijab-muted-sage")) {
+      return fallbackList[idx % fallbackList.length];
+    }
+    return img;
+  };
+
   const categories = (categoriesData && categoriesData.length > 0)
-    ? categoriesData.map((c: any) => ({
+    ? categoriesData.map((c: any, i: number) => ({
         ...c,
-        image_url: c.image_url || c.image || "/hijab-medina.jpg",
+        image_url: getSafeCatImage(c.image_url || c.image, i),
         count: `${productCounts[c.id] || 0} styles`
       }))
-    : staticCategories.map((c: any) => ({
+    : staticCategories.map((c: any, i: number) => ({
         ...c,
-        image_url: c.image_url || c.image || "/hijab-medina.jpg",
+        image_url: getSafeCatImage(c.image_url || c.image, i),
         count: `${productCounts[c.id] || c.count || "12 styles"}`
       }));
 
@@ -159,7 +174,7 @@ function renderHomePage({
 }: any) {
   return (
     <main className="overflow-x-hidden relative">
-      <PromoPopup settings={promoPopupSettings} />
+      {/* PromoPopup temporarily disabled as requested */}
       <Header />
       <Hero slides={heroSlides || []} heroText={heroText} />
       <TrustMarquee />

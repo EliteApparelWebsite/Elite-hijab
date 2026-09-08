@@ -34,17 +34,16 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="relative py-6 md:py-10 bg-cream-deep/60">
+    <section id="contact" className="relative py-8 md:py-14 bg-white border-b border-[#EAEAEA]">
       <div className="max-w-wrap mx-auto px-5 md:px-8">
         
         {/* Split Card Layout */}
         <Reveal>
-          <div className="bg-white rounded-[32px] overflow-hidden shadow-soft grid lg:grid-cols-[0.8fr_1.2fr] border border-cream-line">
+          <div className="bg-white rounded-[32px] overflow-hidden shadow-soft grid lg:grid-cols-[0.8fr_1.2fr] border border-[#EAEAEA]">
             
             {/* Left Panel: Information & Map */}
-            <div className="bg-cream-deep border-r border-cream-line p-8 md:p-12 lg:p-14 flex flex-col justify-between relative overflow-hidden">
-              <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none" />
-              <div className="absolute top-0 right-0 w-64 h-64 bg-gold/10 blur-[80px] rounded-full -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+            <div className="bg-[#FAFAF8] border-r border-[#EAEAEA] p-8 md:p-12 lg:p-14 flex flex-col justify-between relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[#D4AF37]/5 blur-[80px] rounded-full -translate-y-1/2 translate-x-1/3 pointer-events-none" />
               
               <div className="relative z-10">
                 <h3 className="font-display font-semibold text-3xl text-ink mb-2">Get in Touch</h3>
@@ -73,15 +72,6 @@ export default function Contact() {
                     </div>
                   </a>
 
-                  <a href={SITE.youtube} target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 group">
-                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shrink-0 border border-cream-line group-hover:border-gold transition-colors shadow-sm">
-                      <svg className="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
-                    </div>
-                    <div>
-                      <span className="text-[11px] uppercase tracking-wider text-ink/50 font-semibold block mb-1">YouTube</span>
-                      <p className="font-display font-medium text-ink text-[15px] group-hover:text-gold transition-colors">Hijabistaa Modest Fashion</p>
-                    </div>
-                  </a>
 
                   <a href={`https://instagram.com/${SITE.instagram}`} target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 group">
                     <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shrink-0 border border-cream-line group-hover:border-gold transition-colors shadow-sm">
@@ -107,13 +97,13 @@ export default function Contact() {
               <h3 className="font-display font-semibold text-2xl text-ink mb-8">Send a Message</h3>
               
               {success ? (
-                <div className="bg-emerald/10 border border-emerald/20 rounded-2xl p-8 text-center">
-                  <div className="w-16 h-16 bg-emerald rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-8 h-8 text-cream" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                <div className="bg-gold/15 border border-gold/30 rounded-2xl p-8 text-center">
+                  <div className="w-16 h-16 bg-[#0A0A0A] border border-gold/40 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+                    <svg className="w-8 h-8 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
                   </div>
                   <h4 className="font-display font-semibold text-xl text-ink mb-2">Message Sent!</h4>
                   <p className="text-ink/70 text-sm">Thank you for reaching out. We will get back to you shortly.</p>
-                  <button onClick={() => setSuccess(false)} className="mt-6 text-emerald text-sm font-semibold hover:underline">Send another message</button>
+                  <button onClick={() => setSuccess(false)} className="mt-6 text-[#AA8034] text-sm font-semibold hover:text-[#0A0A0A] hover:underline">Send another message</button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit}>
@@ -133,7 +123,7 @@ export default function Contact() {
                         name="first-name"
                         type="text"
                         required
-                        className="w-full border-b border-cream-line bg-transparent px-0 py-2.5 text-[15px] text-ink placeholder:text-ink/30 focus:border-emerald focus:outline-none transition-colors"
+                        className="w-full border-b border-cream-line bg-transparent px-0 py-2.5 text-[15px] text-ink placeholder:text-ink/30 focus:border-gold focus:outline-none transition-colors"
                         placeholder="Aisha"
                       />
                     </div>
@@ -147,7 +137,7 @@ export default function Contact() {
                         name="last-name"
                         type="text"
                         required
-                        className="w-full border-b border-cream-line bg-transparent px-0 py-2.5 text-[15px] text-ink placeholder:text-ink/30 focus:border-emerald focus:outline-none transition-colors"
+                        className="w-full border-b border-cream-line bg-transparent px-0 py-2.5 text-[15px] text-ink placeholder:text-ink/30 focus:border-gold focus:outline-none transition-colors"
                         placeholder="Khan"
                       />
                     </div>
@@ -163,7 +153,7 @@ export default function Contact() {
                         name="email"
                         type="email"
                         required
-                        className="w-full border-b border-cream-line bg-transparent px-0 py-2.5 text-[15px] text-ink placeholder:text-ink/30 focus:border-emerald focus:outline-none transition-colors"
+                        className="w-full border-b border-cream-line bg-transparent px-0 py-2.5 text-[15px] text-ink placeholder:text-ink/30 focus:border-gold focus:outline-none transition-colors"
                         placeholder="aisha@example.com"
                       />
                     </div>
@@ -176,7 +166,7 @@ export default function Contact() {
                         id="phone"
                         name="phone"
                         type="tel"
-                        className="w-full border-b border-cream-line bg-transparent px-0 py-2.5 text-[15px] text-ink placeholder:text-ink/30 focus:border-emerald focus:outline-none transition-colors"
+                        className="w-full border-b border-cream-line bg-transparent px-0 py-2.5 text-[15px] text-ink placeholder:text-ink/30 focus:border-gold focus:outline-none transition-colors"
                         placeholder="+91 98XXXXXXXX"
                       />
                     </div>
@@ -191,7 +181,7 @@ export default function Contact() {
                       name="message"
                       rows={4}
                       required
-                      className="w-full border-b border-cream-line bg-transparent px-0 py-2.5 text-[15px] text-ink placeholder:text-ink/30 focus:border-emerald focus:outline-none transition-colors resize-none"
+                      className="w-full border-b border-cream-line bg-transparent px-0 py-2.5 text-[15px] text-ink placeholder:text-ink/30 focus:border-gold focus:outline-none transition-colors resize-none"
                       placeholder="Tell us what you're looking for..."
                     />
                   </div>
@@ -199,7 +189,7 @@ export default function Contact() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="mt-10 w-full md:w-auto inline-flex items-center justify-center px-10 py-4 rounded-full bg-emerald text-cream font-body font-semibold text-[15px] tracking-wide shadow-card hover:bg-emerald-deep transition-all hover:scale-[1.02] disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="mt-10 w-full md:w-auto inline-flex items-center justify-center px-10 py-4 rounded-full bg-[#0A0A0A] text-white border border-[#D4AF37]/50 font-body font-semibold text-[15px] tracking-wide shadow-card hover:bg-[#D4AF37] hover:text-[#0A0A0A] transition-all hover:scale-[1.02] disabled:opacity-70 disabled:cursor-not-allowed"
                   >
                     {loading ? "Sending..." : "Send Message"}
                   </button>
@@ -215,7 +205,7 @@ export default function Contact() {
 
         {/* Map Section */}
         <Reveal>
-          <div className="mt-16 w-full h-[350px] rounded-[32px] overflow-hidden shadow-soft border border-cream-line">
+          <div className="mt-16 w-full h-[350px] rounded-[32px] overflow-hidden shadow-soft border border-[#D4AF37]/25">
             <iframe 
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3773.6343079496123!2d72.83233547466212!3d18.947574105992842!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7cf97053fa197%3A0x7fed08cd2f095674!2sHijabistaa!5e0!3m2!1sen!2sin!4v1784188080814!5m2!1sen!2sin"
               width="100%" 
@@ -243,9 +233,9 @@ export default function Contact() {
           
           <Reveal delay={1} className="space-y-4">
             <details className="group bg-white rounded-2xl border border-cream-line shadow-sm overflow-hidden open:bg-cream-deep/30 transition-colors duration-300">
-              <summary className="font-display font-semibold text-ink text-[15px] md:text-base px-6 py-5 cursor-pointer flex justify-between items-center outline-none list-none hover:text-emerald transition-colors">
+              <summary className="font-display font-semibold text-ink text-[15px] md:text-base px-6 py-5 cursor-pointer flex justify-between items-center outline-none list-none hover:text-gold transition-colors">
                 Do you ship nationwide across India?
-                <span className="w-8 h-8 rounded-full bg-cream-deep flex items-center justify-center transition-transform group-open:rotate-180 group-open:bg-emerald/10 group-open:text-emerald text-ink/50">
+                <span className="w-8 h-8 rounded-full bg-cream-deep flex items-center justify-center transition-transform group-open:rotate-180 group-open:bg-[#0A0A0A] group-open:text-[#D4AF37] text-ink/50">
                   <svg fill="none" height="20" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="20"><polyline points="6 9 12 15 18 9"/></svg>
                 </span>
               </summary>
@@ -255,9 +245,9 @@ export default function Contact() {
             </details>
 
             <details className="group bg-white rounded-2xl border border-cream-line shadow-sm overflow-hidden open:bg-cream-deep/30 transition-colors duration-300">
-              <summary className="font-display font-semibold text-ink text-[15px] md:text-base px-6 py-5 cursor-pointer flex justify-between items-center outline-none list-none hover:text-emerald transition-colors">
+              <summary className="font-display font-semibold text-ink text-[15px] md:text-base px-6 py-5 cursor-pointer flex justify-between items-center outline-none list-none hover:text-gold transition-colors">
                 What is your return & refund policy?
-                <span className="w-8 h-8 rounded-full bg-cream-deep flex items-center justify-center transition-transform group-open:rotate-180 group-open:bg-emerald/10 group-open:text-emerald text-ink/50">
+                <span className="w-8 h-8 rounded-full bg-cream-deep flex items-center justify-center transition-transform group-open:rotate-180 group-open:bg-[#0A0A0A] group-open:text-[#D4AF37] text-ink/50">
                   <svg fill="none" height="20" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="20"><polyline points="6 9 12 15 18 9"/></svg>
                 </span>
               </summary>
@@ -267,9 +257,9 @@ export default function Contact() {
             </details>
 
             <details className="group bg-white rounded-2xl border border-cream-line shadow-sm overflow-hidden open:bg-cream-deep/30 transition-colors duration-300">
-              <summary className="font-display font-semibold text-ink text-[15px] md:text-base px-6 py-5 cursor-pointer flex justify-between items-center outline-none list-none hover:text-emerald transition-colors">
+              <summary className="font-display font-semibold text-ink text-[15px] md:text-base px-6 py-5 cursor-pointer flex justify-between items-center outline-none list-none hover:text-gold transition-colors">
                 Can I request custom sizing?
-                <span className="w-8 h-8 rounded-full bg-cream-deep flex items-center justify-center transition-transform group-open:rotate-180 group-open:bg-emerald/10 group-open:text-emerald text-ink/50">
+                <span className="w-8 h-8 rounded-full bg-cream-deep flex items-center justify-center transition-transform group-open:rotate-180 group-open:bg-[#0A0A0A] group-open:text-[#D4AF37] text-ink/50">
                   <svg fill="none" height="20" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="20"><polyline points="6 9 12 15 18 9"/></svg>
                 </span>
               </summary>

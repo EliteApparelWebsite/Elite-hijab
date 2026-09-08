@@ -48,7 +48,10 @@ export async function addTestimonial(
     const rating = parseInt(formData.get('rating') as string) || 5
     const isActive = formData.get('is_active') === 'on'
 
-    const { error } = await supabase.from('testimonials').insert({
+    const { createAdminClient } = await import('@/lib/supabase/admin')
+    const adminDb = createAdminClient()
+
+    const { error } = await adminDb.from('testimonials').insert({
       name,
       city,
       quote,
@@ -88,7 +91,10 @@ export async function deleteTestimonial(
     const id = formData.get('id') as string
     if (!id) return { error: 'ID is required.' }
 
-    const { error } = await supabase.from('testimonials').delete().eq('id', id)
+    const { createAdminClient } = await import('@/lib/supabase/admin')
+    const adminDb = createAdminClient()
+
+    const { error } = await adminDb.from('testimonials').delete().eq('id', id)
 
     if (error) {
       console.error('Error deleting testimonial:', error)

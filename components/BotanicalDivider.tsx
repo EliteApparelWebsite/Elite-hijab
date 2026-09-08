@@ -8,14 +8,14 @@ import { useEffect, useRef, useState } from "react";
  */
 export default function BotanicalDivider({
   flip = false,
-  tone = "emerald",
+  tone = "gold",
 }: {
   flip?: boolean;
-  tone?: "emerald" | "gold";
+  tone?: "black" | "gold" | "emerald";
 }) {
   const ref = useRef<SVGSVGElement>(null);
   const [visible, setVisible] = useState(false);
-  const stroke = tone === "gold" ? "#7E3F35" : "#9C5247";
+  const stroke = tone === "black" ? "#0D0D0D" : "#D4AF37";
 
   useEffect(() => {
     const node = ref.current;

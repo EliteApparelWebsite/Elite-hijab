@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata = {
-  title: 'Privacy Policy | HIJABISTA',
+  title: 'Privacy Policy | Elite Hijab',
 }
 
 export default function PrivacyPolicy() {
@@ -13,11 +13,11 @@ export default function PrivacyPolicy() {
       <div className="flex-1 max-w-3xl mx-auto w-full px-5 py-16 md:py-24">
         <h1 className="font-display font-semibold text-3xl md:text-4xl text-ink mb-8">Privacy Policy</h1>
         
-        <div className="prose prose-emerald prose-sm md:prose-base text-ink/80 max-w-none space-y-6">
+        <div className="prose prose-neutral prose-sm md:prose-base text-ink/80 max-w-none space-y-6">
           <p>Last updated: {new Date().toLocaleDateString('en-IN')}</p>
           
           <p>
-            HIJABISTA ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how your personal information is collected, used, and disclosed by HIJABISTA.
+            Elite Hijab ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how your personal information is collected, used, and disclosed by Elite Hijab.
           </p>
 
           <h3 className="font-display font-semibold text-xl text-ink mt-8 mb-4">1. Information We Collect</h3>
@@ -37,7 +37,7 @@ export default function PrivacyPolicy() {
 
           <h3 className="font-display font-semibold text-xl text-ink mt-8 mb-4">4. Contact Us</h3>
           <p>
-            For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by e-mail at contact@hijabistaa.com.
+            For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by e-mail at husnezaman@gmail.com.
           </p>
         </div>
       </div>

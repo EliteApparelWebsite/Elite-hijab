@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata = {
-  title: 'Terms & Conditions | HIJABISTA',
+  title: 'Terms & Conditions | Elite Hijab',
 }
 
 export default function TermsConditions() {
@@ -13,11 +13,11 @@ export default function TermsConditions() {
       <div className="flex-1 max-w-3xl mx-auto w-full px-5 py-16 md:py-24">
         <h1 className="font-display font-semibold text-3xl md:text-4xl text-ink mb-8">Terms & Conditions</h1>
         
-        <div className="prose prose-emerald prose-sm md:prose-base text-ink/80 max-w-none space-y-6">
+        <div className="prose prose-neutral prose-sm md:prose-base text-ink/80 max-w-none space-y-6">
           <p>Last updated: {new Date().toLocaleDateString('en-IN')}</p>
           
           <p>
-            Welcome to HIJABISTA. By accessing or using our website, you agree to be bound by these Terms and Conditions and our Privacy Policy.
+            Welcome to Elite Hijab. By accessing or using our website, you agree to be bound by these Terms and Conditions and our Privacy Policy.
           </p>
 
           <h3 className="font-display font-semibold text-xl text-ink mt-8 mb-4">1. Online Store Terms</h3>

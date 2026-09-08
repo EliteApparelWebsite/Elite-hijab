@@ -12,16 +12,16 @@ export default function MobileHeroCarousel({
   images = [],
   speed = 1.20,
 }: MobileHeroCarouselProps) {
-  // Fallback high quality modest fashion images if images array is empty
+  // Fallback high quality modest fashion images if images array is empty (positions shuffled)
   const defaultImages = [
-    "/khimar-handwork.png",
-    "/abaya-double-layer.png",
     "/model-cream-hijab.png",
-    "/jilbab-blue.png",
-    "/khimar-handwork-1.png",
     "/abaya-front-open.png",
+    "/khimar-handwork.png",
     "/luxe-salwar-kameez.png",
     "/jilbab-black.png",
+    "/abaya-double-layer.png",
+    "/jilbab-blue.png",
+    "/khimar-handwork-1.png",
   ];
 
   const carouselImages = images.length > 0 ? images : defaultImages;
@@ -204,7 +204,7 @@ export default function MobileHeroCarousel({
       <div
         className={`absolute inset-0 z-50 flex items-center justify-center transition-opacity duration-500 bg-[#FAF6F0] rounded-2xl sm:rounded-3xl ${isLoading ? "opacity-100" : "opacity-0 pointer-events-none"}`}
       >
-        <div className="w-10 h-10 border-4 border-[#7E3F35]/20 border-t-[#7E3F35] rounded-full animate-spin"></div>
+        <div className="w-10 h-10 border-4 border-[#D4AF37]/25 border-t-[#0A0A0A] rounded-full animate-spin"></div>
       </div>
 
       <div className={`transition-opacity duration-700 ease-in-out ${isLoading ? "opacity-0" : "opacity-100"}`}>
@@ -272,8 +272,8 @@ export default function MobileHeroCarousel({
             <span
               key={i}
               className={`h-1.5 rounded-full transition-all duration-300 ${i === activeCenterIndex
-                  ? "w-5 bg-[#7E3F35]"
-                  : "w-1.5 bg-[#7E3F35]/25"
+                  ? "w-5 bg-[#0A0A0A]"
+                  : "w-1.5 bg-[#0A0A0A]/20"
                 }`}
             />
           ))}
@@ -281,10 +281,10 @@ export default function MobileHeroCarousel({
 
         {/* Responsive interactive badge */}
         <div className="flex items-center justify-center gap-1.5 mt-2">
-          <svg className="w-3.5 h-3.5 text-[#7E3F35] animate-pulse" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <svg className="w-3.5 h-3.5 text-[#AA8034] animate-pulse" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
           </svg>
-          <span className="text-[10px] sm:text-[11px] font-display font-semibold tracking-widest text-[#7E3F35] uppercase">
+          <span className="text-[10px] sm:text-[11px] font-display font-semibold tracking-widest text-[#AA8034] uppercase">
             Smooth Auto-Sliding &bull; Swipe to Explore
           </span>
         </div>

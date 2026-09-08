@@ -1,9 +1,9 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 
 export async function submitInquiry(formData: FormData) {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const first_name = formData.get('first-name') as string
   const last_name = formData.get('last-name') as string
@@ -24,8 +24,7 @@ export async function submitInquiry(formData: FormData) {
   const { error } = await supabase
     .from('inquiries')
     .insert([{
-      id: crypto.randomUUID(),
-      name: `${first_name} ${last_name}`,
+      full_name: `${first_name} ${last_name}`,
       email,
       phone: phone || null,
       message,

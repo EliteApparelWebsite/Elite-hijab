@@ -59,7 +59,7 @@ export default async function AdminReviewsPage() {
       const localRev = dbData.reviews.map((r: any) => ({
         ...r,
         products: { name: r.product_name || r.product_id },
-        customers: { full_name: r.customer_name || 'Verified Customer', email: 'customer@hijabistaa.com' }
+        customers: { full_name: r.customer_name || 'Verified Customer', email: 'customer@elitehijab.com' }
       }))
       const allMap = new Map()
       ;[...reviews, ...localRev].forEach(r => {

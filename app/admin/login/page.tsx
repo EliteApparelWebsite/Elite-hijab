@@ -17,19 +17,19 @@ export default function AdminLoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-cream relative overflow-hidden">
       {/* Decorative background */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cream-deep via-cream to-cream" />
-      <div className="absolute top-1/4 -left-32 w-64 h-64 bg-emerald/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-emerald/10 rounded-full blur-3xl" />
+      <div className="absolute top-1/4 -left-32 w-64 h-64 bg-[#D4AF37]/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-[#D4AF37]/10 rounded-full blur-3xl" />
  
       <div className="relative z-10 w-full max-w-md px-4">
         <div className="bg-white rounded-2xl shadow-card border border-cream-line p-8">
           {/* Admin branding */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br from-emerald to-emerald-deep rounded-xl mb-4 shadow-lg shadow-emerald/20">
-              <Shield className="w-7 h-7 text-white" />
+            <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br from-[#0A0A0A] to-[#1A1A1A] border border-[#D4AF37]/40 rounded-xl mb-4 shadow-lg shadow-black/10">
+              <Shield className="w-7 h-7 text-[#D4AF37]" />
             </div>
             <h1 className="text-2xl font-bold text-ink">Admin Dashboard</h1>
             <p className="text-ink/60 mt-1 text-sm">
-              HIJABISTA — Management Portal
+              Elite Hijab — Management Portal
             </p>
           </div>
  
@@ -61,8 +61,8 @@ export default function AdminLoginPage() {
                 type="email"
                 autoComplete="email"
                 required
-                placeholder="admin@hijabista.com"
-                className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-white text-ink placeholder:text-ink/30 focus:outline-none focus:ring-2 focus:ring-emerald/40 focus:border-emerald transition-all duration-200"
+                placeholder="husnezaman@gmail.com"
+                className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-white text-ink placeholder:text-ink/30 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/30 focus:border-[#D4AF37] transition-all duration-200"
               />
             </div>
  
@@ -81,7 +81,7 @@ export default function AdminLoginPage() {
                   autoComplete="current-password"
                   required
                   placeholder="••••••••"
-                  className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-white text-ink placeholder:text-ink/30 focus:outline-none focus:ring-2 focus:ring-emerald/40 focus:border-emerald transition-all duration-200 pr-11"
+                  className="w-full px-4 py-2.5 rounded-xl border border-cream-line bg-white text-ink placeholder:text-ink/30 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/30 focus:border-[#D4AF37] transition-all duration-200 pr-11"
                 />
                 <button
                   type="button"
@@ -100,13 +100,13 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={pending}
-              className="w-full py-2.5 px-4 bg-gradient-to-r from-emerald to-emerald-deep text-white font-semibold rounded-xl shadow-md shadow-emerald/20 hover:shadow-lg hover:shadow-emerald/30 hover:from-emerald-deep hover:to-ink focus:outline-none focus:ring-2 focus:ring-emerald/40 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
+              className="w-full py-2.5 px-4 bg-[#0A0A0A] hover:bg-[#D4AF37] text-white hover:text-black font-semibold rounded-xl border border-[#D4AF37]/40 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/40 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
             >
               {pending ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
               ) : (
                 <>
-                  <Shield className="w-4.5 h-4.5" />
+                  <Shield className="w-4.5 h-4.5 text-[#D4AF37] group-hover:text-black" />
                   Access Dashboard
                 </>
               )}

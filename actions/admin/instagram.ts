@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { InstagramPost } from '../instagram'
 
-const DEFAULT_INSTAGRAM_LINK = 'https://www.instagram.com/__hijabistaa__'
+const DEFAULT_INSTAGRAM_LINK = 'https://www.instagram.com/elite_apparel02'
 
 async function checkAdminAuth(supabase: any) {
   const { data: { user } } = await supabase.auth.getUser()

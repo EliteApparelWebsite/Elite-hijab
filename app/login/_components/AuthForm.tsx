@@ -161,7 +161,7 @@ export default function AuthForm({ redirectTo }: { redirectTo?: string }) {
             <button
               type="submit"
               disabled={pending}
-              className="w-full py-3 px-4 bg-ink text-cream rounded-xl font-semibold hover:bg-gold transition-colors duration-300 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+              className="w-full py-3.5 px-4 bg-[#0A0A0A] hover:bg-[#D4AF37] text-white hover:text-black border border-gold/40 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed mt-2 shadow-md"
             >
               {pending ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -210,7 +210,7 @@ export default function AuthForm({ redirectTo }: { redirectTo?: string }) {
             <button
               type="submit"
               disabled={pending}
-              className="w-full py-3 px-4 bg-ink text-cream rounded-xl font-semibold hover:bg-gold transition-colors duration-300 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+              className="w-full py-3.5 px-4 bg-[#0A0A0A] hover:bg-[#D4AF37] text-white hover:text-black border border-gold/40 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed mt-2 shadow-md"
             >
               {pending ? (
                 <Loader2 className="w-5 h-5 animate-spin" />

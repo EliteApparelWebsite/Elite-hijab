@@ -66,42 +66,42 @@ export const categoriesData = [
     title: "Premium Hijabs",
     description: "Premium Hijabs",
     href: "/shop?category=premium-hijabs",
-    image: "/lookbook-1.jpg",
+    image: "/assets/images/img_06.webp",
   },
   {
     id: "abaya-accessories",
     title: "Abaya Accessories",
     description: "Luxurious belts, modest slip dresses and layered inner slips",
     href: "/shop?category=abaya-accessories",
-    image: "/abaya-front-open.png",
+    image: "/assets/images/img_07.webp",
   },
   {
     id: "hijab-accessories",
     title: "Hijab Accessories",
     description: "Magnetic pins, volumizing scrunchies and delicate brooches",
     href: "/shop?category=hijab-accessories",
-    image: "/lookbook-2.jpg",
+    image: "/assets/images/img_08.webp",
   },
   {
     id: "shawls",
     title: "Shawls",
     description: "Generous drapes and elegant pashmina shawls for every occasion",
     href: "/shop?category=shawls",
-    image: "/lookbook-3.jpg",
+    image: "/assets/images/img_09.webp",
   },
   {
     id: "hijab-caps",
     title: "Hijab Caps",
     description: "Breathable cotton & bamboo under-caps with secure stretch fit",
     href: "/shop?category=hijab-caps",
-    image: "/hijab-muted-sage.jpeg",
+    image: "/assets/images/img_10.webp",
   },
   {
     id: "hijabs",
     title: "Hijabs",
     description: "Basic Luxe chiffon, luxury jersey and multi-colour wrap sets",
     href: "/shop?category=hijabs",
-    image: "/hijab-medina.jpg",
+    image: "/assets/images/img_11.webp",
   },
 ];
 
@@ -111,14 +111,14 @@ export const discoverData = [
     badge: "New",
     badgeColor: "bg-[#C84B31] text-white",
     href: "/shop?sort=new",
-    image: "/hijab-medina.jpg",
+    image: "/assets/images/img_01.jpeg",
   },
   {
     title: "Shop All",
     badge: "Shop All",
     badgeColor: "bg-[#F2DCD6] text-[#C84B31]",
     href: "/shop",
-    image: "/abaya-front-open.png",
+    image: "/assets/images/img_02.webp",
   },
 ];
 
@@ -323,9 +323,9 @@ export function DesktopMegaMenu({ isOpen, onClose, categories, discoverItems }: 
                   <div className="w-8 h-[2.5px] bg-[#C84B31] mt-1 mb-5 rounded-full" />
 
                   <div className="grid grid-cols-2 gap-3.5">
-                    {displayDiscover.map((item) => (
+                    {displayDiscover.map((item, idx) => (
                       <Link
-                        key={item.title}
+                        key={item.id ? `${item.id}-${idx}` : `${item.title}-${idx}`}
                         href={item.href}
                         onClick={onClose}
                         className="group/item flex flex-col p-2.5 rounded-2xl bg-white/70 hover:bg-white hover:shadow-md transition-all duration-300 border border-transparent hover:border-cream-line/60"
@@ -543,9 +543,9 @@ export function MobileMegaMenu({
             <div className="w-6 h-[2px] bg-[#C84B31] mb-3 rounded-full" />
 
             <div className="grid grid-cols-2 gap-2.5">
-              {displayDiscover.map((item) => (
+              {displayDiscover.map((item, idx) => (
                 <Link
-                  key={item.id || item.title}
+                  key={item.id ? `${item.id}-${idx}` : `${item.title}-${idx}`}
                   href={item.href}
                   onClick={onClose}
                   className="group/item relative flex flex-col p-2 rounded-2xl bg-[#FAF5F2]/50 border border-[#F2DCD6]/30 hover:bg-white hover:border-[#F2DCD6] hover:shadow-sm transition-all"

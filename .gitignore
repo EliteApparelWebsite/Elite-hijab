@@ -43,3 +43,8 @@ next-env.d.ts
 
 # drive assets
 drive_assets/
+
+# local tooling / ide
+.agents/
+.cursor/
+.playwright-mcp/

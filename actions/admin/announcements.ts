@@ -51,13 +51,13 @@ const DEFAULT_ANNOUNCEMENT_BANNER: AnnouncementBannerConfig = {
       icon: 'none'
     }
   ],
-  backgroundColor: '#a35c4a',
-  textColor: '#ffffff',
-  fontSize: '13px',
-  height: '40px',
+  backgroundColor: '#0A0A0A',
+  textColor: '#DFBA73',
+  fontSize: '12px',
+  height: '38px',
   speed: 40,
   pauseOnHover: true,
-  separator: 'line'
+  separator: 'sparkle'
 };
 
 async function checkAdminAuth(supabase: any) {
@@ -110,7 +110,7 @@ export async function getAnnouncementBannerSettings(): Promise<AnnouncementBanne
     if (localDb.settings?.announcement_banner) {
       localSettings = localDb.settings.announcement_banner;
     }
-  } catch (e) {}
+  } catch (e) { }
 
   try {
     const supabase = await createClient()
@@ -132,7 +132,7 @@ export async function getAnnouncementBannerSettings(): Promise<AnnouncementBanne
 
 export async function updateAnnouncementBannerSettings(config: Partial<AnnouncementBannerConfig>) {
   const supabase = await createClient()
-  
+
   const isAdmin = await checkAdminAuth(supabase)
   if (!isAdmin) return { success: false, error: 'Unauthorized' }
 
@@ -155,9 +155,9 @@ export async function updateAnnouncementBannerSettings(config: Partial<Announcem
       .from('settings')
       .update({ announcement_banner: nextConfig })
       .eq('id', 'global-settings-id')
-      
+
     if (error) {
-       console.error("Supabase announcement update error:", error)
+      console.error("Supabase announcement update error:", error)
     }
   } catch (sbErr) {
     console.error('Supabase updateAnnouncementBannerSettings warning:', sbErr)
@@ -165,6 +165,6 @@ export async function updateAnnouncementBannerSettings(config: Partial<Announcem
 
   revalidatePath('/', 'layout')
   revalidatePath('/admin/announcements')
-  
+
   return { success: true }
 }

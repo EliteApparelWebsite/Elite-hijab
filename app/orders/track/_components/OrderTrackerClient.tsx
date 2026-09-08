@@ -190,7 +190,7 @@ export default function OrderTrackerClient({
             onClick={() => setActiveTab('track')}
             className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
               activeTab === 'track'
-                ? 'bg-emerald text-cream shadow-md scale-[1.02]'
+                ? 'bg-[#0A0A0A] text-white shadow-md scale-[1.02] border border-gold/40'
                 : 'text-ink/70 hover:text-ink hover:bg-white/50'
             }`}
           >
@@ -201,7 +201,7 @@ export default function OrderTrackerClient({
             onClick={() => setActiveTab('history')}
             className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
               activeTab === 'history'
-                ? 'bg-emerald text-cream shadow-md scale-[1.02]'
+                ? 'bg-[#0A0A0A] text-white shadow-md scale-[1.02] border border-gold/40'
                 : 'text-ink/70 hover:text-ink hover:bg-white/50'
             }`}
           >
@@ -240,7 +240,7 @@ export default function OrderTrackerClient({
                       placeholder="e.g. AM-839102-123"
                       value={orderNumber}
                       onChange={(e) => setOrderNumber(e.target.value)}
-                      className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-emerald/20 focus:border-emerald transition-all font-mono text-sm uppercase"
+                      className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-gold/25 focus:border-gold transition-all font-mono text-sm uppercase"
                     />
                     <Package className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-ink/40" />
                   </div>
@@ -256,7 +256,7 @@ export default function OrderTrackerClient({
                       placeholder="e.g. name@example.com or 9876543210"
                       value={contact}
                       onChange={(e) => setContact(e.target.value)}
-                      className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-emerald/20 focus:border-emerald transition-all text-sm"
+                      className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-gold/25 focus:border-gold transition-all text-sm"
                     />
                     <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-ink/40" />
                   </div>
@@ -273,7 +273,7 @@ export default function OrderTrackerClient({
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-4 bg-emerald hover:bg-emerald-deep text-cream font-bold text-base rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-70"
+                className="w-full py-4 bg-[#0A0A0A] hover:bg-[#D4AF37] text-white hover:text-black font-bold text-base rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-70 border border-gold/40"
               >
                 {loading ? (
                   <>
@@ -301,7 +301,7 @@ export default function OrderTrackerClient({
                       <span className="text-xs uppercase tracking-wider font-bold text-ink/50">
                         Order Identifier
                       </span>
-                      <span className="bg-emerald/10 text-emerald font-mono font-bold px-3 py-1 rounded-full text-sm border border-emerald/20">
+                      <span className="bg-gold/15 text-[#AA8034] font-mono font-bold px-3 py-1 rounded-full text-sm border border-gold/30">
                         #{trackedOrder.order_number}
                       </span>
                     </div>
@@ -324,7 +324,7 @@ export default function OrderTrackerClient({
                       onClick={() => window.print()}
                       className="px-4 py-2.5 bg-cream/70 hover:bg-cream border border-cream-line text-ink text-xs font-bold rounded-xl flex items-center gap-2 transition-all shadow-sm"
                     >
-                      <Printer className="w-4 h-4 text-emerald" />
+                      <Printer className="w-4 h-4 text-gold" />
                       Print Receipt
                     </button>
                     <a
@@ -358,7 +358,7 @@ export default function OrderTrackerClient({
                       <span className="text-xs font-bold uppercase tracking-wider text-ink/60">
                         Live Tracking Progress
                       </span>
-                      <span className="text-xs font-bold uppercase tracking-wider text-emerald bg-emerald/10 px-3 py-1 rounded-full border border-emerald/20">
+                      <span className="text-xs font-bold uppercase tracking-wider text-gold-dark bg-gold/15 px-3 py-1 rounded-full border border-gold/30">
                         Status: {trackedOrder.order_status?.replace(/_/g, ' ')}
                       </span>
                     </div>
@@ -368,7 +368,7 @@ export default function OrderTrackerClient({
                       <div className="absolute top-1/2 left-0 right-0 h-1.5 bg-cream-line -translate-y-1/2 rounded-full z-0" />
                       {/* Active line fill */}
                       <div
-                        className="absolute top-1/2 left-0 h-1.5 bg-gradient-to-r from-emerald to-gold -translate-y-1/2 rounded-full z-0 transition-all duration-500"
+                        className="absolute top-1/2 left-0 h-1.5 bg-gradient-to-r from-black to-gold -translate-y-1/2 rounded-full z-0 transition-all duration-500"
                         style={{
                           width: `${Math.min(100, Math.max(0, ((currentStep - 1) / (steps.length - 1)) * 100))}%`
                         }}
@@ -386,7 +386,7 @@ export default function OrderTrackerClient({
                               <div
                                 className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-xs md:text-sm transition-all duration-300 shadow-md ${
                                   isDone
-                                    ? 'bg-emerald text-cream ring-4 ring-emerald/20 scale-105'
+                                    ? 'bg-[#0A0A0A] text-[#DFBA73] ring-4 ring-gold/30 scale-105'
                                     : 'bg-white border-2 border-cream-line text-ink/40'
                                 } ${isCurrent ? 'animate-pulse ring-gold/40' : ''}`}
                               >
@@ -430,7 +430,7 @@ export default function OrderTrackerClient({
                       </h3>
                       <button
                         onClick={() => setItemsExpanded(!itemsExpanded)}
-                        className="text-xs font-bold text-emerald hover:underline flex items-center gap-1"
+                        className="text-xs font-bold text-gold hover:text-black hover:underline flex items-center gap-1"
                       >
                         {itemsExpanded ? (
                           <>
@@ -448,10 +448,10 @@ export default function OrderTrackerClient({
                       <div className="divide-y divide-cream-line/60 mt-4">
                         {trackedOrder.order_items?.map((item: any) => (
                           <div
-                            key={item.id || item.product_name}
-                            className="py-4 flex items-center gap-4 hover:bg-cream/10 transition-colors rounded-xl px-2"
+                            key={item.id}
+                            className="py-4 flex items-center gap-4 hover:bg-cream/10 p-2 rounded-xl transition-colors"
                           >
-                            <div className="w-16 h-16 rounded-xl bg-cream border border-cream-line/80 overflow-hidden relative shrink-0">
+                            <div className="relative w-14 h-18 rounded-lg overflow-hidden bg-cream shrink-0 border border-cream-line">
                               {item.image_url ? (
                                 <Image
                                   src={item.image_url}
@@ -460,28 +460,25 @@ export default function OrderTrackerClient({
                                   className="object-cover"
                                 />
                               ) : (
-                                <div className="w-full h-full flex items-center justify-center text-ink/30">
+                                <div className="w-full h-full flex items-center justify-center text-ink/20">
                                   <Package className="w-6 h-6" />
                                 </div>
                               )}
                             </div>
-
                             <div className="flex-1 min-w-0">
-                              <h4 className="font-bold text-ink text-sm truncate">
+                              <h4 className="font-semibold text-sm text-ink truncate">
                                 {item.product_name}
                               </h4>
-                              {item.variant_name && item.variant_name !== 'Default' && (
-                                <span className="inline-block bg-cream border border-cream-line text-ink/70 text-[11px] font-medium px-2 py-0.5 rounded-md mt-1">
-                                  Variant: {item.variant_name}
-                                </span>
-                              )}
-                              <div className="text-xs text-ink/60 mt-1">
-                                Quantity: <span className="font-bold text-ink">{item.quantity}</span> × ₹{item.price_at_purchase}
+                              <div className="flex items-center gap-2 text-xs text-ink/50 mt-0.5">
+                                <span>Qty: {item.quantity}</span>
+                                <span>•</span>
+                                <span>₹{item.price_at_purchase} each</span>
                               </div>
                             </div>
-
-                            <div className="text-right font-bold text-ink text-sm">
-                              ₹{item.line_total || item.price_at_purchase * item.quantity}
+                            <div className="text-right">
+                              <span className="font-display font-bold text-ink text-sm">
+                                ₹{item.price_at_purchase * item.quantity}
+                              </span>
                             </div>
                           </div>
                         ))}
@@ -490,50 +487,37 @@ export default function OrderTrackerClient({
                   </div>
                 </div>
 
-                {/* Right Column: Address & Payment Breakdown */}
+                {/* Right Column: Order Summary & Delivery Address */}
                 <div className="space-y-6">
-                  {/* Shipping Address */}
+                  {/* Delivery Address Card */}
                   <div className="bg-white rounded-3xl p-6 shadow-card border border-cream-line/80 space-y-4">
-                    <h3 className="font-display text-base font-bold text-ink flex items-center gap-2 border-b border-cream-line pb-3">
+                    <h3 className="font-display text-base font-bold text-ink flex items-center gap-2 pb-3 border-b border-cream-line">
                       <MapPin className="w-4 h-4 text-gold" />
-                      Delivery Address
+                      Delivery Information
                     </h3>
-                    {trackedOrder.addresses ? (
-                      <div className="text-xs text-ink/80 space-y-1.5 leading-relaxed">
-                        <p className="font-bold text-ink text-sm">
-                          {trackedOrder.addresses.full_name || trackedOrder.customers?.full_name}
-                        </p>
-                        <p>{trackedOrder.addresses.address_line_1}</p>
-                        <p>
-                          {trackedOrder.addresses.city}, {trackedOrder.addresses.state}{' '}
-                          {trackedOrder.addresses.postal_code}
-                        </p>
-                        <div className="pt-2 border-t border-cream-line/60 font-semibold text-ink/70">
-                          Phone: {trackedOrder.addresses.phone || 'N/A'}
-                        </div>
-                      </div>
-                    ) : (
-                      <p className="text-xs text-ink/50 italic">
-                        Shipping address details associated with order.
-                      </p>
-                    )}
+                    <div className="space-y-2 text-xs leading-relaxed text-ink/80">
+                      <p className="font-bold text-ink text-sm">{trackedOrder.customer_name}</p>
+                      <p>{trackedOrder.shipping_address}</p>
+                      <p className="text-ink/60">{trackedOrder.customer_phone}</p>
+                      <p className="text-ink/60">{trackedOrder.customer_email}</p>
+                    </div>
                   </div>
 
-                  {/* Summary Breakdown */}
+                  {/* Pricing Summary Card */}
                   <div className="bg-white rounded-3xl p-6 shadow-card border border-cream-line/80 space-y-4">
-                    <h3 className="font-display text-base font-bold text-ink flex items-center gap-2 border-b border-cream-line pb-3">
+                    <h3 className="font-display text-base font-bold text-ink flex items-center gap-2 pb-3 border-b border-cream-line">
                       <CreditCard className="w-4 h-4 text-gold" />
-                      Payment Summary
+                      Invoice Summary
                     </h3>
 
-                    <div className="space-y-2.5 text-xs text-ink/80">
+                    <div className="space-y-2.5 text-xs text-ink/70">
                       <div className="flex justify-between">
                         <span>Subtotal</span>
                         <span className="font-bold">₹{trackedOrder.subtotal}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Shipping Charges</span>
-                        <span className="font-bold text-emerald">
+                        <span className="font-bold text-gold">
                           {trackedOrder.shipping_cost === 0 ? 'FREE' : `₹${trackedOrder.shipping_cost}`}
                         </span>
                       </div>
@@ -554,7 +538,7 @@ export default function OrderTrackerClient({
 
                       <div className="pt-3 border-t border-cream-line flex justify-between items-center text-sm font-bold text-ink">
                         <span>Total Paid</span>
-                        <span className="text-base text-emerald font-display">₹{trackedOrder.total_amount}</span>
+                        <span className="text-base text-[#0D0D0D] font-display">₹{trackedOrder.total_amount}</span>
                       </div>
                     </div>
                   </div>
@@ -587,7 +571,7 @@ export default function OrderTrackerClient({
                     placeholder="Search by order # or product..."
                     value={historySearchTerm}
                     onChange={(e) => setHistorySearchTerm(e.target.value)}
-                    className="w-full pl-9 pr-4 py-2 rounded-full border border-cream-line bg-cream/20 text-xs text-ink focus:outline-none focus:border-emerald"
+                    className="w-full pl-9 pr-4 py-2 rounded-full border border-cream-line bg-cream/20 text-xs text-ink focus:outline-none focus:border-gold"
                   />
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-ink/40" />
                 </div>
@@ -596,7 +580,7 @@ export default function OrderTrackerClient({
 
             {historyLoading ? (
               <div className="text-center py-16 space-y-3">
-                <RefreshCw className="w-8 h-8 animate-spin text-emerald mx-auto" />
+                <RefreshCw className="w-8 h-8 animate-spin text-gold mx-auto" />
                 <p className="text-sm font-semibold text-ink/60">Fetching your orders...</p>
               </div>
             ) : isGuest ? (
@@ -610,7 +594,7 @@ export default function OrderTrackerClient({
                 <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center">
                   <Link
                     href="/login"
-                    className="px-6 py-2.5 bg-emerald text-cream font-bold text-xs rounded-full shadow-md hover:bg-emerald-deep transition-all"
+                    className="px-6 py-2.5 bg-[#0A0A0A] hover:bg-[#D4AF37] text-white hover:text-black font-bold text-xs rounded-full shadow-md transition-all border border-gold/40"
                   >
                     Log In Now
                   </Link>
@@ -628,7 +612,7 @@ export default function OrderTrackerClient({
                 {filteredHistory.map((ord) => (
                   <div
                     key={ord.id}
-                    className="border border-cream-line hover:border-emerald/40 rounded-2xl p-5 md:p-6 bg-white hover:bg-cream/10 transition-all duration-300 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4"
+                    className="border border-cream-line hover:border-gold/50 rounded-2xl p-5 md:p-6 bg-white hover:bg-cream/10 transition-all duration-300 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4"
                   >
                     <div className="space-y-2 flex-1">
                       <div className="flex items-center gap-3 flex-wrap">
@@ -677,14 +661,14 @@ export default function OrderTrackerClient({
                     <div className="flex flex-row md:flex-col items-center md:items-end justify-between border-t md:border-t-0 border-cream-line/50 pt-3 md:pt-0 gap-3">
                       <div>
                         <div className="text-xs text-ink/50 text-right hidden md:block">Total Amount</div>
-                        <div className="font-display font-bold text-emerald text-lg">
+                        <div className="font-display font-bold text-[#0D0D0D] text-lg">
                           ₹{ord.total_amount}
                         </div>
                       </div>
 
                       <button
                         onClick={() => handleSelectFromHistory(ord)}
-                        className="px-4 py-2 bg-emerald/10 hover:bg-emerald text-emerald hover:text-cream text-xs font-bold rounded-xl transition-all border border-emerald/20 flex items-center gap-1.5"
+                        className="px-4 py-2 bg-[#0A0A0A] hover:bg-[#D4AF37] text-white hover:text-black text-xs font-bold rounded-xl transition-all border border-gold/40 flex items-center gap-1.5"
                       >
                         Track Details <ArrowRight className="w-3.5 h-3.5" />
                       </button>
@@ -699,7 +683,7 @@ export default function OrderTrackerClient({
                 <p className="text-sm font-semibold">No orders found.</p>
                 <Link
                   href="/shop"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-emerald text-cream font-bold text-xs rounded-full shadow-md hover:bg-emerald-deep transition-all"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-[#0A0A0A] hover:bg-[#D4AF37] text-white hover:text-black font-bold text-xs rounded-full shadow-md transition-all border border-gold/40"
                 >
                   Explore Collection & Shop <ArrowRight className="w-4 h-4" />
                 </Link>

@@ -264,18 +264,19 @@ export default function Categories({ categories = [] }: { categories?: Category[
   };
 
   return (
-    <section id="categories" className="relative py-6 md:py-10 bg-cream-deep/60 overflow-hidden">
+    <section id="categories" className="relative py-8 md:py-14 bg-[#FAF9F6] border-b border-[#EAEAEA] overflow-hidden">
       <div className="max-w-wrap mx-auto px-5 md:px-8">
         {/* Header */}
         <Reveal className="text-center max-w-xl mx-auto">
-          <div className="eyebrow justify-center inline-flex items-center gap-2">
-            <span className="h-px w-6 bg-gold" />
-            Shop by Category
-            <span className="h-px w-6 bg-gold" />
+          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white border border-[#D4AF37]/50 shadow-sm mb-3">
+            <span className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse" />
+            <span className="font-display font-bold text-xs tracking-[0.22em] text-[#AA8034] uppercase">
+              SHOP BY CATEGORY
+            </span>
           </div>
-          <h2 className="section-heading mt-4">Find your silhouette</h2>
-          <p className="section-sub mt-4">
-            Essential collections of the Hijabista wardrobe — crafted for exceptional comfort, graceful coverage and modern luxury.
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mt-3 text-[#0A0A0A]">Find your silhouette</h2>
+          <p className="mt-3 text-[#555555] text-sm md:text-base leading-relaxed">
+            Essential collections of the Elite Hijab wardrobe — crafted for exceptional comfort, graceful coverage and modern luxury.
           </p>
         </Reveal>
 
@@ -285,22 +286,22 @@ export default function Categories({ categories = [] }: { categories?: Category[
           onMouseLeave={() => setIsHovered(false)}
           className="relative mt-8 md:mt-10 group/carousel"
         >
-          {/* Left Navigation Button (Website Theme Color #C84B31) */}
+          {/* Left Navigation Button in Black & Gold */}
           <button
             onClick={scrollPrev}
             aria-label="Previous categories"
-            className="absolute -left-2 sm:-left-4 lg:-left-5 top-[42%] -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full bg-[#A83D26] text-white hover:bg-[#A83D26] border-2 border-white shadow-xl hover:scale-110 active:scale-95 transition-all flex items-center justify-center shrink-0"
+            className="absolute -left-2 sm:-left-4 lg:-left-5 top-[42%] -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full bg-[#0A0A0A] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0A0A0A] border-2 border-[#D4AF37] shadow-xl hover:scale-110 active:scale-95 transition-all flex items-center justify-center shrink-0"
           >
             <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
 
-          {/* Right Navigation Button (Website Theme Color #C84B31) */}
+          {/* Right Navigation Button in Black & Gold */}
           <button
             onClick={scrollNext}
             aria-label="Next categories"
-            className="absolute -right-2 sm:-right-4 lg:-right-5 top-[42%] -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full bg-[#A83D26] text-white hover:bg-[#A83D26] border-2 border-white shadow-xl hover:scale-110 active:scale-95 transition-all flex items-center justify-center shrink-0"
+            className="absolute -right-2 sm:-right-4 lg:-right-5 top-[42%] -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full bg-[#0A0A0A] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0A0A0A] border-2 border-[#D4AF37] shadow-xl hover:scale-110 active:scale-95 transition-all flex items-center justify-center shrink-0"
           >
             <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -319,12 +320,12 @@ export default function Categories({ categories = [] }: { categories?: Category[
               >
                 <a
                   href={`/shop?category=${cat.id}`}
-                  className="group block relative h-full rounded-xl md:rounded-xl overflow-hidden bg-white shadow-card hover:shadow-xl transition-all duration-500 hover:-translate-y-1.5 flex flex-col border border-cream-line/50"
+                  className="group block relative h-full rounded-2xl overflow-hidden bg-white shadow-card hover:shadow-[0_15px_35px_rgba(212,175,55,0.22)] transition-all duration-500 hover:-translate-y-2 flex flex-col border border-[#D4AF37]/30 hover:border-[#D4AF37]"
                 >
-                  {/* Top Image Section (Height slightly increased ~2%) */}
-                  <div className="relative w-full aspect-[4/3.7] overflow-hidden rounded-t-xl bg-cream/40">
+                  {/* Top Image Section */}
+                  <div className="relative w-full aspect-[4/3.8] overflow-hidden rounded-t-2xl bg-cream/40">
                     <Image
-                      src={cat.image_url || (cat as any).image || "/hijab-medina.jpg"}
+                      src={(!cat.image_url || cat.image_url.includes('hijab-medina') || cat.image_url.includes('hijab-muted-sage')) ? "/assets/images/img_06.webp" : (cat.image_url || (cat as any).image)}
                       alt={cat.name || "Category"}
                       fill
                       sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
@@ -332,26 +333,13 @@ export default function Categories({ categories = [] }: { categories?: Category[
                     />
                   </div>
 
-                  {/* Bottom Text Section (Compact & responsive text) */}
-                  <div className="pt-4 sm:pt-5 pb-4 md:pb-5 px-2 sm:px-2.5 flex flex-col items-center text-center flex-grow justify-center">
-                    <h3 className="font-display font-bold text-ink text-[13.5px] sm:text-[14.5px] lg:text-[15.5px] leading-tight group-hover:text-[#7E3F35] transition-colors line-clamp-1">
+                  {/* Bottom Text Section */}
+                  <div className="pt-4 sm:pt-4.5 pb-4 md:pb-5 px-2.5 flex flex-col items-center text-center flex-grow justify-center bg-white">
+                    <h3 className="font-display font-bold text-[#0A0A0A] text-[14px] sm:text-[15px] leading-tight group-hover:text-[#AA8034] transition-colors line-clamp-1">
                       {cat.name}
                     </h3>
-                    <span className="text-[11px] sm:text-[12px] font-body font-medium text-ink/65 group-hover:text-[#7E3F35] transition-colors inline-flex items-center gap-1 mt-1">
+                    <span className="text-[11px] font-body font-semibold text-[#AA8034] bg-[#D4AF37]/10 px-2.5 py-0.5 rounded-full border border-[#D4AF37]/25 group-hover:bg-[#D4AF37] group-hover:text-black transition-all inline-flex items-center gap-1 mt-2">
                       {formatCount(cat.count)}
-                      <svg
-                        className="w-3 h-3 md:w-3.5 md:h-3.5 transition-transform duration-300 group-hover:translate-x-1 text-[#7E3F35]/70 group-hover:text-[#7E3F35]"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M14 5l7 7m0 0l-7 7m7-7H3"
-                        />
-                      </svg>
                     </span>
                   </div>
                 </a>

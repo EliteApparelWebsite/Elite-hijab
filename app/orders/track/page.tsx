@@ -3,8 +3,8 @@ import Footer from '@/components/Footer'
 import OrderTrackerClient from './_components/OrderTrackerClient'
 
 export const metadata = {
-  title: 'Track Order & Order History | HIJABISTA',
-  description: 'Track your HIJABISTA order status in real-time or view your past order history.',
+  title: 'Track Order & Order History | Elite Hijab',
+  description: 'Track your Elite Hijab order status in real-time or view your past order history.',
 }
 
 export default async function TrackOrderPage({

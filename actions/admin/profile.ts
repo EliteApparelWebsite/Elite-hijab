@@ -34,9 +34,9 @@ export async function getAdminProfile() {
   if (!isAdmin) {
     return {
       id: 'mock-admin-id',
-      email: 'admin@hijabistaa.com',
+      email: 'husnezaman@gmail.com',
       full_name: 'Admin',
-      phone: '+91 87964 59447'
+      phone: '+91 81696 45338'
     }
   }
 
@@ -53,9 +53,9 @@ export async function getAdminProfile() {
 
   return admin || {
     id: 'mock-admin-id',
-    email: 'admin@hijabistaa.com',
+    email: 'husnezaman@gmail.com',
     full_name: 'Admin',
-    phone: '+91 87964 59447'
+    phone: '+91 81696 45338'
   }
 }
 

@@ -3,8 +3,8 @@ import Footer from "@/components/Footer";
 import Contact from "@/components/Contact";
 
 export const metadata = {
-  title: 'Contact Us | HIJABISTA',
-  description: 'Get in touch with HIJABISTA for any queries, custom orders, or feedback.',
+  title: 'Contact Us | Elite Hijab',
+  description: 'Get in touch with Elite Hijab for any queries, custom orders, or feedback.',
 }
 
 export default function ContactPage() {

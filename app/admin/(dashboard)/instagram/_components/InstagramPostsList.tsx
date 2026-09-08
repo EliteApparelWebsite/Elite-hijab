@@ -23,7 +23,7 @@ import {
   ImageIcon,
 } from 'lucide-react'
 
-const DEFAULT_INSTAGRAM_LINK = 'https://www.instagram.com/__hijabistaa__'
+const DEFAULT_INSTAGRAM_LINK = 'https://www.instagram.com/elite_apparel02'
 
 export function InstagramPostsList({ initialPosts }: { initialPosts: InstagramPost[] }) {
   const [posts, setPosts] = useState<InstagramPost[]>(initialPosts)

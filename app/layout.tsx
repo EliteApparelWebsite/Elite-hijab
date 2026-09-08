@@ -21,22 +21,22 @@ const bricolage = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
-  title: "HIJABISTAA | Hijab & Scarf — Modest Fashion Elevated",
+  title: "Elite Hijab | Hijab & Scarf — Modest Fashion Elevated",
   description:
-    "HIJABISTAA crafts premium hijabs, scarves and modest essentials with sophisticated detailing, luxurious fabric and timeless silhouettes.",
+    "Elite Hijab crafts premium hijabs, scarves and modest essentials with sophisticated detailing, luxurious fabric and timeless silhouettes.",
   keywords: [
-    "Hijabistaa",
+    "Elite Hijab",
     "modest fashion",
     "hijab",
     "scarf",
     "modest wear",
   ],
   icons: {
-    icon: '/hijabista-logo.png',
-    apple: '/hijabista-logo.png',
+    icon: '/Elitehijab-logo.jpeg',
+    apple: '/Elitehijab-logo.jpeg',
   },
   openGraph: {
-    title: "HIJABISTAA | Hijab & Scarf — Modest Fashion Elevated",
+    title: "Elite Hijab | Hijab & Scarf — Modest Fashion Elevated",
     description:
       "Premium hijabs, scarves and modest essentials crafted with sophisticated detailing and luxurious fabric.",
     type: "website",
