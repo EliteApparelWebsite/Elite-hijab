@@ -6,8 +6,33 @@ import { createAdminClient } from '@/lib/supabase/admin'
 // Shiprocket -> Settings -> API -> Configure Webhooks, along with a
 // "Secret Key" — set that exact same string as SHIPROCKET_WEBHOOK_SECRET
 // below. Shiprocket sends that secret back on every webhook call in the
-// `x-api-key` header, which is how we verify the request actually came
-// from Shiprocket and not a random POST to this public URL.
+// header its "Auth Token Type" dropdown selects — we accept either
+// "x-api-key" or "Authorization" so either dropdown choice works.
+//
+// Named "shipment-status" rather than "shiprocket" because Shiprocket's own
+// webhook URL field rejects any URL containing "shiprocket"/"kartrocket"/
+// "sr"/"kr" with an "Address is not allowed" error.
+//
+// GET/OPTIONS + the empty-body and no-identifier branches below exist
+// because Shiprocket's dashboard "Test Webhook" button first probes the URL
+// (a GET, or a CORS preflight, or a POST with no body / a payload with no
+// order_id) before it will let you save the connection — without handling
+// those, the dashboard reports "unable to send request to mentioned api"
+// even though a real webhook call would have worked fine.
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-api-key',
+  'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+}
+
+export async function GET() {
+  return NextResponse.json({ status: 'active' }, { headers: corsHeaders })
+}
+
+export async function OPTIONS() {
+  return new NextResponse(null, { status: 200, headers: corsHeaders })
+}
 
 function mapShiprocketStatusToOrderStatus(currentStatus: string | undefined): string | null {
   if (!currentStatus) return null
@@ -26,21 +51,19 @@ function mapShiprocketStatusToOrderStatus(currentStatus: string | undefined): st
 
 export async function POST(req: Request) {
   try {
-    const webhookSecret = process.env.SHIPROCKET_WEBHOOK_SECRET
-    const receivedKey = req.headers.get('x-api-key')
-
-    if (webhookSecret) {
-      if (!receivedKey || receivedKey !== webhookSecret) {
-        console.error('[Shiprocket Webhook Error]: Missing/invalid x-api-key header.')
-        return NextResponse.json({ success: false, error: 'Invalid webhook secret' }, { status: 401 })
-      }
-    } else {
-      console.warn('[Shiprocket Webhook]: SHIPROCKET_WEBHOOK_SECRET is not configured — accepting request unverified.')
+    // Shiprocket's "Test Webhook" button sends a POST with an empty body —
+    // req.json() throws on that, which used to surface as a raw 500 instead
+    // of the friendly "endpoint is active" ping the dashboard expects.
+    const rawBody = await req.text()
+    if (!rawBody || rawBody.trim() === '') {
+      return NextResponse.json({ success: true, message: 'Webhook endpoint is active.' }, { headers: corsHeaders })
     }
 
-    const payload = await req.json().catch(() => null)
-    if (!payload) {
-      return NextResponse.json({ success: false, error: 'Invalid JSON payload' }, { status: 400 })
+    let payload: any
+    try {
+      payload = JSON.parse(rawBody)
+    } catch {
+      return NextResponse.json({ success: false, error: 'Invalid JSON payload' }, { status: 400, headers: corsHeaders })
     }
 
     // The `order_id` Shiprocket echoes back is the same order_id we sent
@@ -51,13 +74,34 @@ export async function POST(req: Request) {
     const courierName: string | undefined = payload.courier_name ? String(payload.courier_name) : undefined
     const currentStatus: string | undefined = payload.current_status || payload.shipment_status
 
+    // The dashboard's own test payload carries none of these identifiers —
+    // let it through without a secret check, same as an empty body above,
+    // so the "Test Webhook" button succeeds.
+    const isTestPing = !internalOrderId && !awbCode && !currentStatus
+    if (isTestPing) {
+      return NextResponse.json({ success: true, message: 'Test ping received.' }, { headers: corsHeaders })
+    }
+
+    const webhookSecret = process.env.SHIPROCKET_WEBHOOK_SECRET
+    const authHeader = req.headers.get('authorization') || ''
+    const receivedKey = req.headers.get('x-api-key') || authHeader.replace(/^Bearer\s+/i, '')
+
+    if (webhookSecret) {
+      if (!receivedKey || receivedKey !== webhookSecret) {
+        console.error('[Shiprocket Webhook Error]: Missing/invalid webhook secret header.')
+        return NextResponse.json({ success: false, error: 'Invalid webhook secret' }, { status: 401, headers: corsHeaders })
+      }
+    } else {
+      console.warn('[Shiprocket Webhook]: SHIPROCKET_WEBHOOK_SECRET is not configured — accepting request unverified.')
+    }
+
     console.log('[Shiprocket Webhook]: Received update', { internalOrderId, awbCode, courierName, currentStatus })
 
     if (!internalOrderId) {
       // Nothing we can match to an order — acknowledge so Shiprocket
       // doesn't keep retrying, but log it for visibility.
       console.warn('[Shiprocket Webhook]: Payload had no order_id, ignoring.', payload)
-      return NextResponse.json({ success: true, ignored: true })
+      return NextResponse.json({ success: true, ignored: true }, { headers: corsHeaders })
     }
 
     const supabaseAdmin = createAdminClient()
@@ -83,12 +127,12 @@ export async function POST(req: Request) {
 
     if (error) {
       console.error('[Shiprocket Webhook Error]: DB update failed:', error.message)
-      return NextResponse.json({ success: false, error: error.message }, { status: 500 })
+      return NextResponse.json({ success: false, error: error.message }, { status: 500, headers: corsHeaders })
     }
 
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ success: true }, { headers: corsHeaders })
   } catch (error: any) {
     console.error('[Shiprocket Webhook Critical Error]:', error)
-    return NextResponse.json({ success: false, error: error?.message || 'Internal Server Error' }, { status: 500 })
+    return NextResponse.json({ success: false, error: error?.message || 'Internal Server Error' }, { status: 500, headers: corsHeaders })
   }
 }
