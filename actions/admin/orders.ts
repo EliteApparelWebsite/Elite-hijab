@@ -107,7 +107,7 @@ export async function deleteOrder(orderId: string) {
 // order there (SHIPROCKET_NEW_ORDERS_URL, in lib/shiprocket-constants.ts),
 // which is where you pick a courier, see live rates, and confirm the
 // shipment. The AWB code / courier name / live status then arrive back
-// into our DB via the Shiprocket webhook (app/api/webhooks/shipment-status/route.ts —
+// into our DB via the Shiprocket webhook (app/api/webhooks/courier/route.ts —
 // named to avoid "shiprocket"/"kartrocket"/"sr"/"kr", which Shiprocket's own
 // webhook URL field rejects with "Address is not allowed")
 // once you ship it — they are not set by this action.
