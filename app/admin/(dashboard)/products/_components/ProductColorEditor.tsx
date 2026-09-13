@@ -4,7 +4,6 @@ import React, { useState, useTransition } from 'react'
 import { Plus, Trash2, Image as ImageIcon, Loader2, Check, Palette, Upload, ChevronDown, ChevronUp, X } from 'lucide-react'
 import { saveProductColors } from '@/actions/products'
 import Image from 'next/image'
-import { CldUploadWidget } from 'next-cloudinary'
 
 export type ColorVariant = {
   id: string

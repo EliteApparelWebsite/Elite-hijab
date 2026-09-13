@@ -4,10 +4,79 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
+import crypto from 'crypto'
 
 export type AuthResult = {
   error?: string
   success?: boolean
+  message?: string
+}
+
+async function sendBrevoEmail({ to, subject, html }: { to: string; subject: string; html: string }): Promise<{ error?: string }> {
+  const brevoApiKey = process.env.BREVO_API_KEY
+  const senderEmail = process.env.BREVO_SENDER_EMAIL || 'husnezaman@gmail.com'
+  const senderName = process.env.BREVO_SENDER_NAME || 'Elite Hijab'
+
+  if (!brevoApiKey) {
+    console.log(`[DEV MODE EMAIL] To: ${to}, Subject: ${subject}\n${html}`)
+    return {}
+  }
+
+  try {
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'api-key': brevoApiKey,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        sender: { name: senderName, email: senderEmail },
+        to: [{ email: to }],
+        subject,
+        htmlContent: html,
+      })
+    })
+
+    if (!response.ok) {
+      const errText = await response.text()
+      console.error('Brevo API Error:', errText)
+      return { error: 'Failed to send email. Please try again.' }
+    }
+
+    return {}
+  } catch (e: any) {
+    console.error('Email Send Error:', e)
+    return { error: 'Failed to send email: ' + e.message }
+  }
+}
+
+function resetPasswordEmailHtml(link: string): string {
+  return `
+    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 32px; border: 1px solid #E6DAC4; border-radius: 24px; background-color: #FBF7F0; text-align: center; box-shadow: 0 4px 20px rgba(33,29,25,0.025);">
+      <div style="margin-bottom: 24px;">
+        <h1 style="color: #1E3B2E; font-size: 26px; font-weight: bold; letter-spacing: 2px; margin: 0; font-family: Georgia, serif;">Elite Hijab</h1>
+      </div>
+      <hr style="border: 0; border-top: 1px solid #E6DAC4; margin: 24px 0;" />
+      <h2 style="color: #211D19; font-size: 20px; font-weight: bold; margin-bottom: 8px;">Reset your password</h2>
+      <p style="color: #211D19; opacity: 0.8; font-size: 14px; line-height: 1.6; margin-top: 0; max-width: 380px; margin-left: auto; margin-right: auto;">
+        We received a request to reset your Elite Hijab account password. Click the button below to choose a new one.
+      </p>
+      <div style="margin: 32px 0;">
+        <a href="${link}" style="display: inline-block; font-size: 14px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #1E3B2E; padding: 14px 32px; border-radius: 999px; background-color: #B9893F; text-decoration: none;">
+          Reset Password
+        </a>
+      </div>
+      <p style="color: #211D19; opacity: 0.6; font-size: 12px; line-height: 1.5; margin: 24px 0;">
+        This link is valid for <strong style="color: #211D19;">30 minutes</strong>.<br />
+        If you did not request this, please ignore this email — your password will not change.
+      </p>
+      <hr style="border: 0; border-top: 1px solid #E6DAC4; margin: 24px 0;" />
+      <p style="color: #B9893F; opacity: 0.7; font-size: 11px; margin: 0;">
+        &copy; ${new Date().getFullYear()} Elite Hijab. All rights reserved.
+      </p>
+    </div>
+  `
 }
 
 export async function login(
@@ -23,14 +92,40 @@ export async function login(
     return { error: 'Email and password are required' }
   }
 
-  const { error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
   })
 
-  if (error) {
+  if (error || !data?.user) {
     return { error: 'Invalid email or password' }
   }
+
+  // Fetch the customer profile and establish the same custom-cookie session
+  // every other part of the app (admin layout, checkout, profile pages)
+  // reads via createClient()'s auth wrapper — a raw Supabase Auth session
+  // alone is not enough for the rest of the app to recognize this user.
+  const { createAdminClient } = await import('@/lib/supabase/admin')
+  const adminClient = createAdminClient()
+
+  const { data: profile } = await adminClient
+    .from('customers')
+    .select('*')
+    .eq('id', data.user.id)
+    .maybeSingle()
+
+  const cookieStore = await cookies()
+  cookieStore.set('hijabistaa-user-session', JSON.stringify({
+    id: data.user.id,
+    email: data.user.email,
+    full_name: profile?.full_name || data.user.user_metadata?.full_name || 'Customer',
+    role: 'customer'
+  }), {
+    path: '/',
+    httpOnly: false,
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 30 * 24 * 60 * 60 // 30 days
+  })
 
   const redirectTo = formData.get('redirect_to') as string
   revalidatePath('/', 'layout')
@@ -229,12 +324,21 @@ export async function verifyEmailOtp(
   otp: string,
   redirectTo?: string,
   fullName?: string,
-  phone?: string
+  phone?: string,
+  password?: string
 ): Promise<AuthResult> {
   const supabase = await createClient()
 
   if (!email || !otp) {
     return { error: 'Email and OTP code are required' }
+  }
+
+  // Password is optional here (the guest-checkout OTP flow never sets one),
+  // but when the registration form does supply one, it must meet the same
+  // minimum Supabase enforces — checked before we touch the OTP record so a
+  // weak password fails fast without burning the code.
+  if (password && password.length < 6) {
+    return { error: 'Password must be at least 6 characters.' }
   }
 
   const { createAdminClient } = await import('@/lib/supabase/admin')
@@ -314,6 +418,10 @@ export async function verifyEmailOtp(
     const nameToUse = fullName || record.full_name || 'Customer'
     const { data: newUser, error: createError } = await adminAuth.createUser({
       email,
+      // Only set when the registration form supplied one (guest checkout's
+      // OTP verify never does) — without a password the account can still
+      // only be reached via a fresh OTP, never email+password login.
+      ...(password ? { password } : {}),
       email_confirm: true,
       user_metadata: {
         full_name: nameToUse,
@@ -415,6 +523,117 @@ export async function verifyEmailOtp(
     return { success: true }
   }
   redirect(redirectTo && redirectTo.startsWith('/') ? redirectTo : '/')
+}
+
+// ─── Forgot Password (email-link) ───────────────────────────
+// Two-step flow, separate from the OTP login/register system above: a
+// short-lived random token (not a 6-digit code) is emailed as a clickable
+// link, since a password reset happens away from any in-progress form the
+// user is filling — they may open it minutes later, on another device.
+
+export async function requestPasswordReset(
+  _prevState: AuthResult,
+  formData: FormData
+): Promise<AuthResult> {
+  const email = formData.get('email') as string
+  if (!email) {
+    return { error: 'Email is required' }
+  }
+
+  const { createAdminClient } = await import('@/lib/supabase/admin')
+  const adminClient = createAdminClient()
+
+  const { data: profile } = await adminClient
+    .from('customers')
+    .select('id')
+    .eq('email', email)
+    .maybeSingle()
+
+  if (!profile) {
+    return { error: 'No account found with this email.' }
+  }
+
+  const token = crypto.randomBytes(32).toString('hex')
+  const expiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString()
+
+  await adminClient.from('password_reset_tokens').delete().eq('email', email)
+  const { error: dbError } = await adminClient
+    .from('password_reset_tokens')
+    .insert({ token, email, expires_at: expiresAt })
+
+  if (dbError) {
+    console.error('Password reset token save error:', dbError)
+    return { error: 'Failed to start password reset. Please try again.' }
+  }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const resetLink = `${siteUrl}/reset-password?token=${token}`
+
+  const emailResult = await sendBrevoEmail({
+    to: email,
+    subject: 'Reset your Elite Hijab password',
+    html: resetPasswordEmailHtml(resetLink),
+  })
+  if (emailResult.error) {
+    return { error: emailResult.error }
+  }
+
+  return { success: true, message: 'A reset link has been sent to your email.' }
+}
+
+export async function resetPassword(
+  _prevState: AuthResult,
+  formData: FormData
+): Promise<AuthResult> {
+  const token = formData.get('token') as string
+  const password = formData.get('password') as string
+  const confirmPassword = formData.get('confirm_password') as string
+
+  if (!token) {
+    return { error: 'Missing or invalid reset link.' }
+  }
+  if (!password || password.length < 6) {
+    return { error: 'Password must be at least 6 characters.' }
+  }
+  if (password !== confirmPassword) {
+    return { error: 'Passwords do not match.' }
+  }
+
+  const { createAdminClient } = await import('@/lib/supabase/admin')
+  const adminClient = createAdminClient()
+
+  const { data: record } = await adminClient
+    .from('password_reset_tokens')
+    .select('*')
+    .eq('token', token)
+    .maybeSingle()
+
+  if (!record) {
+    return { error: 'This reset link is invalid or has already been used.' }
+  }
+  if (new Date(record.expires_at) < new Date()) {
+    await adminClient.from('password_reset_tokens').delete().eq('token', token)
+    return { error: 'This reset link has expired. Please request a new one.' }
+  }
+
+  const { data: profile } = await adminClient
+    .from('customers')
+    .select('id')
+    .eq('email', record.email)
+    .maybeSingle()
+
+  if (!profile) {
+    return { error: 'Account not found.' }
+  }
+
+  const { error: updateError } = await adminClient.auth.admin.updateUserById(profile.id, { password })
+  if (updateError) {
+    return { error: updateError.message }
+  }
+
+  await adminClient.from('password_reset_tokens').delete().eq('token', token)
+
+  return { success: true }
 }
 
 export async function adminLogin(

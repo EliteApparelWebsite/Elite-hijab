@@ -10,7 +10,7 @@ import {
   updateHomeBannerImageLink,
 } from '@/actions/admin/homeBanner'
 import { Trash2, Plus, Image as ImageIcon, Loader2, Link as LinkIcon } from 'lucide-react'
-import { CldUploadWidget } from 'next-cloudinary'
+import { ImageKitUploadButton } from '@/components/admin/ImageKitUploadButton'
 
 type BannerImage = {
   id: string
@@ -47,9 +47,7 @@ export function HomeBannerManager({
     })
   }
 
-  const handleUploadSuccess = (result: any) => {
-    const imageUrl = result.info.secure_url
-
+  const handleUploaded = (imageUrl: string) => {
     startTransition(async () => {
       const res = await createHomeBannerImage(imageUrl, '')
       if (res.success) {
@@ -119,26 +117,15 @@ export function HomeBannerManager({
           </div>
 
           {images.length < 8 ? (
-            <CldUploadWidget
-              signatureEndpoint="/api/cloudinary/sign"
-              options={{
-                maxFiles: 1,
-                resourceType: 'image',
-                clientAllowedFormats: ['jpg', 'jpeg', 'png', 'webp'],
-              }}
-              onSuccess={handleUploadSuccess}
+            <ImageKitUploadButton
+              disabled={isPending}
+              onUploaded={handleUploaded}
+              onError={(msg) => alert(msg)}
+              className="flex items-center gap-2 px-4 py-2 bg-stone-900 text-white text-sm font-semibold rounded-xl hover:bg-stone-800 transition-colors disabled:opacity-50"
             >
-              {({ open }) => (
-                <button
-                  onClick={() => open()}
-                  disabled={isPending}
-                  className="flex items-center gap-2 px-4 py-2 bg-stone-900 text-white text-sm font-semibold rounded-xl hover:bg-stone-800 transition-colors disabled:opacity-50"
-                >
-                  <Plus className="w-4 h-4" />
-                  Add Image
-                </button>
-              )}
-            </CldUploadWidget>
+              <Plus className="w-4 h-4" />
+              Add Image
+            </ImageKitUploadButton>
           ) : (
             <span className="text-sm font-medium text-orange-600 bg-orange-50 px-3 py-1 rounded-full border border-orange-200">
               Maximum 8 images reached

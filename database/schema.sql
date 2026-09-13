@@ -97,7 +97,10 @@ CREATE TABLE IF NOT EXISTS orders (
   shiprocket_shipment_id TEXT,
   awb_code TEXT,
   courier_name TEXT,
-  shiprocket_status TEXT
+  shiprocket_status TEXT,
+  -- PayU integration (see database/payu_migration.sql)
+  payu_txnid TEXT UNIQUE,
+  payu_payment_id TEXT
 );
 
 -- 6. Reviews Table

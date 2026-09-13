@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { createHeroSlide, deleteHeroSlide, toggleHeroSlideStatus } from '@/actions/admin/hero'
 import { Trash2, Plus, Image as ImageIcon, Loader2, Link as LinkIcon, X } from 'lucide-react'
-import { CldUploadWidget } from 'next-cloudinary'
+import { ImageKitUploadButton } from '@/components/admin/ImageKitUploadButton'
 
 const PRESET_IMAGES = [
   { name: 'Cream Hijab Look', url: '/model-cream-hijab.png' },
@@ -65,12 +65,6 @@ export function HeroSlideList({
     })
   }
 
-  const handleUploadSuccess = (result: any) => {
-    const imageUrl = result?.info?.secure_url
-    if (imageUrl) {
-      handleAddSlide(imageUrl)
-    }
-  }
 
   const handleDelete = (id: string) => {
     if (!confirm('Are you sure you want to delete this background image?')) return
@@ -132,27 +126,15 @@ export function HeroSlideList({
               Pick / URL
             </button>
 
-            <CldUploadWidget 
-              signatureEndpoint="/api/cloudinary/sign"
-              options={{
-                maxFiles: 1,
-                resourceType: "image",
-                clientAllowedFormats: ["jpg", "jpeg", "png", "webp"]
-              }}
-              onSuccess={handleUploadSuccess}
+            <ImageKitUploadButton
+              disabled={isPending}
+              onUploaded={handleAddSlide}
+              onError={(msg) => alert(msg)}
+              className="flex items-center gap-1.5 px-3.5 py-2 bg-stone-900 text-white text-sm font-semibold rounded-xl hover:bg-stone-800 transition-colors disabled:opacity-50"
             >
-              {({ open }) => (
-                <button
-                  type="button"
-                  onClick={() => open()}
-                  disabled={isPending}
-                  className="flex items-center gap-1.5 px-3.5 py-2 bg-stone-900 text-white text-sm font-semibold rounded-xl hover:bg-stone-800 transition-colors disabled:opacity-50"
-                >
-                  <Plus className="w-4 h-4" />
-                  Upload
-                </button>
-              )}
-            </CldUploadWidget>
+              <Plus className="w-4 h-4" />
+              Upload
+            </ImageKitUploadButton>
           </div>
         ) : (
           <span className="text-sm font-medium text-orange-600 bg-orange-50 px-3 py-1 rounded-full border border-orange-200">

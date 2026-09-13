@@ -7,3 +7,10 @@
 // to click "Ship Now" and pick a courier after an order has been pushed
 // over via createShiprocketShipment() in actions/admin/orders.ts.
 export const SHIPROCKET_NEW_ORDERS_URL = 'https://app.shiprocket.in/seller/orders/new'
+
+// Same format as trackingUrlForAwb() in lib/shiprocket.ts, duplicated here
+// (rather than imported) so client components never pull in that file's
+// server-only fetch/token logic just to build a tracking link.
+export function trackingUrlForAwb(awbCode: string) {
+  return `https://shiprocket.co/tracking/${awbCode}`
+}

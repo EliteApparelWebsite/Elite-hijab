@@ -5,7 +5,7 @@ import Image from "next/image";
 import { updatePromoPopupSettings } from "@/actions/admin/homeBanner";
 import { PromoPopupConfig } from "@/lib/promo";
 import { Sparkles, Eye, Save, Loader2, Image as ImageIcon, CheckCircle, Clock, Gift, RefreshCw } from "lucide-react";
-import { CldUploadWidget } from "next-cloudinary";
+import { ImageKitUploadButton } from "@/components/admin/ImageKitUploadButton";
 import PromoPopup from "@/components/PromoPopup";
 
 interface PromoPopupManagerProps {
@@ -30,8 +30,7 @@ export function PromoPopupManager({ initialSettings }: PromoPopupManagerProps) {
     });
   };
 
-  const handleUploadSuccess = (result: any) => {
-    const imageUrl = result.info.secure_url;
+  const handleUploaded = (imageUrl: string) => {
     setSettings((prev) => ({ ...prev, image_url: imageUrl }));
   };
 
@@ -300,27 +299,15 @@ export function PromoPopupManager({ initialSettings }: PromoPopupManagerProps) {
               </div>
 
               <div className="space-y-2 flex-1 min-w-0">
-                <CldUploadWidget
-                  signatureEndpoint="/api/cloudinary/sign"
-                  options={{
-                    maxFiles: 1,
-                    resourceType: "image",
-                    clientAllowedFormats: ["jpg", "jpeg", "png", "webp"],
-                  }}
-                  onSuccess={handleUploadSuccess}
+                <ImageKitUploadButton
+                  disabled={isPending}
+                  onUploaded={handleUploaded}
+                  onError={(msg) => alert(msg)}
+                  className="w-full py-2 px-3 bg-stone-900 hover:bg-stone-800 text-white text-xs font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm"
                 >
-                  {({ open }) => (
-                    <button
-                      onClick={() => open()}
-                      disabled={isPending}
-                      type="button"
-                      className="w-full py-2 px-3 bg-stone-900 hover:bg-stone-800 text-white text-xs font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm"
-                    >
-                      <ImageIcon className="w-4 h-4" />
-                      Upload New Photo
-                    </button>
-                  )}
-                </CldUploadWidget>
+                  <ImageIcon className="w-4 h-4" />
+                  Upload New Photo
+                </ImageKitUploadButton>
 
                 <div>
                   <input

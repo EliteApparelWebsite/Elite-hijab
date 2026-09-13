@@ -172,3 +172,82 @@ export async function getUserOrdersAction() {
 
   return { success: true, orders: enrichedOrders, isGuest: false }
 }
+
+export async function getOrderByIdAction(orderId: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { success: false, error: 'Unauthorized' }
+
+  const admin = createAdminClient()
+  const { data: order, error } = await admin
+    .from('orders')
+    .select(`
+      *,
+      addresses:address_id (*),
+      order_items (*)
+    `)
+    .eq('id', orderId)
+    .eq('user_id', user.id)
+    .maybeSingle()
+
+  if (error || !order) {
+    return { success: false, error: 'Order not found.' }
+  }
+
+  const productIds = Array.from(new Set((order.order_items || []).map((item: any) => item.product_id).filter(Boolean)))
+  let productsById: Record<string, string> = {}
+  let colorImagesByProductAndColor: Record<string, string> = {}
+
+  if (productIds.length > 0) {
+    const { data: productsData } = await admin
+      .from('products')
+      .select('id, featured_image_url, product_images ( image_url )')
+      .in('id', productIds)
+
+    productsById = (productsData || []).reduce((acc: any, p: any) => {
+      acc[p.id] = p.product_images?.[0]?.image_url || p.featured_image_url || null
+      return acc
+    }, {})
+
+    const { data: colorsData } = await admin
+      .from('product_colors')
+      .select('product_id, color_name, images')
+      .in('product_id', productIds)
+
+    if (colorsData) {
+      colorsData.forEach((c: any) => {
+        if (c.images && c.images.length > 0) {
+          colorImagesByProductAndColor[`${c.product_id}-${c.color_name}`] = c.images[0]
+        }
+      })
+    }
+  }
+
+  const enrichedItems = (order.order_items || []).map((item: any) => {
+    const specificImage = colorImagesByProductAndColor[`${item.product_id}-${item.color_name}`]
+    return { ...item, image_url: specificImage || productsById[item.product_id] || null }
+  })
+
+  return { success: true, order: { ...order, order_items: enrichedItems } }
+}
+
+// Lightweight poll target for the customer-facing order detail page — just
+// the fields that change after the order is placed (Shiprocket webhook
+// updates these asynchronously), so the page can reflect a status change
+// without the customer having to reload.
+export async function getOrderStatusAction(orderId: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { success: false }
+
+  const admin = createAdminClient()
+  const { data: order } = await admin
+    .from('orders')
+    .select('order_status, payment_status, shiprocket_status, awb_code, courier_name')
+    .eq('id', orderId)
+    .eq('user_id', user.id)
+    .maybeSingle()
+
+  if (!order) return { success: false }
+  return { success: true, order }
+}

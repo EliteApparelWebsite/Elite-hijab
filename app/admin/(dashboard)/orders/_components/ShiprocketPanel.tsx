@@ -117,6 +117,14 @@ export function ShiprocketPanel({
                   <span className="font-medium text-stone-900">{courierName}</span>
                 </div>
               )}
+              {status && (
+                <div className="flex justify-between items-center text-stone-600">
+                  <span>Shiprocket Status</span>
+                  <span className="font-semibold text-orange-700 bg-orange-50 border border-orange-200 rounded-full px-2.5 py-0.5 text-xs capitalize">
+                    {status}
+                  </span>
+                </div>
+              )}
               <a
                 href={`https://shiprocket.co/tracking/${awbCode}`}
                 target="_blank"

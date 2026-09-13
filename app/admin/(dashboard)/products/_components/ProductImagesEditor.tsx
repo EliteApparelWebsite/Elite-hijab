@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import { CldUploadWidget } from 'next-cloudinary'
+import { ImageKitUploadButton } from '@/components/admin/ImageKitUploadButton'
 import { Plus, X, Star, Loader2, Link2, Check } from 'lucide-react'
 import { addProductImage, deleteProductImage, setFeaturedImage, toggleImageColorMapping } from '@/actions/products'
 import Image from 'next/image'
@@ -30,13 +30,10 @@ export function ProductImagesEditor({
   const [isPending, startTransition] = useTransition()
   const [uploading, setUploading] = useState(false)
 
-  const handleUploadSuccess = (result: any) => {
-    setUploading(false)
-    if (result.info && result.info.secure_url) {
-      startTransition(async () => {
-        await addProductImage(product.id, result.info.secure_url)
-      })
-    }
+  const handleUploaded = (url: string) => {
+    startTransition(async () => {
+      await addProductImage(product.id, url)
+    })
   }
 
   const handleDelete = (imageId: string) => {
@@ -63,33 +60,21 @@ export function ProductImagesEditor({
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-medium text-gray-900">Product Images</h3>
-        <CldUploadWidget
-          signatureEndpoint="/api/cloudinary/sign"
-          onSuccess={handleUploadSuccess}
-          onOpen={() => setUploading(true)}
-          options={{
-            multiple: true,
-            maxFiles: 5,
-          }}
+        <ImageKitUploadButton
+          multiple
+          disabled={uploading || isPending}
+          onUploaded={handleUploaded}
+          onUploadingChange={setUploading}
+          onError={(msg) => alert(msg)}
+          className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 disabled:opacity-50 transition-colors"
         >
-          {({ open }) => {
-            return (
-              <button
-                type="button"
-                onClick={() => open()}
-                disabled={uploading || isPending}
-                className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 disabled:opacity-50 transition-colors"
-              >
-                {uploading || isPending ? (
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                ) : (
-                  <Plus className="w-4 h-4 mr-2" />
-                )}
-                Upload Image
-              </button>
-            )
-          }}
-        </CldUploadWidget>
+          {uploading || isPending ? (
+            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+          ) : (
+            <Plus className="w-4 h-4 mr-2" />
+          )}
+          Upload Image
+        </ImageKitUploadButton>
       </div>
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">

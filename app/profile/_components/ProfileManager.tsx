@@ -1,9 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { User, Phone, MapPin, CheckCircle, Package, Mail } from 'lucide-react'
+import Link from 'next/link'
+import { User, Phone, MapPin, CheckCircle, Package, Mail, ChevronRight, Truck, ExternalLink } from 'lucide-react'
 import { updateCustomerFullProfile } from '@/actions/profile'
 import { useToast } from '@/context/ToastContext'
+import { trackingUrlForAwb } from '@/lib/shiprocket-constants'
 
 type CustomerProfile = {
   fullName: string
@@ -26,6 +28,7 @@ export default function ProfileManager({ adminProfile, orders = [] }: { adminPro
     zipCode: '',
   })
   const [saved, setSaved] = useState(false)
+  const [mainTab, setMainTab] = useState<'orders' | 'profile'>('orders')
   const [activeTab, setActiveTab] = useState<'all' | 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled'>('all')
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [expandedOrders, setExpandedOrders] = useState<Record<string, boolean>>({})
@@ -86,7 +89,32 @@ export default function ProfileManager({ adminProfile, orders = [] }: { adminPro
 
   return (
     <div className="space-y-8">
-      {/* Form Card */}
+      {/* Tab Switcher */}
+      <div className="flex gap-2 rounded-2xl border border-gold/30 bg-white p-1.5 w-full sm:w-fit shadow-sm">
+        {[
+          { key: 'orders' as const, label: 'Orders', icon: Package },
+          { key: 'profile' as const, label: 'My Profile', icon: User },
+        ].map((tab) => {
+          const Icon = tab.icon
+          const isActive = mainTab === tab.key
+          return (
+            <button
+              key={tab.key}
+              type="button"
+              onClick={() => setMainTab(tab.key)}
+              className={`flex flex-1 sm:flex-initial items-center justify-center gap-2 rounded-xl px-5 sm:px-7 py-3 text-sm sm:text-base font-bold tracking-wide transition-colors duration-300 ${
+                isActive ? 'bg-[#0A0A0A] text-white shadow-md' : 'text-ink/70 hover:text-ink'
+              }`}
+            >
+              <Icon className="w-4.5 h-4.5" />
+              {tab.label}
+            </button>
+          )
+        })}
+      </div>
+
+      {/* My Profile Tab */}
+      {mainTab === 'profile' && (
       <div className="bg-white rounded-2xl p-6 md:p-8 shadow-card border border-cream-line/75">
         <form onSubmit={handleSave} className="space-y-6">
           {saved && (
@@ -236,9 +264,10 @@ export default function ProfileManager({ adminProfile, orders = [] }: { adminPro
           </button>
         </form>
       </div>
+      )}
 
-      {/* Orders Card */}
-      {/* Orders Section */}
+      {/* Orders Tab */}
+      {mainTab === 'orders' && (
       <div className="space-y-6">
         <h2 className="text-3xl font-bold text-ink">Order History</h2>
 
@@ -436,12 +465,44 @@ export default function ProfileManager({ adminProfile, orders = [] }: { adminPro
                     )}
                   </div>
 
+                  {/* Shiprocket tracking snippet */}
+                  {order.awb_code && (
+                    <div className="mx-5 md:mx-6 mt-5 flex items-center gap-3 rounded-xl border border-gold/30 bg-gold/10 px-3.5 py-3">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#0A0A0A] text-gold shadow-sm">
+                        <Truck className="h-4 w-4" />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-xs font-bold uppercase tracking-wider text-gold-dark">
+                          {order.courier_name || 'Shiprocket'} · {order.order_status === 'delivered' ? 'Delivered' : 'On the way'}
+                        </p>
+                        <p className="truncate font-mono text-sm text-ink font-bold">{order.awb_code}</p>
+                      </div>
+                      <a
+                        href={trackingUrlForAwb(order.awb_code)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-gold/40 bg-white px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-gold-dark transition-all duration-300 hover:border-gold hover:bg-gold/10"
+                      >
+                        <ExternalLink className="h-3.5 w-3.5" /> Track
+                      </a>
+                    </div>
+                  )}
+
                   {/* Order Footer */}
-                  <div className="p-5 md:p-6 bg-cream/10 border-t border-cream-line/50 flex justify-end items-center gap-4">
+                  <div className="p-5 md:p-6 bg-cream/10 border-t border-cream-line/50 flex flex-wrap justify-between items-center gap-4">
                     <div className="text-lg">
                       <span className="text-ink/60 mr-2">Total Price:</span>
                       <span className="font-bold text-ink">₹{order.total_amount}</span>
                     </div>
+                    <Link
+                      href={`/profile/orders/${order.id}`}
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-1 text-sm font-bold uppercase tracking-widest text-gold-dark hover:text-gold transition-colors"
+                    >
+                      View Details
+                      <ChevronRight className="h-4 w-4" />
+                    </Link>
                   </div>
                     </div>
                   )}
@@ -452,6 +513,7 @@ export default function ProfileManager({ adminProfile, orders = [] }: { adminPro
         )
       })()}
       </div>
+      )}
     </div>
   )
 }

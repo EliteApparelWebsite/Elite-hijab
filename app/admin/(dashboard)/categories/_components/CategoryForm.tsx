@@ -5,7 +5,7 @@ import { createCategory, updateCategory, type ActionResult } from '@/actions/cat
 import Link from 'next/link'
 import Image from 'next/image'
 import { Save, ArrowLeft, Image as ImageIcon, Loader2, X, Info } from 'lucide-react'
-import { CldUploadWidget } from 'next-cloudinary'
+import { ImageKitUploadButton } from '@/components/admin/ImageKitUploadButton'
 import type { Category } from '@/types/database'
 
 interface CategoryFormProps {
@@ -160,41 +160,25 @@ export default function CategoryForm({ category, parentCategories = [] }: Catego
                   </button>
                 </div>
               ) : (
-                <CldUploadWidget 
-                  signatureEndpoint="/api/cloudinary/sign"
-                  options={{
-                    maxFiles: 1,
-                    resourceType: "image",
-                    clientAllowedFormats: ["jpg", "jpeg", "png", "webp"]
-                  }}
-                  onSuccess={(result: any) => {
-                    setImageUrl(result.info.secure_url)
-                    setIsUploading(false)
-                  }}
-                  onOpen={() => setIsUploading(true)}
-                  onError={() => setIsUploading(false)}
+                <ImageKitUploadButton
+                  disabled={isUploading || pending}
+                  onUploadingChange={setIsUploading}
+                  onUploaded={(url) => setImageUrl(url)}
+                  onError={(msg) => alert(msg)}
+                  className="w-full aspect-[4/3] flex flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-stone-300 bg-stone-50/50 text-stone-500 hover:bg-orange-50/30 hover:border-orange-400 hover:text-orange-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group"
                 >
-                  {({ open }) => (
-                    <button
-                      type="button"
-                      onClick={() => open()}
-                      disabled={isUploading || pending}
-                      className="w-full aspect-[4/3] flex flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-stone-300 bg-stone-50/50 text-stone-500 hover:bg-orange-50/30 hover:border-orange-400 hover:text-orange-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group"
-                    >
-                      <div className="p-4 rounded-full bg-white shadow-sm border border-stone-100 group-hover:scale-110 group-hover:shadow-md transition-all duration-300">
-                        {isUploading ? (
-                          <Loader2 className="w-6 h-6 animate-spin text-orange-500" />
-                        ) : (
-                          <ImageIcon className="w-6 h-6 group-hover:text-orange-500 transition-colors" />
-                        )}
-                      </div>
-                      <div className="text-center">
-                        <span className="text-sm font-semibold block">Click to upload image</span>
-                        <span className="text-xs text-stone-400 mt-1 block">JPG, PNG, WEBP allowed</span>
-                      </div>
-                    </button>
-                  )}
-                </CldUploadWidget>
+                  <div className="p-4 rounded-full bg-white shadow-sm border border-stone-100 group-hover:scale-110 group-hover:shadow-md transition-all duration-300">
+                    {isUploading ? (
+                      <Loader2 className="w-6 h-6 animate-spin text-orange-500" />
+                    ) : (
+                      <ImageIcon className="w-6 h-6 group-hover:text-orange-500 transition-colors" />
+                    )}
+                  </div>
+                  <div className="text-center">
+                    <span className="text-sm font-semibold block">Click to upload image</span>
+                    <span className="text-xs text-stone-400 mt-1 block">JPG, PNG, WEBP allowed</span>
+                  </div>
+                </ImageKitUploadButton>
               )}
             </div>
 

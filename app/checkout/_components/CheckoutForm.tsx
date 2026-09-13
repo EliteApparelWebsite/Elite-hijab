@@ -4,13 +4,12 @@ import React, { useState, useEffect, useTransition } from 'react'
 import { useCart } from '@/context/CartContext'
 import { useToast } from '@/context/ToastContext'
 import { validateCoupon } from '@/actions/admin/coupons'
-import { processCheckout, verifyRazorpayPayment, cancelPendingOrder } from '@/actions/checkout'
+import { processCheckout } from '@/actions/checkout'
 import { sendEmailOtp, verifyEmailOtp } from '@/actions/auth'
 import { SITE } from '@/lib/data'
 import { Truck, Tag, CreditCard, ShoppingBag, ShieldCheck, CheckCircle2, Lock, Eye, EyeOff, Plus, Minus, X, Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import Script from 'next/script'
 import { createClient } from '@/lib/supabase/client'
 import { calculateShippingCharge, type ShippingSettings } from '@/lib/shipping'
 
@@ -83,7 +82,7 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
   const [couponSuccess, setCouponSuccess] = useState('')
 
   // Payment Method
-  const [paymentMethod, setPaymentMethod] = useState<'Online Payment (Razorpay)'>('Online Payment (Razorpay)')
+  const [paymentMethod, setPaymentMethod] = useState<'Online Payment (PayU)'>('Online Payment (PayU)')
 
   // Success Modal State
   const [placedOrder, setPlacedOrder] = useState<any>(null)
@@ -167,7 +166,7 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
   }
 
   const onlineDiscountPercent = shipping.online_discount ?? 0
-  const onlineDiscountAmount = paymentMethod === 'Online Payment (Razorpay)'
+  const onlineDiscountAmount = paymentMethod === 'Online Payment (PayU)'
     ? Math.round((subtotal * onlineDiscountPercent) / 100)
     : 0
 
@@ -193,61 +192,31 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
     }
   }
 
-  const handleRazorpayPayment = async (orderData: any, addressString: string) => {
-    const options = {
-      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
-      amount: orderData.amount,
-      currency: "INR",
-      name: SITE.name,
-      description: "Order Payment",
-      order_id: orderData.razorpayOrderId,
-      modal: {
-        ondismiss: function () {
-          cancelPendingOrder(orderData.orderId)
-        }
-      },
-      handler: async function (response: any) {
-        const verifyRes = await verifyRazorpayPayment(
-          response.razorpay_payment_id,
-          response.razorpay_order_id,
-          response.razorpay_signature,
-          orderData.orderId
-        )
-        if (verifyRes.success) {
-          setPlacedOrder({
-            order_number: orderData.orderNumber,
-            id: orderData.orderId,
-            total: grandTotal,
-            items: [...cart],
-            shippingAddress: addressString
-          })
-          clearCart()
-        } else {
-          showToast('Payment verification failed. Please contact support.', 'error')
-        }
-      },
-      prefill: {
-        name: profile.fullName,
-        contact: profile.phone,
-      },
-      theme: {
-        color: "#0A0A0A" // Obsidian Black
-      }
-    };
-    
-    // @ts-ignore
-    const rzp1 = new window.Razorpay(options);
-    rzp1.on('payment.failed', function (response: any){
-        cancelPendingOrder(orderData.orderId)
-        showToast("Payment failed! Reason: " + response.error.description, "error");
-    });
-    rzp1.open();
+  const openPayu = (orderData: any) => {
+    // PayU only accepts a classic top-level form POST (no JS SDK/modal), so
+    // the browser navigates away to PayU's hosted payment page and back to
+    // our surl/furl (app/api/payu/callback) once the payment finishes —
+    // there's no client-side success/failure callback to hook into here.
+    const form = document.createElement('form')
+    form.method = 'POST'
+    form.action = orderData.payuActionUrl
+
+    Object.entries(orderData.payuFields).forEach(([name, value]) => {
+      const input = document.createElement('input')
+      input.type = 'hidden'
+      input.name = name
+      input.value = value as string
+      form.appendChild(input)
+    })
+
+    document.body.appendChild(form)
+    form.submit()
   }
 
   // Execute checkout and place order
   const executeOrderPlacement = async () => {
     const addressString = `${profile.street}, ${profile.city}, ${profile.state} - ${profile.zipCode}`
-    const method = paymentMethod === 'Online Payment (Razorpay)' ? 'RAZORPAY' : 'COD'
+    const method = paymentMethod === 'Online Payment (PayU)' ? 'PAYU' : 'COD'
 
     // Save profile to localstorage on order place
     localStorage.setItem('hijabistaa-customer-profile', JSON.stringify(profile))
@@ -257,8 +226,8 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
     if (!res.success) {
       showToast(res.error || 'Failed to place order.', 'error')
     } else {
-      if ('isRazorpay' in res && res.isRazorpay) {
-        handleRazorpayPayment(res as any, addressString)
+      if ('isPayu' in res && res.isPayu) {
+        openPayu(res as any)
       } else if ('order_number' in res && 'orderId' in res) {
         setPlacedOrder({
           order_number: res.order_number as string,
@@ -394,7 +363,6 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
   return (
     <>
       <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
       {/* Left Column: Shipping Address & Payment Form */}
       <div className="lg:col-span-7 space-y-6">
         <div className="bg-white rounded-3xl p-6 md:p-8 border border-cream-line shadow-card space-y-6">
@@ -546,8 +514,8 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
               <input
                 type="radio"
                 name="payment"
-                checked={paymentMethod === 'Online Payment (Razorpay)'}
-                onChange={() => setPaymentMethod('Online Payment (Razorpay)')}
+                checked={paymentMethod === 'Online Payment (PayU)'}
+                onChange={() => setPaymentMethod('Online Payment (PayU)')}
                 className="sr-only"
               />
               <span className="font-bold text-ink text-sm">
