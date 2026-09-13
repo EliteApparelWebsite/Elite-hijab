@@ -63,7 +63,11 @@ export async function POST(req: Request) {
     try {
       payload = JSON.parse(rawBody)
     } catch {
-      return NextResponse.json({ success: false, error: 'Invalid JSON payload' }, { status: 400, headers: corsHeaders })
+      // Always 200, like the PayU webhook below — Shiprocket's dashboard
+      // treats any non-2xx response from its connectivity check as
+      // "unable to send request to mentioned api" and refuses to save the
+      // URL, even though a real webhook call would have worked fine.
+      return NextResponse.json({ success: false, error: 'Invalid JSON payload' }, { headers: corsHeaders })
     }
 
     // The `order_id` Shiprocket echoes back is the same order_id we sent
@@ -89,7 +93,9 @@ export async function POST(req: Request) {
     if (webhookSecret) {
       if (!receivedKey || receivedKey !== webhookSecret) {
         console.error('[Shiprocket Webhook Error]: Missing/invalid webhook secret header.')
-        return NextResponse.json({ success: false, error: 'Invalid webhook secret' }, { status: 401, headers: corsHeaders })
+        // Always 200 (see the JSON-parse branch above for why) — the
+        // request is still rejected, just not with a non-2xx status.
+        return NextResponse.json({ success: false, error: 'Invalid webhook secret' }, { headers: corsHeaders })
       }
     } else {
       console.warn('[Shiprocket Webhook]: SHIPROCKET_WEBHOOK_SECRET is not configured — accepting request unverified.')
@@ -127,12 +133,12 @@ export async function POST(req: Request) {
 
     if (error) {
       console.error('[Shiprocket Webhook Error]: DB update failed:', error.message)
-      return NextResponse.json({ success: false, error: error.message }, { status: 500, headers: corsHeaders })
+      return NextResponse.json({ success: false, error: error.message }, { headers: corsHeaders })
     }
 
     return NextResponse.json({ success: true }, { headers: corsHeaders })
   } catch (error: any) {
     console.error('[Shiprocket Webhook Critical Error]:', error)
-    return NextResponse.json({ success: false, error: error?.message || 'Internal Server Error' }, { status: 500, headers: corsHeaders })
+    return NextResponse.json({ success: false, error: error?.message || 'Internal Server Error' }, { headers: corsHeaders })
   }
 }
