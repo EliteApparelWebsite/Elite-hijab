@@ -149,15 +149,13 @@ export default async function Home() {
     reviewCount: reviewCounts[p.id] || 0,
   }));
 
-  const staticTestimonials = (await import("@/lib/data")).testimonials;
-
   const data = {
     heroSlides,
     heroText,
     categories,
     formattedProducts,
     formattedSalwarKameez,
-    testimonials: staticTestimonials,
+    testimonials,
     promoPopupSettings
   };
   return renderHomePage(data);

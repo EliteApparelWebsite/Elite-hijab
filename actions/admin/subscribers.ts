@@ -122,7 +122,7 @@ export async function addSubscriberByAdmin(email: string) {
   } catch (err) {}
 
   revalidatePath('/admin/subscribers')
-  return { success: true }
+  return { success: true, subscriber: newSub }
 }
 
 export async function deleteSubscriber(id: string, email: string) {

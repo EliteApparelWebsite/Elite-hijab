@@ -2,7 +2,7 @@
 
 import { useTransition, useState } from 'react'
 import { updateShippingSettings } from '@/actions/admin/shipping'
-import { Truck, CircleDollarSign, CheckCircle, Plus, Trash2, Layers } from 'lucide-react'
+import { Truck, CircleDollarSign, CheckCircle, Plus, Trash2, Layers, Wallet, CreditCard } from 'lucide-react'
 
 type TierRow = {
   min_qty: string
@@ -23,6 +23,8 @@ export default function ShippingForm({ initialShipping }: { initialShipping: any
   const [pending, startTransition] = useTransition()
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
   const [tiers, setTiers] = useState<TierRow[]>(toTierRows(initialShipping?.tiers))
+  const [codEnabled, setCodEnabled] = useState<boolean>(initialShipping?.cod_enabled !== false)
+  const [onlinePaymentEnabled, setOnlinePaymentEnabled] = useState<boolean>(initialShipping?.online_payment_enabled !== false)
 
   const addTier = () => {
     setTiers(prev => {
@@ -53,6 +55,11 @@ export default function ShippingForm({ initialShipping }: { initialShipping: any
 
     if (isNaN(flatRate) || isNaN(freeThreshold) || isNaN(codCharge) || isNaN(onlineDiscount)) {
       setMessage({ type: 'error', text: 'Please enter valid numbers.' })
+      return
+    }
+
+    if (!codEnabled && !onlinePaymentEnabled) {
+      setMessage({ type: 'error', text: 'At least one payment method (COD or Online Payment) must stay enabled.' })
       return
     }
 
@@ -87,7 +94,7 @@ export default function ShippingForm({ initialShipping }: { initialShipping: any
       .sort((a, b) => a.min_qty - b.min_qty)
 
     startTransition(async () => {
-      const res = await updateShippingSettings(flatRate, freeThreshold, codCharge, onlineDiscount, cleanTiers)
+      const res = await updateShippingSettings(flatRate, freeThreshold, codCharge, onlineDiscount, cleanTiers, codEnabled, onlinePaymentEnabled)
       if (res.error) {
         setMessage({ type: 'error', text: res.error })
       } else {
@@ -148,6 +155,48 @@ export default function ShippingForm({ initialShipping }: { initialShipping: any
         <p className="mt-1.5 text-xs text-stone-500">
           Orders with a subtotal at or above this amount always ship free, regardless of the ranges below. Set to 0 to disable.
         </p>
+      </div>
+
+      <div className="border-t border-stone-200 pt-5 space-y-4">
+        <h3 className="text-sm font-semibold text-stone-700">Payment Methods</h3>
+
+        <div className="flex items-center justify-between p-3.5 rounded-xl border border-stone-200 bg-white">
+          <div className="flex items-center gap-2.5">
+            <Wallet className="w-4.5 h-4.5 text-stone-400" />
+            <div>
+              <p className="text-sm font-semibold text-stone-800">Cash on Delivery (COD)</p>
+              <p className="text-xs text-stone-500">Let customers pay when the order is delivered.</p>
+            </div>
+          </div>
+          <label className="relative inline-flex items-center cursor-pointer shrink-0">
+            <input
+              type="checkbox"
+              checked={codEnabled}
+              onChange={(e) => setCodEnabled(e.target.checked)}
+              className="sr-only peer"
+            />
+            <div className="w-11 h-6 bg-stone-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-700/20 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-teal-700"></div>
+          </label>
+        </div>
+
+        <div className="flex items-center justify-between p-3.5 rounded-xl border border-stone-200 bg-white">
+          <div className="flex items-center gap-2.5">
+            <CreditCard className="w-4.5 h-4.5 text-stone-400" />
+            <div>
+              <p className="text-sm font-semibold text-stone-800">Online Payment (PayU)</p>
+              <p className="text-xs text-stone-500">Let customers pay via UPI, Cards, or Netbanking.</p>
+            </div>
+          </div>
+          <label className="relative inline-flex items-center cursor-pointer shrink-0">
+            <input
+              type="checkbox"
+              checked={onlinePaymentEnabled}
+              onChange={(e) => setOnlinePaymentEnabled(e.target.checked)}
+              className="sr-only peer"
+            />
+            <div className="w-11 h-6 bg-stone-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-700/20 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-teal-700"></div>
+          </label>
+        </div>
       </div>
 
       <div className="border-t border-stone-200 pt-5">

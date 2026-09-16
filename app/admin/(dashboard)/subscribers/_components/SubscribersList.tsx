@@ -12,7 +12,6 @@ import {
   Check,
   Calendar,
   Sparkles,
-  Users,
   Send,
   X,
 } from 'lucide-react'
@@ -73,16 +72,8 @@ export function SubscribersList({ initialSubscribers }: { initialSubscribers: Su
 
     try {
       const res = await addSubscriberByAdmin(newEmail)
-      if (res.success) {
-        setSubscribers((prev) => [
-          {
-            id: `sub_${Date.now()}`,
-            email: newEmail.trim().toLowerCase(),
-            status: 'subscribed',
-            created_at: new Date().toISOString(),
-          },
-          ...prev,
-        ])
+      if (res.success && res.subscriber) {
+        setSubscribers((prev) => [res.subscriber as Subscriber, ...prev])
         setNewEmail('')
         setIsAddModalOpen(false)
       } else {
@@ -151,7 +142,7 @@ export function SubscribersList({ initialSubscribers }: { initialSubscribers: Su
       </div>
 
       {/* Overview Stat Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div className="bg-white p-5 rounded-2xl border border-stone-200/80 shadow-sm flex items-center gap-4">
           <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center shrink-0">
             <Mail className="w-6 h-6" />
@@ -169,16 +160,6 @@ export function SubscribersList({ initialSubscribers }: { initialSubscribers: Su
           <div>
             <p className="text-xs font-semibold text-stone-400 uppercase tracking-wider">Joined Today</p>
             <h3 className="text-2xl font-bold text-stone-900 mt-0.5">{todayCount}</h3>
-          </div>
-        </div>
-
-        <div className="bg-white p-5 rounded-2xl border border-stone-200/80 shadow-sm flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center shrink-0">
-            <Users className="w-6 h-6" />
-          </div>
-          <div>
-            <p className="text-xs font-semibold text-stone-400 uppercase tracking-wider">Active Rate</p>
-            <h3 className="text-2xl font-bold text-stone-900 mt-0.5">100%</h3>
           </div>
         </div>
       </div>

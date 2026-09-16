@@ -6,16 +6,17 @@ import { useToast } from '@/context/ToastContext'
 import { validateCoupon } from '@/actions/admin/coupons'
 import { processCheckout } from '@/actions/checkout'
 import { sendEmailOtp, verifyEmailOtp } from '@/actions/auth'
-import { SITE } from '@/lib/data'
-import { Truck, Tag, CreditCard, ShoppingBag, ShieldCheck, CheckCircle2, Lock, Eye, EyeOff, Plus, Minus, X, Loader2 } from 'lucide-react'
+import { Truck, Tag, CreditCard, ShoppingBag, ShieldCheck, Lock, Eye, EyeOff, Plus, Minus, X, Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { calculateShippingCharge, type ShippingSettings } from '@/lib/shipping'
 
 export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: ShippingSettings, isLoggedIn: boolean }) {
   const { cart, cartTotal, clearCart, updateQuantity, removeFromCart } = useCart()
   const { showToast } = useToast()
+  const router = useRouter()
   const [pending, startTransition] = useTransition()
 
   // Shipping Address Form State
@@ -81,11 +82,12 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
   const [couponError, setCouponError] = useState('')
   const [couponSuccess, setCouponSuccess] = useState('')
 
-  // Payment Method
-  const [paymentMethod, setPaymentMethod] = useState<'Online Payment (PayU)'>('Online Payment (PayU)')
-
-  // Success Modal State
-  const [placedOrder, setPlacedOrder] = useState<any>(null)
+  // Payment Method — default to whichever is enabled; prefer online when both are.
+  const [paymentMethod, setPaymentMethod] = useState<'Online Payment (PayU)' | 'COD'>(
+    shipping.online_payment_enabled === false && shipping.cod_enabled !== false
+      ? 'COD'
+      : 'Online Payment (PayU)'
+  )
 
   // Prefill from localStorage on mount (Only if logged in)
   useEffect(() => {
@@ -154,7 +156,7 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
   
   const shippingFee = calculateShippingCharge(subtotal, totalQuantity, shipping)
   
-  const codFee = 0
+  const codFee = paymentMethod === 'COD' ? Number(shipping.cod_charge ?? 0) : 0
   
   let discount = 0
   if (activeCoupon) {
@@ -215,7 +217,6 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
 
   // Execute checkout and place order
   const executeOrderPlacement = async () => {
-    const addressString = `${profile.street}, ${profile.city}, ${profile.state} - ${profile.zipCode}`
     const method = paymentMethod === 'Online Payment (PayU)' ? 'PAYU' : 'COD'
 
     // Save profile to localstorage on order place
@@ -229,14 +230,8 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
       if ('isPayu' in res && res.isPayu) {
         openPayu(res as any)
       } else if ('order_number' in res && 'orderId' in res) {
-        setPlacedOrder({
-          order_number: res.order_number as string,
-          id: res.orderId as string,
-          total: grandTotal,
-          items: [...cart],
-          shippingAddress: addressString
-        })
         clearCart()
+        router.push(`/order-success?order=${encodeURIComponent(res.order_number as string)}`)
       }
     }
   }
@@ -301,63 +296,6 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
     startTransition(async () => {
       await executeOrderPlacement()
     })
-  }
-
-  // Format Whatsapp Link for Success Modal
-  const getWhatsappLink = () => {
-    if (!placedOrder) return ''
-    const itemsText = placedOrder.items.map((i: any) => `- ${i.name} (x${i.quantity})`).join('\n')
-    const message = `Hi Elite Hijab!\n\nI just placed an order:\nOrder Number: *${placedOrder.order_number}*\nItems:\n${itemsText}\nTotal Amount: *₹${placedOrder.total.toLocaleString('en-IN')}*\nPayment Method: *${paymentMethod}*\n\nShipping Address: ${placedOrder.shippingAddress}\n\nPlease confirm my order. Thank you!`
-    return `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(message)}`
-  }
-
-  if (placedOrder) {
-    return (
-      <div className="max-w-md mx-auto bg-white rounded-3xl p-8 border border-cream-line shadow-card text-center space-y-6 animate-fade-in mt-6">
-        <div className="w-16 h-16 bg-gold/15 text-gold rounded-full flex items-center justify-center mx-auto border border-gold/30">
-          <CheckCircle2 className="w-10 h-10" />
-        </div>
-        <div>
-          <h2 className="font-display font-bold text-2xl text-ink">Order Placed Successfully!</h2>
-          <p className="text-sm text-ink/60 mt-1">Thank you for shopping with Elite Hijab.</p>
-        </div>
-
-        <div className="p-4 bg-cream/40 rounded-2xl border border-cream-line/50 text-left space-y-3">
-          <div className="flex justify-between text-xs">
-            <span className="text-ink/50 uppercase font-semibold">Order Number</span>
-            <span className="font-bold text-ink">{placedOrder.order_number}</span>
-          </div>
-          <div className="flex justify-between text-xs">
-            <span className="text-ink/50 uppercase font-semibold">Grand Total</span>
-            <span className="font-bold text-[#0D0D0D]">₹{placedOrder.total.toLocaleString('en-IN')}</span>
-          </div>
-          <div className="flex justify-between text-xs">
-            <span className="text-ink/50 uppercase font-semibold">Payment Method</span>
-            <span className="font-bold text-ink">{paymentMethod}</span>
-          </div>
-        </div>
-
-        <div className="space-y-2">
-          <a
-            href={getWhatsappLink()}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 bg-[#0A0A0A] text-white border border-gold/40 font-body font-semibold rounded-full shadow-md hover:bg-[#D4AF37] hover:text-black hover:border-transparent transition-all duration-300"
-          >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.665.989 3.3 1.49 4.975 1.491 5.474 0 9.932-4.457 9.935-9.931a9.885 9.885 0 0 0-2.883-7.054A9.882 9.882 0 0 0 11.758 1.15c-5.483 0-9.94 4.458-9.944 9.934-.002 1.936.507 3.82 1.476 5.489L2.247 20.89l4.4-.736z" />
-            </svg>
-            Confirm via WhatsApp
-          </a>
-          <a
-            href="/"
-            className="w-full inline-flex items-center justify-center py-3 text-sm text-ink/60 hover:text-gold font-semibold transition-colors"
-          >
-            Return to Store
-          </a>
-        </div>
-      </div>
-    )
   }
 
   return (
@@ -510,19 +448,44 @@ export default function CheckoutForm({ shipping, isLoggedIn }: { shipping: Shipp
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <label className={`flex flex-col p-4 rounded-2xl border-2 cursor-pointer transition-all border-gold bg-gold/5`}>
-              <input
-                type="radio"
-                name="payment"
-                checked={paymentMethod === 'Online Payment (PayU)'}
-                onChange={() => setPaymentMethod('Online Payment (PayU)')}
-                className="sr-only"
-              />
-              <span className="font-bold text-ink text-sm">
-                Online Payment {shipping.online_discount ? `(${shipping.online_discount}% Off)` : ''}
-              </span>
-              <span className="text-xs text-ink/50 mt-1">Pay securely via UPI, Cards, or Netbanking.</span>
-            </label>
+            {shipping.online_payment_enabled !== false && (
+              <label
+                className={`flex flex-col p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+                  paymentMethod === 'Online Payment (PayU)' ? 'border-gold bg-gold/5' : 'border-cream-line'
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="payment"
+                  checked={paymentMethod === 'Online Payment (PayU)'}
+                  onChange={() => setPaymentMethod('Online Payment (PayU)')}
+                  className="sr-only"
+                />
+                <span className="font-bold text-ink text-sm">
+                  Online Payment {shipping.online_discount ? `(${shipping.online_discount}% Off)` : ''}
+                </span>
+                <span className="text-xs text-ink/50 mt-1">Pay securely via UPI, Cards, or Netbanking.</span>
+              </label>
+            )}
+            {shipping.cod_enabled !== false && (
+              <label
+                className={`flex flex-col p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+                  paymentMethod === 'COD' ? 'border-gold bg-gold/5' : 'border-cream-line'
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="payment"
+                  checked={paymentMethod === 'COD'}
+                  onChange={() => setPaymentMethod('COD')}
+                  className="sr-only"
+                />
+                <span className="font-bold text-ink text-sm">
+                  Cash on Delivery {shipping.cod_charge ? `(+₹${shipping.cod_charge})` : ''}
+                </span>
+                <span className="text-xs text-ink/50 mt-1">Pay in cash when your order is delivered.</span>
+              </label>
+            )}
           </div>
         </div>
       </div>

@@ -99,6 +99,29 @@ export async function trackOrderAction(orderNumber: string, emailOrPhone: string
   }
 }
 
+// Lightweight lookup for the post-checkout success page — only exposes the
+// same handful of fields (order number, total, payment method) the COD
+// success view already showed inline right after placing the order, so it
+// needs no owner/contact verification like trackOrderAction above.
+export async function getOrderSuccessSummary(orderNumber: string) {
+  if (!orderNumber || !orderNumber.trim()) {
+    return { success: false, error: 'Missing order number.' }
+  }
+
+  const admin = createAdminClient()
+  const { data: order, error } = await admin
+    .from('orders')
+    .select('order_number, total_amount, payment_method, order_status')
+    .ilike('order_number', orderNumber.trim().toUpperCase())
+    .maybeSingle()
+
+  if (error || !order) {
+    return { success: false, error: 'Order not found.' }
+  }
+
+  return { success: true, order }
+}
+
 export async function getUserOrdersAction() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()

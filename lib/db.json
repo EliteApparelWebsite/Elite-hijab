@@ -11996,20 +11996,7 @@
       "description": "Premium Hijabs, Scarves & Modest Essentials crafted with luxurious fabric and effortless style."
     }
   },
-  "subscribers": [
-    {
-      "id": "sub-101",
-      "email": "sumaiya.khan@gmail.com",
-      "status": "subscribed",
-      "created_at": "2026-07-21T18:40:00.000Z"
-    },
-    {
-      "id": "sub-102",
-      "email": "afreen.fatima@gmail.com",
-      "status": "subscribed",
-      "created_at": "2026-07-21T14:20:00.000Z"
-    }
-  ],
+  "subscribers": [],
   "instagram_posts": [
     {
       "id": "insta-1",

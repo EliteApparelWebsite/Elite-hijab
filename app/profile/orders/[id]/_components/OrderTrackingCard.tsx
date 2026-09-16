@@ -98,7 +98,9 @@ export default function OrderTrackingCard({
 
       {!awbCode && (
         <p className="text-xs text-ink/50 italic">
-          Your order has been handed off to our courier partner. Tracking details will appear here once a courier is assigned.
+          {shiprocketStatus?.toLowerCase().includes('cancel')
+            ? 'This shipment was cancelled before a courier was assigned. Please contact us for an update on your order.'
+            : 'Your order has been handed off to our courier partner. Tracking details will appear here once a courier is assigned.'}
         </p>
       )}
     </div>

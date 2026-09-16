@@ -75,7 +75,19 @@ export async function createOrder(addressId: string, paymentMethod: string, cart
     free_threshold: 1999,
     cod_charge: 50,
     online_discount: 0,
-    tiers: []
+    tiers: [],
+    cod_enabled: true,
+    online_payment_enabled: true
+  }
+
+  // Reject a method the admin has switched off, even if a stale/tampered
+  // client still submits it — the checkout UI already hides disabled
+  // methods, this is the server-side backstop.
+  if (paymentMethod === 'PAYU' && shippingSettings.online_payment_enabled === false) {
+    return { success: false, error: 'Online payment is currently unavailable. Please choose Cash on Delivery.' }
+  }
+  if (paymentMethod !== 'PAYU' && shippingSettings.cod_enabled === false) {
+    return { success: false, error: 'Cash on Delivery is currently unavailable. Please pay online.' }
   }
 
   const totalQuantity = orderItems.reduce((sum, item) => sum + Number(item.quantity || 0), 0)
@@ -83,7 +95,7 @@ export async function createOrder(addressId: string, paymentMethod: string, cart
 
   const onlineDiscountPercent = Number(shippingSettings.online_discount ?? 0)
 
-  const cod_cost = 0 // COD is removed
+  const cod_cost = paymentMethod === 'PAYU' ? 0 : Number(shippingSettings.cod_charge ?? 0)
   const online_discount_amount = paymentMethod === 'PAYU'
     ? Math.round((subtotal * onlineDiscountPercent) / 100)
     : 0
@@ -92,7 +104,7 @@ export async function createOrder(addressId: string, paymentMethod: string, cart
   // Generate order number
   const order_number = `AM-${Date.now().toString().slice(-6)}-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`
 
-  const actualPaymentMethod = 'Online Payment (PayU)'
+  const actualPaymentMethod = paymentMethod === 'PAYU' ? 'Online Payment (PayU)' : 'Cash on Delivery (COD)'
 
   // 5. Insert Order
   const { data: order, error: orderError } = await admin

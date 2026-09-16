@@ -55,7 +55,7 @@ function resetPasswordEmailHtml(link: string): string {
   return `
     <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 32px; border: 1px solid #E6DAC4; border-radius: 24px; background-color: #FBF7F0; text-align: center; box-shadow: 0 4px 20px rgba(33,29,25,0.025);">
       <div style="margin-bottom: 24px;">
-        <h1 style="color: #1E3B2E; font-size: 26px; font-weight: bold; letter-spacing: 2px; margin: 0; font-family: Georgia, serif;">Elite Hijab</h1>
+        <h1 style="color: #1E3B2E; font-size: 26px; font-weight: bold; letter-spacing: 2px; margin: 0; font-family: Georgia, serif;">Elite Hijab &amp; Accessories</h1>
       </div>
       <hr style="border: 0; border-top: 1px solid #E6DAC4; margin: 24px 0;" />
       <h2 style="color: #211D19; font-size: 20px; font-weight: bold; margin-bottom: 8px;">Reset your password</h2>
@@ -271,7 +271,7 @@ export async function sendEmailOtp(
           <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 32px; border: 1px solid #E6DAC4; border-radius: 24px; background-color: #FBF7F0; text-align: center; box-shadow: 0 4px 20px rgba(33,29,25,0.025);">
             <!-- Logo Header -->
             <div style="margin-bottom: 24px;">
-              <h1 style="color: #1E3B2E; font-size: 26px; font-weight: bold; letter-spacing: 2px; margin: 0; font-family: Georgia, serif;">Elite Hijab</h1>
+              <h1 style="color: #1E3B2E; font-size: 26px; font-weight: bold; letter-spacing: 2px; margin: 0; font-family: Georgia, serif;">Elite Hijab &amp; Accessories</h1>
             </div>
             
             <hr style="border: 0; border-top: 1px solid #E6DAC4; margin: 24px 0;" />

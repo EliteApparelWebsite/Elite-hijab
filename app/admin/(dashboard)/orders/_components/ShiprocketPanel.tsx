@@ -3,7 +3,7 @@
 import { useState, useTransition } from 'react'
 import { createShiprocketShipment } from '@/actions/admin/orders'
 import { SHIPROCKET_NEW_ORDERS_URL } from '@/lib/shiprocket-constants'
-import { Truck, Loader2, ExternalLink, CheckCircle2 } from 'lucide-react'
+import { Truck, Loader2, ExternalLink, CheckCircle2, XCircle } from 'lucide-react'
 
 export function ShiprocketPanel({
   orderId,
@@ -200,6 +200,24 @@ export function ShiprocketPanel({
                 className="flex items-center justify-center gap-2 w-full text-sm font-semibold rounded-xl px-4 py-2.5 border border-orange-200 text-stone-900 hover:bg-orange-50 transition-colors"
               >
                 Track Shipment <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </>
+          ) : status?.toLowerCase().includes('cancel') ? (
+            <>
+              <div className="flex items-center gap-2 text-red-700">
+                <XCircle className="w-4 h-4" />
+                <span className="font-medium">Shipment cancelled on Shiprocket</span>
+              </div>
+              <p className="text-xs text-stone-500 italic">
+                This shipment was cancelled before a courier was assigned. Open Shiprocket to see why, or create a fresh shipment for this order from there.
+              </p>
+              <a
+                href={SHIPROCKET_NEW_ORDERS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full text-sm font-semibold rounded-xl px-4 py-2.5 bg-stone-900 text-white hover:bg-stone-800 transition-colors"
+              >
+                Open Shiprocket <ExternalLink className="w-3.5 h-3.5" />
               </a>
             </>
           ) : (

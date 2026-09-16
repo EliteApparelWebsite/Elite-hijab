@@ -6,53 +6,6 @@ import { TestimonialList, type Testimonial } from '../../home-reviews/_component
 import { TestimonialForm } from '../../home-reviews/_components/TestimonialForm'
 import { Star, MessageSquareQuote, PlusCircle, AlertCircle, X } from 'lucide-react'
 
-const defaultHomeReviews: Testimonial[] = [
-  {
-    id: 'mock-1',
-    name: 'Sumaiya R.',
-    city: 'Mumbai',
-    quote: "The premium chiffon drapes beautifully and stays in place all day. The quality is exceptional, definitely buying more colors.",
-    initials: 'SR',
-    product: 'Premium Chiffon Hijab',
-    rating: 5,
-    is_active: true,
-    created_at: new Date().toISOString()
-  },
-  {
-    id: 'mock-2',
-    name: 'Afreen K.',
-    city: 'Noida',
-    quote: "Elite Hijab understands modest fashion perfectly. The jersey hijabs are so soft and breathable, even in the summer heat.",
-    initials: 'AK',
-    product: 'Luxury Jersey Hijab',
-    rating: 5,
-    is_active: true,
-    created_at: new Date().toISOString()
-  },
-  {
-    id: 'mock-3',
-    name: 'Hina M.',
-    city: 'Gurugram',
-    quote: "I ordered the instant hijabs and they are a lifesaver for busy mornings. Fast shipping and excellent packaging too!",
-    initials: 'HM',
-    product: 'Instant Wrap Hijab',
-    rating: 5,
-    is_active: true,
-    created_at: new Date().toISOString()
-  },
-  {
-    id: 'mock-4',
-    name: 'Zoya A.',
-    city: 'Faridabad',
-    quote: "The colors are exactly as shown on the website. These modal hijabs feel so luxurious. My new go-to store for modest essentials.",
-    initials: 'ZA',
-    product: 'Premium Modal Hijab',
-    rating: 5,
-    is_active: true,
-    created_at: new Date().toISOString()
-  }
-]
-
 export function ReviewsTabs({
   productReviews,
   homeReviews,
@@ -65,7 +18,7 @@ export function ReviewsTabs({
   const [activeTab, setActiveTab] = useState<'home' | 'products'>('products')
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const displayHomeReviews = homeReviews && homeReviews.length > 0 ? homeReviews : defaultHomeReviews
+  const displayHomeReviews = homeReviews || []
 
   return (
     <div className="space-y-6">

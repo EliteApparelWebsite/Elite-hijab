@@ -19,6 +19,11 @@ export type ShippingSettings = {
   // Optional quantity-based tiers. When present and non-empty, these take
   // priority over flat_rate for carts that don't qualify for free shipping.
   tiers?: ShippingTier[]
+  // Per-method availability toggles. Undefined/missing means enabled — this
+  // keeps existing settings rows (saved before these flags existed) working
+  // as "both enabled" without a migration.
+  cod_enabled?: boolean
+  online_payment_enabled?: boolean
 }
 
 /**

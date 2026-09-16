@@ -43,7 +43,9 @@ export async function getShippingSettings() {
       free_threshold: 1999,
       cod_charge: 50,
       online_discount: 0,
-      tiers: []
+      tiers: [],
+      cod_enabled: true,
+      online_payment_enabled: true,
     }
   }
 
@@ -54,6 +56,12 @@ export async function getShippingSettings() {
   if (!Array.isArray(shipping.tiers)) {
     shipping.tiers = []
   }
+  if (shipping.cod_enabled === undefined) {
+    shipping.cod_enabled = true
+  }
+  if (shipping.online_payment_enabled === undefined) {
+    shipping.online_payment_enabled = true
+  }
 
   return shipping
 }
@@ -63,11 +71,17 @@ export async function updateShippingSettings(
   freeThreshold: number,
   codCharge: number,
   onlineDiscount: number,
-  tiers: { min_qty: number; max_qty: number | null; charge: number }[] = []
+  tiers: { min_qty: number; max_qty: number | null; charge: number }[] = [],
+  codEnabled: boolean = true,
+  onlinePaymentEnabled: boolean = true
 ): Promise<ShippingActionResult> {
   const supabase = await createClient()
   const isAdmin = await checkAdminAuth(supabase)
   if (!isAdmin) return { error: 'Unauthorized. Admin access required.' }
+
+  if (!codEnabled && !onlinePaymentEnabled) {
+    return { error: 'At least one payment method (COD or Online Payment) must stay enabled.' }
+  }
 
   const { createAdminClient } = await import('@/lib/supabase/admin')
   const adminClient = createAdminClient()
@@ -91,7 +105,9 @@ export async function updateShippingSettings(
         free_threshold: freeThreshold,
         cod_charge: codCharge,
         online_discount: onlineDiscount,
-        tiers: cleanTiers
+        tiers: cleanTiers,
+        cod_enabled: codEnabled,
+        online_payment_enabled: onlinePaymentEnabled
       }
     })
     .eq('id', 'global-settings-id')
