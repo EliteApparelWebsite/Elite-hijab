@@ -3,7 +3,6 @@ import Footer from '@/components/Footer'
 import ShopGrid from './_components/ShopGrid'
 import { createClient } from "@/lib/supabase/server";
 import { getReviewCounts } from "@/actions/reviews";
-import Image from 'next/image'
 
 export const metadata = {
   title: 'Shop Collection | Elite Hijab',
@@ -80,13 +79,6 @@ export default async function ShopPage({
 
         {/* Shop Hero Banner */}
         <section className="relative w-full h-[160px] md:h-[220px] bg-gradient-to-br from-cream via-cream-deep to-[#F5ECE0] flex items-center justify-center overflow-hidden border-b border-cream-line">
-          <Image
-            src="/shop-banner.png"
-            alt="Elite Hijab Collection"
-            fill
-            className="object-cover opacity-20"
-            priority
-          />
           <div className="absolute inset-0 bg-gradient-to-tr from-cream/90 via-cream-deep/60 to-white/90" />
 
           <div className="relative z-10 text-center px-5">

@@ -21,6 +21,9 @@ export function ShiprocketPanel({
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState<string | null>(null)
   const [weightKg, setWeightKg] = useState('')
+  const [lengthCm, setLengthCm] = useState('')
+  const [breadthCm, setBreadthCm] = useState('')
+  const [heightCm, setHeightCm] = useState('')
   const [shiprocketOrderId, setShiprocketOrderId] = useState(initialShiprocketOrderId)
   const [awbCode] = useState(initialAwbCode)
   const [courierName] = useState(initialCourierName)
@@ -28,14 +31,32 @@ export function ShiprocketPanel({
 
   const handleCreateShipment = () => {
     setError(null)
-    startTransition(async () => {
-      const parsedWeight = weightKg.trim() ? parseFloat(weightKg) : undefined
-      if (weightKg.trim() && (!parsedWeight || parsedWeight <= 0)) {
-        setError('Enter a valid weight in kg (e.g. 0.3), or leave it blank to auto-estimate.')
-        return
-      }
 
-      const result = await createShiprocketShipment(orderId, parsedWeight)
+    const parsePositive = (val: string, label: string): number | undefined | 'invalid' => {
+      if (!val.trim()) return undefined
+      const n = parseFloat(val)
+      if (!n || n <= 0) {
+        setError(`Enter a valid ${label}, or leave it blank to auto-estimate.`)
+        return 'invalid'
+      }
+      return n
+    }
+
+    const parsedWeight = parsePositive(weightKg, 'weight in kg (e.g. 0.3)')
+    if (parsedWeight === 'invalid') return
+    const parsedLength = parsePositive(lengthCm, 'length in cm')
+    if (parsedLength === 'invalid') return
+    const parsedBreadth = parsePositive(breadthCm, 'breadth in cm')
+    if (parsedBreadth === 'invalid') return
+    const parsedHeight = parsePositive(heightCm, 'height in cm')
+    if (parsedHeight === 'invalid') return
+
+    startTransition(async () => {
+      const result = await createShiprocketShipment(orderId, parsedWeight, {
+        length: parsedLength,
+        breadth: parsedBreadth,
+        height: parsedHeight,
+      })
 
       if (!result?.success) {
         setError(result?.error || 'Failed to create Shiprocket shipment.')
@@ -67,24 +88,71 @@ export function ShiprocketPanel({
           <p className="text-sm text-stone-500">
             Pushes this order to Shiprocket. You&apos;ll then assign a courier and confirm pickup yourself from the Shiprocket dashboard.
           </p>
-          <div>
-            <label className="block text-xs font-semibold text-stone-700 mb-2">
-              Order Weight (kg) — optional
-            </label>
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              placeholder="Leave blank to auto-estimate"
-              value={weightKg}
-              onChange={(e) => setWeightKg(e.target.value)}
-              disabled={isPending}
-              className="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 text-sm font-medium text-stone-700 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all disabled:opacity-50"
-            />
-            <p className="text-[11px] text-stone-400 mt-1">
-              The actual packed parcel weight gives more accurate courier rates than the auto-estimate.
-            </p>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-semibold text-stone-700 mb-2">
+                Weight (kg)
+              </label>
+              <input
+                type="number"
+                step="0.01"
+                min="0"
+                placeholder="Auto"
+                value={weightKg}
+                onChange={(e) => setWeightKg(e.target.value)}
+                disabled={isPending}
+                className="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 text-sm font-medium text-stone-700 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all disabled:opacity-50"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-stone-700 mb-2">
+                Length (cm)
+              </label>
+              <input
+                type="number"
+                step="0.1"
+                min="0"
+                placeholder="Auto"
+                value={lengthCm}
+                onChange={(e) => setLengthCm(e.target.value)}
+                disabled={isPending}
+                className="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 text-sm font-medium text-stone-700 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all disabled:opacity-50"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-stone-700 mb-2">
+                Breadth (cm)
+              </label>
+              <input
+                type="number"
+                step="0.1"
+                min="0"
+                placeholder="Auto"
+                value={breadthCm}
+                onChange={(e) => setBreadthCm(e.target.value)}
+                disabled={isPending}
+                className="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 text-sm font-medium text-stone-700 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all disabled:opacity-50"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-stone-700 mb-2">
+                Height (cm)
+              </label>
+              <input
+                type="number"
+                step="0.1"
+                min="0"
+                placeholder="Auto"
+                value={heightCm}
+                onChange={(e) => setHeightCm(e.target.value)}
+                disabled={isPending}
+                className="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 text-sm font-medium text-stone-700 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all disabled:opacity-50"
+              />
+            </div>
           </div>
+          <p className="text-[11px] text-stone-400 -mt-1">
+            Actual packed parcel dimensions give more accurate courier rates — leave any field blank to auto-estimate it.
+          </p>
           <button
             onClick={handleCreateShipment}
             disabled={isPending}

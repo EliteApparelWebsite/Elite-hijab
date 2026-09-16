@@ -111,7 +111,11 @@ export async function deleteOrder(orderId: string) {
 // named to avoid "shiprocket"/"kartrocket"/"sr"/"kr", which Shiprocket's own
 // webhook URL field rejects with "Address is not allowed")
 // once you ship it — they are not set by this action.
-export async function createShiprocketShipment(orderId: string, weightKgOverride?: number) {
+export async function createShiprocketShipment(
+  orderId: string,
+  weightKgOverride?: number,
+  dimensionsCm?: { length?: number; breadth?: number; height?: number }
+) {
   const supabase = await createClient()
 
   const isAdmin = await checkAdminAuth(supabase)
@@ -201,6 +205,9 @@ export async function createShiprocketShipment(orderId: string, weightKgOverride
       subtotal: Number(order.subtotal) || 0,
       items: shiprocketItems,
       weightKg: totalWeightKg,
+      lengthCm: Number(dimensionsCm?.length) > 0 ? Number(dimensionsCm?.length) : undefined,
+      breadthCm: Number(dimensionsCm?.breadth) > 0 ? Number(dimensionsCm?.breadth) : undefined,
+      heightCm: Number(dimensionsCm?.height) > 0 ? Number(dimensionsCm?.height) : undefined,
     })
 
     if (!created.shiprocketOrderId || !created.shipmentId) {

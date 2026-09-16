@@ -113,7 +113,7 @@ export default function Hero({
             <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white border border-[#D4AF37]/50 shadow-[0_2px_12px_rgba(212,175,55,0.15)] mb-3 sm:mb-4">
               <span className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse" />
               <span className="font-display font-bold text-xs sm:text-[13px] tracking-[0.25em] text-[#AA8034] uppercase">
-                ELITE HIJAB &ndash; HIJAB &amp; ACCESSORIES
+                <span className="normal-case">Elite hijab</span> &amp; HIJAB ACCESSORIES
               </span>
             </div>
 

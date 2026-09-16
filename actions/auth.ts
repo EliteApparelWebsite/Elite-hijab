@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
-import { cookies } from 'next/headers'
+import { cookies, headers } from 'next/headers'
 import crypto from 'crypto'
 
 export type AuthResult = {
@@ -566,7 +566,15 @@ export async function requestPasswordReset(
     return { error: 'Failed to start password reset. Please try again.' }
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  // Same fallback as the PayU checkout flow (actions/checkout.ts): derive
+  // the domain from the actual incoming request instead of trusting
+  // NEXT_PUBLIC_SITE_URL to be set in every environment — without this,
+  // an unset env var on production silently linked the reset email back to
+  // localhost.
+  const requestHeaders = await headers()
+  const host = requestHeaders.get('host')
+  const protocol = host?.includes('localhost') ? 'http' : 'https'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || `${protocol}://${host}`
   const resetLink = `${siteUrl}/reset-password?token=${token}`
 
   const emailResult = await sendBrevoEmail({
