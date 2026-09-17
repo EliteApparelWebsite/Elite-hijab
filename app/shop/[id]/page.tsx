@@ -139,10 +139,18 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
   const categoryName = category?.name || productData.category_id;
 
-  // Compile image array
+  // Compile image array — the admin's "Set as Featured Image" picks which
+  // one leads the gallery, so it must be moved to the front here rather
+  // than just left in whatever order product_images happens to be in.
   let images: string[] = []
   if (productData.product_images && productData.product_images.length > 0) {
     images = productData.product_images.map((img: any) => img.image_url)
+    if (productData.featured_image_url) {
+      images = [
+        productData.featured_image_url,
+        ...images.filter((url: string) => url !== productData.featured_image_url),
+      ]
+    }
   } else if (productData.featured_image_url) {
     images = [productData.featured_image_url]
   }
@@ -254,7 +262,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         name: p.name,
         color_name: p.color_name,
         color_hex: p.color_hex,
-        image_url: p.product_images?.[0]?.image_url || p.featured_image_url || "/image.png",
+        image_url: p.featured_image_url || p.product_images?.[0]?.image_url || "/image.png",
       }))
     } catch (e) {
       console.error("Error fetching color options:", e);

@@ -1,4 +1,5 @@
 import { verifyPayuResponseHash } from '@/lib/payu'
+import { sendBrevoEmail, orderConfirmationEmailHtml } from '@/lib/email'
 
 async function decrementStock(admin: any, items: { variant_id: string | null; quantity: number }[]) {
   for (const item of items) {
@@ -38,7 +39,12 @@ export async function processPayuResult(fields: Record<string, any>) {
 
   const { data: order, error: fetchError } = await admin
     .from('orders')
-    .select('id, order_number, payment_status, total_amount, order_items(variant_id, quantity)')
+    .select(`
+      id, order_number, payment_status, subtotal, shipping_cost, total_amount, payment_method,
+      order_items(variant_id, quantity, product_name, line_total),
+      customers:user_id ( full_name, email ),
+      addresses:address_id ( full_name )
+    `)
     .eq('payu_txnid', txnid)
     .maybeSingle()
 
@@ -73,6 +79,40 @@ export async function processPayuResult(fields: Record<string, any>) {
       console.error('[PayU] DB update failed for successful payment:', updateErr.message)
     } else {
       await decrementStock(admin, order.order_items || [])
+
+      // Wrapped defensively: the payment is already marked paid and stock
+      // already decremented above — nothing about sending the confirmation
+      // email, including a bug in the template itself, should turn this
+      // into a failed webhook/callback response.
+      try {
+        const customer: any = order.customers
+        const address: any = order.addresses
+        const customerEmail = customer?.email
+        if (customerEmail) {
+          const emailResult = await sendBrevoEmail({
+            to: customerEmail,
+            subject: `Order Confirmed - ${order.order_number}`,
+            html: orderConfirmationEmailHtml({
+              orderNumber: order.order_number,
+              customerName: address?.full_name || customer?.full_name || 'Customer',
+              items: (order.order_items || []).map((item: any) => ({
+                name: item.product_name || 'Product',
+                quantity: item.quantity,
+                lineTotal: item.line_total,
+              })),
+              subtotal: Number(order.subtotal) || 0,
+              shippingCost: Number(order.shipping_cost) || 0,
+              totalAmount: Number(order.total_amount) || 0,
+              paymentMethod: order.payment_method || 'Online Payment (PayU)',
+            }),
+          })
+          if (emailResult.error) {
+            console.error('[Order Confirmation Email] Failed to send:', emailResult.error)
+          }
+        }
+      } catch (emailErr) {
+        console.error('[Order Confirmation Email] Unexpected error:', emailErr)
+      }
     }
   } else if (status !== 'success' && order.payment_status === 'pending') {
     // Only downgrade a still-pending order — never overwrite an order that

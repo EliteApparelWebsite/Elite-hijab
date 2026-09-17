@@ -67,7 +67,7 @@ export default async function AdminOrderDetailsPage({
 
     productsById = (productsData || []).reduce((acc: any, p: any) => {
       acc[p.id] = {
-        image_url: p.product_images?.[0]?.image_url || p.featured_image_url || null,
+        image_url: p.featured_image_url || p.product_images?.[0]?.image_url || null,
         is_active: p.is_active,
       }
       return acc

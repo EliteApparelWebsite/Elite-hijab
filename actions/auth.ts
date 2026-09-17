@@ -5,50 +5,12 @@ import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { cookies, headers } from 'next/headers'
 import crypto from 'crypto'
+import { sendBrevoEmail } from '@/lib/email'
 
 export type AuthResult = {
   error?: string
   success?: boolean
   message?: string
-}
-
-async function sendBrevoEmail({ to, subject, html }: { to: string; subject: string; html: string }): Promise<{ error?: string }> {
-  const brevoApiKey = process.env.BREVO_API_KEY
-  const senderEmail = process.env.BREVO_SENDER_EMAIL || 'husnezaman@gmail.com'
-  const senderName = process.env.BREVO_SENDER_NAME || 'Elite Hijab'
-
-  if (!brevoApiKey) {
-    console.log(`[DEV MODE EMAIL] To: ${to}, Subject: ${subject}\n${html}`)
-    return {}
-  }
-
-  try {
-    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
-      method: 'POST',
-      headers: {
-        'accept': 'application/json',
-        'api-key': brevoApiKey,
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        sender: { name: senderName, email: senderEmail },
-        to: [{ email: to }],
-        subject,
-        htmlContent: html,
-      })
-    })
-
-    if (!response.ok) {
-      const errText = await response.text()
-      console.error('Brevo API Error:', errText)
-      return { error: 'Failed to send email. Please try again.' }
-    }
-
-    return {}
-  } catch (e: any) {
-    console.error('Email Send Error:', e)
-    return { error: 'Failed to send email: ' + e.message }
-  }
 }
 
 function resetPasswordEmailHtml(link: string): string {

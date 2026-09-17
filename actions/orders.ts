@@ -80,7 +80,7 @@ export async function trackOrderAction(orderNumber: string, emailOrPhone: string
       .in('id', productIds)
 
     productsById = (productsData || []).reduce((acc: any, p: any) => {
-      acc[p.id] = p.product_images?.[0]?.image_url || p.featured_image_url || null
+      acc[p.id] = p.featured_image_url || p.product_images?.[0]?.image_url || null
       return acc
     }, {})
   }
@@ -160,7 +160,7 @@ export async function getUserOrdersAction() {
       .in('id', allProductIds)
 
     productsById = (productsData || []).reduce((acc: any, p: any) => {
-      acc[p.id] = p.product_images?.[0]?.image_url || p.featured_image_url || null
+      acc[p.id] = p.featured_image_url || p.product_images?.[0]?.image_url || null
       return acc
     }, {})
 
@@ -228,7 +228,7 @@ export async function getOrderByIdAction(orderId: string) {
       .in('id', productIds)
 
     productsById = (productsData || []).reduce((acc: any, p: any) => {
-      acc[p.id] = p.product_images?.[0]?.image_url || p.featured_image_url || null
+      acc[p.id] = p.featured_image_url || p.product_images?.[0]?.image_url || null
       return acc
     }, {})
 

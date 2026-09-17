@@ -6,6 +6,7 @@ import { headers } from 'next/headers'
 import crypto from 'crypto'
 import { calculateShippingCharge } from '@/lib/shipping'
 import { isPayuEnabled, getPayuActionUrl, generatePayuHash } from '@/lib/payu'
+import { sendBrevoEmail, orderConfirmationEmailHtml } from '@/lib/email'
 
 const isValidUUID = (str: any) => typeof str === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str)
 
@@ -224,6 +225,38 @@ export async function createOrder(addressId: string, paymentMethod: string, cart
   revalidatePath('/cart')
   revalidatePath('/checkout')
   revalidatePath('/profile')
+
+  // COD orders are confirmed the moment they're placed (no payment gateway
+  // step), so the confirmation email goes out right here. PayU orders send
+  // theirs from processPayuResult instead, once the payment actually
+  // succeeds — sending it at order-creation time there would be premature.
+  //
+  // Wrapped defensively: the order is already fully placed above (row
+  // inserted, items inserted, cart cleared, stock decremented) — nothing
+  // about the confirmation email, including a bug in the template itself,
+  // should ever be able to turn a successful order into a failed response.
+  if (user.email) {
+    try {
+      const emailResult = await sendBrevoEmail({
+        to: user.email,
+        subject: `Order Confirmed - ${order.order_number}`,
+        html: orderConfirmationEmailHtml({
+          orderNumber: order.order_number,
+          customerName: address.full_name || 'Customer',
+          items: orderItems.map((item) => ({ name: item.product_name, quantity: item.quantity, lineTotal: item.line_total })),
+          subtotal,
+          shippingCost: shipping_cost,
+          totalAmount: total_amount,
+          paymentMethod: actualPaymentMethod,
+        }),
+      })
+      if (emailResult.error) {
+        console.error('[Order Confirmation Email] Failed to send:', emailResult.error)
+      }
+    } catch (emailErr) {
+      console.error('[Order Confirmation Email] Unexpected error:', emailErr)
+    }
+  }
 
   return { success: true, isPayu: false, order_number: order.order_number, orderId: order.id }
 }
