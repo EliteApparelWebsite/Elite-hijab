@@ -237,7 +237,7 @@ export default function OrderTrackerClient({
                     <input
                       type="text"
                       required
-                      placeholder="e.g. AM-839102-123"
+                      placeholder="e.g. EH-839102-123"
                       value={orderNumber}
                       onChange={(e) => setOrderNumber(e.target.value)}
                       className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-cream-line bg-cream/20 text-ink focus:outline-none focus:ring-2 focus:ring-gold/25 focus:border-gold transition-all font-mono text-sm uppercase"

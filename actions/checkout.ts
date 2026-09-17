@@ -102,7 +102,7 @@ export async function createOrder(addressId: string, paymentMethod: string, cart
   const total_amount = subtotal + shipping_cost + cod_cost - online_discount_amount
 
   // Generate order number
-  const order_number = `AM-${Date.now().toString().slice(-6)}-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`
+  const order_number = `EH-${Date.now().toString().slice(-6)}-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`
 
   const actualPaymentMethod = paymentMethod === 'PAYU' ? 'Online Payment (PayU)' : 'Cash on Delivery (COD)'
 

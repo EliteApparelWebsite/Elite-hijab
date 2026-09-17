@@ -18,10 +18,22 @@ export default async function CategoriesPage() {
     .select('*, products(count)')
     .order('created_at', { ascending: false })
 
-  const categories = categoriesData?.map((category: any) => ({
+  let categories = categoriesData?.map((category: any) => ({
     ...category,
     count: category.products?.[0]?.count || 0,
   })) || []
+
+  // A parent category (e.g. "Hijabs") never has products assigned to it
+  // directly — they live on its sub-categories (Chiffon, Cotton, ...) — so
+  // its row should show the sum of its children's counts, not its own
+  // (always-zero) direct count.
+  categories = categories.map((c: any) => {
+    if (c.parent_id) return c
+    const childrenCount = categories
+      .filter((child: any) => child.parent_id === c.id)
+      .reduce((sum: number, child: any) => sum + (child.count || 0), 0)
+    return childrenCount > 0 ? { ...c, count: c.count + childrenCount } : c
+  })
 
   // Group subcategories under their parents
   const topLevel = categories.filter((c: any) => !c.parent_id).sort((a: any, b: any) => a.name.localeCompare(b.name))

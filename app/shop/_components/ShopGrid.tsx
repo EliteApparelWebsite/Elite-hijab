@@ -60,10 +60,20 @@ export default function ShopGrid({ initialProducts, categories, selectedCategory
     )
   }
 
+  // Selecting a parent category (e.g. "Hijabs") should also match products
+  // filed under its sub-categories (Chiffon, Cotton, ...) — products are
+  // only ever assigned to the leaf category, never the parent itself, so a
+  // plain id match against selectedCategories would always come up empty
+  // for a parent.
+  const expandedSelectedCategories = selectedCategories.flatMap(id => [
+    id,
+    ...categories.filter(c => c.parent_id === id).map(c => c.id),
+  ]);
+
   // Filter products by category and price
   let filteredProducts = initialProducts.filter(p => {
     if (p.is_active === false) return false;
-    if (selectedCategories.length > 0 && !selectedCategories.includes(p.category_id)) return false;
+    if (expandedSelectedCategories.length > 0 && !expandedSelectedCategories.includes(p.category_id)) return false;
     if (p.price > maxPrice) return false;
     return true;
   });

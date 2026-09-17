@@ -110,11 +110,24 @@ export default async function Home() {
     return img;
   };
 
+  // A parent category (e.g. "Hijabs") never has products assigned to it
+  // directly — they live on its sub-categories (Chiffon, Cotton, ...) — so
+  // its tile count needs to add up all of its children's product counts too,
+  // not just look for products whose category_id literally equals its own.
+  const getCategoryProductCount = (categoryId: string) => {
+    const direct = productCounts[categoryId] || 0
+    const childIds = (categoriesData || [])
+      .filter((c: any) => c.parent_id === categoryId)
+      .map((c: any) => c.id)
+    const fromChildren = childIds.reduce((sum: number, id: string) => sum + (productCounts[id] || 0), 0)
+    return direct + fromChildren
+  }
+
   const categories = (categoriesData && categoriesData.length > 0)
     ? categoriesData.map((c: any, i: number) => ({
         ...c,
         image_url: getSafeCatImage(c.image_url || c.image, i),
-        count: `${productCounts[c.id] || 0} styles`
+        count: `${getCategoryProductCount(c.id)} styles`
       }))
     : staticCategories.map((c: any, i: number) => ({
         ...c,

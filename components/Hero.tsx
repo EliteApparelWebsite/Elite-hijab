@@ -55,12 +55,12 @@ export default function Hero({
   const allAvailableImages = activeSlides.map((s: any) => s.image_url).filter(Boolean);
   
   const gridImages = allAvailableImages.length > 0
-    ? allAvailableImages.slice(0, 6)
+    ? allAvailableImages
     : [
         ...gridFallbackImages,
         "/assets/images/img_09.webp",
         "/assets/images/img_10.webp"
-      ].slice(0, 6);
+      ];
 
   const mobileCarouselImages = allAvailableImages.length > 0
     ? allAvailableImages

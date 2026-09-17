@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { approveReview, deleteReview } from '@/actions/admin/reviews'
-import { Star, CheckCircle, Trash2, Clock } from 'lucide-react'
+import { Star, CheckCircle, Trash2, Clock, Eye, X } from 'lucide-react'
 import { products as staticProducts } from '@/lib/data'
 import dbData from '@/lib/db.json'
 
@@ -22,6 +22,7 @@ type Review = {
 export function ReviewList({ initialReviews }: { initialReviews: Review[] }) {
   const [reviews, setReviews] = useState<Review[]>(initialReviews)
   const [isProcessing, setIsProcessing] = useState<string | null>(null)
+  const [viewingReview, setViewingReview] = useState<Review | null>(null)
   const allKnownProducts = [ ...staticProducts, ...(dbData.products || []) ]
 
   // Sync state if initialReviews updates from server revalidation
@@ -140,6 +141,13 @@ export function ReviewList({ initialReviews }: { initialReviews: Review[] }) {
                 </td>
                 <td className="p-4 text-right">
                   <div className="flex justify-end gap-2 items-center">
+                    <button
+                      onClick={() => setViewingReview(review)}
+                      className="p-2 text-stone-400 hover:text-teal-700 hover:bg-teal-50 rounded-lg transition-colors"
+                      title="View Full Review"
+                    >
+                      <Eye className="w-4.5 h-4.5" />
+                    </button>
                     {!review.is_approved ? (
                       <button
                         onClick={() => handleApprove(review.id)}
@@ -171,6 +179,69 @@ export function ReviewList({ initialReviews }: { initialReviews: Review[] }) {
           </tbody>
         </table>
       </div>
+
+      {viewingReview && (() => {
+        const matchedProduct = allKnownProducts.find((p: any) => p.id === viewingReview.product_id || p.slug === viewingReview.product_id)
+        const displayProductName = (viewingReview.products?.name && viewingReview.products?.name !== 'Modest Collection Style')
+          ? viewingReview.products.name
+          : matchedProduct?.name || viewingReview.products?.name || `Style #${viewingReview.product_id}`
+        const reviewContent = viewingReview.comment || viewingReview.review_text || null
+
+        return (
+          <div
+            className="fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+            onClick={() => setViewingReview(null)}
+          >
+            <div
+              className="bg-white rounded-2xl border border-stone-200 p-6 w-full max-w-lg shadow-2xl relative max-h-[85vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between pb-4 border-b border-stone-200 mb-4">
+                <h2 className="text-lg font-semibold text-stone-900 flex items-center gap-2">
+                  <Eye className="w-5 h-5 text-teal-700" />
+                  Full Review
+                </h2>
+                <button
+                  onClick={() => setViewingReview(null)}
+                  className="p-1.5 text-stone-400 hover:text-stone-700 hover:bg-stone-100 rounded-lg transition-colors"
+                  title="Close"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-medium text-stone-900">{viewingReview.customers?.full_name || 'Verified Buyer'}</p>
+                    <p className="text-xs text-stone-500">{viewingReview.customers?.email || ''}</p>
+                  </div>
+                  <div className="flex items-center gap-0.5">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className={`w-4 h-4 ${i < viewingReview.rating ? 'fill-orange-400 text-orange-400' : 'text-stone-200'}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                <div className="text-sm text-stone-500">
+                  <span className="font-medium text-stone-700">Product:</span> {displayProductName}
+                </div>
+
+                <div className="p-4 bg-stone-50 rounded-xl border border-stone-200 text-sm text-stone-700 whitespace-pre-wrap leading-relaxed">
+                  {reviewContent || <span className="italic text-stone-400">No text</span>}
+                </div>
+
+                <div className="text-xs text-stone-400">
+                  Submitted on {new Date(viewingReview.created_at).toLocaleString()}
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      })()}
     </div>
   )
 }

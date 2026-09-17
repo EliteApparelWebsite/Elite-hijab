@@ -398,6 +398,7 @@ export function ProductVariantsEditor({
 
       {variants.length > 0 ? (
         <div className="overflow-hidden bg-white shadow ring-1 ring-black ring-opacity-5 sm:rounded-xl">
+          <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-300">
             <thead className="bg-gray-50">
               <tr>
@@ -460,6 +461,7 @@ export function ProductVariantsEditor({
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       ) : (
         <div className="text-center py-16 bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl">

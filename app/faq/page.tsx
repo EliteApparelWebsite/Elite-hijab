@@ -21,7 +21,7 @@ const fallbackFaqs = [
   },
   {
     question: "What payment methods are available?",
-    answer: "We currently accept all major credit/debit cards, UPI, and Netbanking via PayU. We do not offer Cash on Delivery (COD)."
+    answer: "We accept online payments via PayU (UPI, Cards, and Netbanking), and Cash on Delivery (COD) where available at checkout."
   },
   {
     question: "How can I track my order?",

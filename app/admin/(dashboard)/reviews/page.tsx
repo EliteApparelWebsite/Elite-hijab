@@ -56,9 +56,27 @@ export default async function AdminReviewsPage() {
     const dbPath = path.join(process.cwd(), 'lib', 'db.json')
     const dbData = JSON.parse(fs.readFileSync(dbPath, 'utf8'))
     if (Array.isArray(dbData.reviews)) {
+      // A local review usually only has product_id, not a stored name —
+      // resolve the real product name so the admin table never falls back
+      // to showing the raw id as if it were the name.
+      const localProductIds = Array.from(new Set(
+        dbData.reviews.map((r: any) => r.product_id).filter(Boolean)
+      ))
+      let localProductNames: Record<string, string> = {}
+      if (localProductIds.length > 0) {
+        const { data: localProducts } = await supabase
+          .from('products')
+          .select('id, name')
+          .in('id', localProductIds)
+        localProductNames = (localProducts || []).reduce((acc: any, p: any) => {
+          acc[p.id] = p.name
+          return acc
+        }, {})
+      }
+
       const localRev = dbData.reviews.map((r: any) => ({
         ...r,
-        products: { name: r.product_name || r.product_id },
+        products: { name: r.product_name || localProductNames[r.product_id] || `Style #${r.product_id}` },
         customers: { full_name: r.customer_name || 'Verified Customer', email: 'customer@elitehijab.com' }
       }))
       const allMap = new Map()

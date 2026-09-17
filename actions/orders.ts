@@ -41,7 +41,7 @@ export async function trackOrderAction(orderNumber: string, emailOrPhone: string
     .maybeSingle()
 
   if (error || !order) {
-    return { success: false, error: 'Order not found. Please double-check your Order Number (e.g. AM-123456-789).' }
+    return { success: false, error: 'Order not found. Please double-check your Order Number (e.g. EH-123456-789).' }
   }
 
   // Verification logic:

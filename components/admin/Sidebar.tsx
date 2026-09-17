@@ -24,6 +24,7 @@ import {
   Instagram,
 } from 'lucide-react'
 import { useState } from 'react'
+import { useMobileSidebar } from './MobileSidebarContext'
 
 const navItems = [
   { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
@@ -47,13 +48,25 @@ const navItems = [
 export default function AdminSidebar() {
   const pathname = usePathname()
   const [collapsed, setCollapsed] = useState(false)
+  const { isOpen, close } = useMobileSidebar()
 
   return (
-    <aside
-      className={`${
-        collapsed ? 'w-[72px]' : 'w-64'
-      } bg-cream border-r border-cream-line flex flex-col shrink-0 transition-all duration-300 ease-in-out`}
-    >
+    <>
+      {/* Backdrop, mobile only, shown while the drawer is open */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={close}
+          aria-hidden="true"
+        />
+      )}
+      <aside
+        className={`${
+          collapsed ? 'lg:w-[72px]' : 'lg:w-64'
+        } w-64 bg-cream border-r border-cream-line flex flex-col shrink-0 transition-all duration-300 ease-in-out fixed inset-y-0 left-0 z-50 lg:static lg:z-auto ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        } lg:translate-x-0`}
+      >
       {/* Brand */}
       <div className="h-16 flex items-center px-4 border-b border-cream-line gap-3">
         <div className="w-9 h-9 bg-gradient-to-br from-emerald to-emerald-deep rounded-lg flex items-center justify-center shrink-0 shadow-lg shadow-emerald/20">
@@ -102,8 +115,8 @@ export default function AdminSidebar() {
         })}
       </nav>
 
-      {/* Collapse toggle */}
-      <div className="p-3 border-t border-cream-line">
+      {/* Collapse toggle — desktop only; the mobile drawer is always full-width */}
+      <div className="p-3 border-t border-cream-line hidden lg:block">
         <button
           onClick={() => setCollapsed(!collapsed)}
           className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-ink/50 hover:text-emerald hover:bg-cream-deep/60 transition-all duration-200 text-sm"
@@ -118,6 +131,7 @@ export default function AdminSidebar() {
           )}
         </button>
       </div>
-    </aside>
+      </aside>
+    </>
   )
 }

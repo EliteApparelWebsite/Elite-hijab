@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import AdminSidebar from '@/components/admin/Sidebar'
 import AdminHeader from '@/components/admin/Header'
+import { MobileSidebarProvider } from '@/components/admin/MobileSidebarContext'
 
 export const dynamic = 'force-dynamic'
 export default async function AdminDashboardLayout({
@@ -49,12 +50,14 @@ export default async function AdminDashboardLayout({
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-stone-50">
-      <AdminSidebar />
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <AdminHeader />
-        <main className="flex-1 overflow-y-auto p-6">{children}</main>
+    <MobileSidebarProvider>
+      <div className="flex h-screen overflow-hidden bg-stone-50">
+        <AdminSidebar />
+        <div className="flex-1 flex flex-col overflow-hidden min-w-0">
+          <AdminHeader />
+          <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-6">{children}</main>
+        </div>
       </div>
-    </div>
+    </MobileSidebarProvider>
   )
 }
