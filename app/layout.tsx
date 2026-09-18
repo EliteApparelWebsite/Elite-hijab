@@ -32,8 +32,8 @@ export const metadata: Metadata = {
     "modest wear",
   ],
   icons: {
-    icon: '/Elitehijab-logo.jpeg',
-    apple: '/Elitehijab-logo.jpeg',
+    icon: '/assets/elitelogo.jpg',
+    apple: '/assets/elitelogo.jpg',
   },
   openGraph: {
     title: "Elite Hijab | Hijab & Accessories — Modest Fashion Elevated",

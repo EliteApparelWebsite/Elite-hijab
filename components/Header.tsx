@@ -182,12 +182,12 @@ export default function Header() {
             </button>
 
             <a href="/" className="flex items-center gap-2.5 shrink-0 group">
-              <div className="relative h-11 w-11 md:h-13 md:w-13 rounded-xl overflow-hidden shadow-sm border-2 border-[#D4AF37]/60 shrink-0 group-hover:border-[#D4AF37] transition-all">
+              <div className="relative h-14 w-14 md:h-20 md:w-20 my-px rounded-xl overflow-hidden shadow-sm border-2 border-[#D4AF37]/60 shrink-0 group-hover:border-[#D4AF37] transition-all">
                 <Image
-                  src="/Elitehijab-logo.jpeg"
+                  src="/assets/elitelogo.jpg"
                   alt="Elite Hijab logo"
                   fill
-                  sizes="(max-width: 768px) 44px, 52px"
+                  sizes="(max-width: 768px) 56px, 80px"
                   className="object-cover"
                   priority
                 />
@@ -343,18 +343,6 @@ export default function Header() {
                 <Search className="w-4 h-4" />
               </button>
               <button
-                onClick={() => router.push('/wishlist')}
-                className="relative h-9 w-9 flex items-center justify-center rounded-full bg-[#F7F7F7] border border-[#E5E5E5] text-[#0A0A0A] shadow-sm hover:border-[#D4AF37] transition-all shrink-0 cursor-pointer"
-                title="Wishlist"
-              >
-                <Heart className="w-4 h-4" />
-                {wishlistCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#0A0A0A] text-[#DFBA73] text-[8px] font-bold rounded-full flex items-center justify-center shadow-sm">
-                    {wishlistCount}
-                  </span>
-                )}
-              </button>
-              <button
                 onClick={() => setCartOpen(true)}
                 className="relative h-9 w-9 flex items-center justify-center rounded-full bg-[#0A0A0A] text-white shadow-sm shrink-0 cursor-pointer hover:bg-[#D4AF37] hover:text-black"
                 title="Shopping Cart"
@@ -452,6 +440,21 @@ export default function Header() {
                 </a>
               )
             })}
+            <a
+              href="/wishlist"
+              onClick={() => setOpen(false)}
+              className="font-display text-2xl font-semibold text-[#0A0A0A] hover:text-[#AA8034] py-3.5 border-b border-[#F0F0F0] flex items-center justify-between"
+            >
+              <span>Wishlist</span>
+              <span className="relative flex items-center">
+                <Heart className="w-6 h-6 text-[#AA8034]" />
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-2 -right-2 w-4 h-4 bg-[#0A0A0A] text-[#DFBA73] text-[8px] font-bold rounded-full flex items-center justify-center">
+                    {wishlistCount}
+                  </span>
+                )}
+              </span>
+            </a>
             {user && (
               <>
                 {isAdmin && (

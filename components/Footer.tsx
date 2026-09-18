@@ -94,7 +94,7 @@ export default function Footer() {
             <Link href="/" className="flex items-center gap-3 inline-flex mb-6">
               <div className="relative h-14 w-14 rounded-xl overflow-hidden shadow-md border border-white/20 shrink-0">
                 <Image
-                  src="/Elitehijab-logo.jpeg"
+                  src="/assets/elitelogo.jpg"
                   alt={`${SITE.name} logo`}
                   fill
                   sizes="56px"

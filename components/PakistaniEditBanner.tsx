@@ -38,7 +38,7 @@ export default function PakistaniEditBanner() {
             {/* Monogram Logo */}
             <div className="relative w-24 h-24 mb-6 rounded-2xl overflow-hidden shadow-md border-2 border-[#D4AF37]">
               <Image
-                src="/Elitehijab-logo.jpeg"
+                src="/assets/elitelogo.jpg"
                 alt="Elite Hijab Logo"
                 fill
                 className="object-cover"
